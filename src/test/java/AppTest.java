@@ -1,7 +1,5 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -23,7 +21,7 @@ import static org.junit.Assert.*;
 public class AppTest {
   @Test
   public void leagueTest() {
-    String leagueInfo = Utils.getInformationString("1213148421", "2022", "", "");
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
     JSONObject json = Utils.parseString(leagueInfo);
     League league = Factory.createLeague(json);
     assertEquals("1213148421", league.getLeagueId());
@@ -33,10 +31,10 @@ public class AppTest {
 
   @Test
   public void addTeamsTest() {
-    String leagueInfo = Utils.getInformationString("1213148421", "2022", "", "");
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
     JSONObject jsonLeague = Utils.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
-    String teamInfo = Utils.getInformationString("1213148421", "2022", "?view=mTeam", "");
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
     JSONObject jsonTeam = Utils.parseString(teamInfo);
     Factory.createTeams(league, jsonTeam);
 
@@ -45,14 +43,14 @@ public class AppTest {
 
   @Test
   public void setRostersTest() {
-    String leagueInfo = Utils.getInformationString("1213148421", "2022", "", "");
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
     JSONObject jsonLeague = Utils.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
-    String teamInfo = Utils.getInformationString("1213148421", "2022", "?view=mTeam", "");
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
     JSONObject jsonTeam = Utils.parseString(teamInfo);
     Factory.createTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getInformationString("1213148421", "2022", "?view=mRoster", "");
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
     JSONObject jsonRosters = Utils.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
@@ -76,7 +74,7 @@ public class AppTest {
 
   @Test
   public void parseStatTest() {
-    String rostersInfo = Utils.getInformationString("1213148421", "2022", "?view=mRoster", "");
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
     JSONObject jsonRosters = Utils.parseString(rostersInfo);
     JSONArray jsonRostersArr = (JSONArray) jsonRosters.get("teams");
     JSONObject jsonTeam = (JSONObject) jsonRostersArr.get(0);
@@ -98,7 +96,7 @@ public class AppTest {
     String header =
         "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
     String freeAgentInfo =
-        Utils.getInformationString("1213148421", "2022", "?view=kona_player_info", header);
+        Utils.getESPNInformation("1213148421", "2022", "?view=kona_player_info", header);
     JSONObject jsonFreeAgents = Utils.parseString(freeAgentInfo);
     JSONArray jsonFreeAgentsArr = (JSONArray) jsonFreeAgents.get("players");
     List<Player> fas = Factory.createFreeAgents(jsonFreeAgentsArr);
@@ -116,13 +114,13 @@ public class AppTest {
 
   @Test
   public void freeAgentTest() {
-    String leagueInfo = Utils.getInformationString("1213148421", "2022", "", "");
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
     JSONObject json = Utils.parseString(leagueInfo);
     League league = Factory.createLeague(json);
     String header =
         "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
     String freeAgentInfo =
-        Utils.getInformationString("1213148421", "2022", "?view=kona_player_info", header);
+        Utils.getESPNInformation("1213148421", "2022", "?view=kona_player_info", header);
     JSONObject jsonFreeAgents = Utils.parseString(freeAgentInfo);
     JSONArray jsonFreeAgentsArr = (JSONArray) jsonFreeAgents.get("players");
     league.setFreeAgents(Factory.createFreeAgents(jsonFreeAgentsArr));
@@ -161,9 +159,9 @@ public class AppTest {
       }
 
     } catch (MalformedURLException e) {
-      e.printStackTrace();
+      System.out.println("bad connection");
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println("io exception");
     }
 
     assertNotNull(json);
@@ -192,5 +190,37 @@ public class AppTest {
 
     JSONObject json = Utils.parseString(Utils.getScheduleInformation());
     assertNotNull(json);
+    Map<String, Map<Integer, boolean[]>> map = Utils.getTeamWeeklySchedules();
+    assertNotNull(map);
   }
+
+  @Test
+  public void totalGamesTest() {
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    League league = Factory.createLeague(jsonLeague);
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    Factory.createTeams(league, jsonTeam);
+
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    Factory.setRosters(league, jsonRosters);
+
+    Set<Team> teams = league.getTeams();
+    int matchupPeriod = league.getCurrentMatchupPeriod();
+    Map<String, Map<Integer, boolean[]>> map = Utils.getTeamWeeklySchedules();
+    for (Team team : teams) {
+      int points = 0;
+      List<Player> players = team.getPlayers();
+      for (Player player : players) {
+        int count = 0;
+        boolean[] games = map.get(player.getProTeam()).get(matchupPeriod);
+        if (player.getInjuryStatus().equals("ACTIVE")) for (int i = 0; i < 7; i++) if (games[i]) count++;
+        points += player.getStatsMap().get("Last 30  2022").getAvg().get("FPTS") * count;
+      }
+      System.out.println("Total number of points projected for " + team.getName() + " in week " + matchupPeriod + " is " + points);
+    }
+  }
+
 }

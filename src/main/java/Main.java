@@ -7,7 +7,7 @@ public class Main {
 
   public static void main(String[] args) {
 
-    String info = Utils.getInformationString("1213148421", "2022", "", "");
+    String info = Utils.getESPNInformation("1213148421", "2022", "", "");
     // jsonTest(json);
     JSONObject jsonLeague = Utils.parseString(info);
     League league = Factory.createLeague(jsonLeague);
@@ -20,10 +20,10 @@ public class Main {
 
     if (informationString != null)
       try {
-        JSONObject test = (JSONObject) parser.parse(String.valueOf(informationString));
+        JSONObject test = (JSONObject) parser.parse(informationString);
         JSONArray teams = (JSONArray) test.get("teams");
-        for (int i = 0; i < teams.size(); i++) {
-          JSONObject team = (JSONObject) teams.get(i);
+        for (Object o : teams) {
+          JSONObject team = (JSONObject) o;
           System.out.println(
               team.get("location")
                   + " "

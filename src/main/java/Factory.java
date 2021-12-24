@@ -4,6 +4,10 @@ import org.json.simple.JSONObject;
 import java.util.*;
 
 public class Factory {
+  /**
+   * @param jsonLeague the json object that contains ESPN league information
+   * @return a League object that contains the information in the json object
+   */
   public static League createLeague(JSONObject jsonLeague) {
     int year = Integer.parseInt(String.valueOf(jsonLeague.get("seasonId")));
     String leagueId = String.valueOf(jsonLeague.get("id"));
@@ -20,11 +24,15 @@ public class Factory {
     return league;
   }
 
+  /**
+   * @param league the League that the teams should be added to
+   * @param jsonLeague the JSON object that holds the information about each team
+   */
   public static void createTeams(League league, JSONObject jsonLeague) {
     JSONArray jsonTeams = (JSONArray) jsonLeague.get("teams");
 
-    for (int i = 0; i < jsonTeams.size(); i++) {
-      JSONObject jsonTeam = (JSONObject) jsonTeams.get(i);
+    for (Object team : jsonTeams) {
+      JSONObject jsonTeam = (JSONObject) team;
       String abbrev = String.valueOf(jsonTeam.get("abbrev"));
       int teamId = Integer.parseInt(String.valueOf(jsonTeam.get("id")));
       String location = String.valueOf(jsonTeam.get("location"));
@@ -47,10 +55,7 @@ public class Factory {
       JSONObject jsonMatchupAcquisitions =
           ((JSONObject) jsonTransactions.get("matchupAcquisitionTotals"));
       Map<Integer, Integer> matchUpAcquisitionsPerWeek = new HashMap<>();
-      Iterator iterator = jsonMatchupAcquisitions.keySet().iterator();
-      while (iterator.hasNext()) {
-        Object key = iterator.next();
-
+      for (Object key : jsonMatchupAcquisitions.keySet()) {
         int val = Integer.parseInt(String.valueOf(jsonMatchupAcquisitions.get(key)));
         matchUpAcquisitionsPerWeek.put(Integer.parseInt(String.valueOf(key)), val);
       }
@@ -75,16 +80,20 @@ public class Factory {
     }
   }
 
+  /**
+   * @param league the League object where the rosters should be set
+   * @param jsonRosters the JSON object that holds information on the rosters
+   */
   public static void setRosters(League league, JSONObject jsonRosters) {
     JSONArray jsonRostersArr = (JSONArray) jsonRosters.get("teams");
 
-    for (int i = 0; i < jsonRostersArr.size(); i++) {
-      JSONObject jsonTeam = (JSONObject) jsonRostersArr.get(i);
+    for (Object o : jsonRostersArr) {
+      JSONObject jsonTeam = (JSONObject) o;
       int teamId = Integer.parseInt(String.valueOf(jsonTeam.get("id")));
       JSONArray jsonPlayersArr = ((JSONArray) ((JSONObject) jsonTeam.get("roster")).get("entries"));
 
-      for (int j = 0; j < jsonPlayersArr.size(); j++) {
-        JSONObject jsonEntry = (JSONObject) jsonPlayersArr.get(j);
+      for (Object value : jsonPlayersArr) {
+        JSONObject jsonEntry = (JSONObject) value;
         int lineupSlotId = Integer.parseInt(String.valueOf(jsonEntry.get("lineupSlotId")));
         String acquisitionDate = (String.valueOf(jsonEntry.get("acquisitionDate")));
         JSONObject jsonPlayer =
@@ -97,6 +106,11 @@ public class Factory {
     }
   }
 
+  /**
+   * @param jsonStats the JSON object that contains ESPN formatted stats information for a pro
+   *     player
+   * @return the playerStats object that contains the same information as the JSON object
+   */
   public static PlayerStats createPlayerStat(JSONObject jsonStats) {
 
     if (jsonStats != null) {
@@ -120,6 +134,10 @@ public class Factory {
     }
   }
 
+  /**
+   * @param jsonPlayer the JSON object that contains player information
+   * @return the Player object that holds the same information as the JSON object
+   */
   public static Player createPlayer(JSONObject jsonPlayer) {
 
     int playerId = Integer.parseInt(String.valueOf(jsonPlayer.get("id")));
@@ -137,15 +155,15 @@ public class Factory {
         Double.parseDouble(String.valueOf(jsonOwnership.get("averageDraftPosition")));
     JSONArray jsonEligibleSlotsArr = ((JSONArray) jsonPlayer.get("eligibleSlots"));
     List<Integer> eligibleSlots = new ArrayList<>();
-    for (int k = 0; k < jsonEligibleSlotsArr.size(); k++) {
-      int slot = Integer.parseInt(String.valueOf(jsonEligibleSlotsArr.get(k)));
+    for (Object o : jsonEligibleSlotsArr) {
+      int slot = Integer.parseInt(String.valueOf(o));
       eligibleSlots.add(slot);
     }
 
     Map<String, PlayerStats> statsMap = new HashMap<>();
     JSONArray jsonStatsArr = ((JSONArray) jsonPlayer.get("stats"));
-    for (int k = 0; k < jsonStatsArr.size(); k++) {
-      JSONObject jsonStat = ((JSONObject) jsonStatsArr.get(k));
+    for (Object o : jsonStatsArr) {
+      JSONObject jsonStat = ((JSONObject) o);
       String statId =
           MapConstants.statIdMap.get(
                   String.valueOf(jsonStat.get("statSourceId")) + jsonStat.get("statSplitTypeId"))
@@ -169,10 +187,14 @@ public class Factory {
         eligibleSlots);
   }
 
+  /**
+   * @param jsonPlayers the JSON array that holds all the players in kona_player_info
+   * @return the list of free agents that corresponds to the input JSON array
+   */
   public static List<Player> createFreeAgents(JSONArray jsonPlayers) {
     List<Player> freeAgents = new ArrayList<>();
-    for (int i = 0; i < jsonPlayers.size(); i++) {
-      JSONObject jsonPlayerEntry = ((JSONObject) jsonPlayers.get(i));
+    for (Object player : jsonPlayers) {
+      JSONObject jsonPlayerEntry = ((JSONObject) player);
       String status = String.valueOf(jsonPlayerEntry.get("status"));
       if (status.equals("FREEAGENT") || status.equals("WAIVERS")) {
         JSONObject jsonPlayer = ((JSONObject) jsonPlayerEntry.get("player"));

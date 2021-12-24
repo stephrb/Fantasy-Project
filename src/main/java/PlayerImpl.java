@@ -66,4 +66,13 @@ public class PlayerImpl implements Player {
   public void setLineUpSlotId(int lineUpSlotId) {
     this.lineupSlotId = lineUpSlotId;
   }
+
+  @Override
+  public String getProTeam() {
+    return MapConstants.proTeamMap.get(proTeamId);
+  }
+
+  public Map<String, PlayerStats> getStatsMap() {
+    return statsMap;
+  }
 }

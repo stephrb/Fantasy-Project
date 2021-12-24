@@ -1,3 +1,5 @@
+import java.util.Map;
+
 public interface Player {
   String getFullName();
 
@@ -6,4 +8,8 @@ public interface Player {
   void setAcquisitionDate(String acquisitionDate);
 
   void setLineUpSlotId(int lineUpSlotId);
+
+  String getProTeam();
+
+  Map<String, PlayerStats> getStatsMap();
 }

@@ -48,8 +48,8 @@ public final class MapConstants {
     proTeamMap.put(17, "BKN");
     proTeamMap.put(18, "NYK");
     proTeamMap.put(19, "ORL");
-    proTeamMap.put(20, "PHL");
-    proTeamMap.put(21, "PHO");
+    proTeamMap.put(20, "PHI");
+    proTeamMap.put(21, "PHX");
     proTeamMap.put(22, "POR");
     proTeamMap.put(23, "SAC");
     proTeamMap.put(24, "SAS");
@@ -122,5 +122,18 @@ public final class MapConstants {
     statIdMap.put("02", "Last 15");
     statIdMap.put("03", "Last 30");
     statIdMap.put("10", "Projected");
+  }
+
+  public static final Map<String, Integer> dayOfWeekMap;
+
+  static {
+    dayOfWeekMap = new HashMap<>();
+    dayOfWeekMap.put("Mon", 0);
+    dayOfWeekMap.put("Tue", 1);
+    dayOfWeekMap.put("Wed", 2);
+    dayOfWeekMap.put("Thu", 3);
+    dayOfWeekMap.put("Fri", 4);
+    dayOfWeekMap.put("Sat", 5);
+    dayOfWeekMap.put("Sun", 6);
   }
 }

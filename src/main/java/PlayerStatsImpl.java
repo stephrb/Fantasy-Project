@@ -11,4 +11,12 @@ public class PlayerStatsImpl implements PlayerStats {
     total.put("FPTS", totalPoints);
     this.total = total;
   }
+
+  public Map<String, Double> getAvg() {
+    return avg;
+  }
+
+  public Map<String, Double> getTotal() {
+    return total;
+  }
 }
