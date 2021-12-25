@@ -11,7 +11,7 @@ public class Main {
     // jsonTest(json);
     JSONObject jsonLeague = Utils.parseString(info);
     League league = Factory.createLeague(jsonLeague);
-    Factory.createTeams(league, jsonLeague);
+    Factory.setTeams(league, jsonLeague);
   }
 
   public static void jsonTest(String informationString) {

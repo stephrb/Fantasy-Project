@@ -28,11 +28,13 @@ public interface League {
 
   /**
    * @param player the player to add to the team
-   * @param id the id of the team
+   * @param teamId the teamId of the team
    */
-  void addPlayer(Player player, int id);
+  void addPlayer(Player player, int teamId);
 
   void setFreeAgents(List<Player> freeAgents);
 
   List<Player> getFreeAgents();
+
+  void addMatchup(int matchupPeriod, Matchup matchup);
 }

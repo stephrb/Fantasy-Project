@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Factory {
   /**
-   * @param jsonLeague the json object that contains ESPN league information
+   * @param jsonLeague the json object that contains ESPN league information (endpoint is "")
    * @return a League object that contains the information in the json object
    */
   public static League createLeague(JSONObject jsonLeague) {
@@ -26,9 +26,9 @@ public class Factory {
 
   /**
    * @param league the League that the teams should be added to
-   * @param jsonLeague the JSON object that holds the information about each team
+   * @param jsonLeague the JSON object that holds the information about each team (endpoint is mTeam)
    */
-  public static void createTeams(League league, JSONObject jsonLeague) {
+  public static void setTeams(League league, JSONObject jsonLeague) {
     JSONArray jsonTeams = (JSONArray) jsonLeague.get("teams");
 
     for (Object team : jsonTeams) {
@@ -82,7 +82,7 @@ public class Factory {
 
   /**
    * @param league the League object where the rosters should be set
-   * @param jsonRosters the JSON object that holds information on the rosters
+   * @param jsonRosters the JSON object that holds information on the rosters (endpoint is mRoster)
    */
   public static void setRosters(League league, JSONObject jsonRosters) {
     JSONArray jsonRostersArr = (JSONArray) jsonRosters.get("teams");
@@ -188,7 +188,7 @@ public class Factory {
   }
 
   /**
-   * @param jsonPlayers the JSON array that holds all the players in kona_player_info
+   * @param jsonPlayers the JSON array that holds all the players (endpoint is kona_player_info)
    * @return the list of free agents that corresponds to the input JSON array
    */
   public static List<Player> createFreeAgents(JSONArray jsonPlayers) {
@@ -203,5 +203,27 @@ public class Factory {
     }
 
     return freeAgents;
+  }
+
+  /**
+   * @param league the league where the matchups will be set
+   * @param jsonMatchups the JSON object that contains all the data data (endpoint is mBoxscore)
+   */
+  public static void setMatchups(League league, JSONObject jsonMatchups) {
+    JSONArray jsonSchedule = (JSONArray) jsonMatchups.get("schedule");
+    for (Object json : jsonSchedule) {
+      JSONObject jsonMatchup = (JSONObject) json;
+      int matchupPeriod = Integer.parseInt(String.valueOf(jsonMatchup.get("matchupPeriodId")));
+      int homeTeamId = Integer.parseInt(String.valueOf(((JSONObject)jsonMatchup.get("home")).get("teamId")));
+      double homePoints = Double.parseDouble(String.valueOf(((JSONObject)jsonMatchup.get("home")).get("totalPoints")));
+      int awayTeamId = -1;
+      double awayPoints = -1;
+      if (jsonMatchup.get("away") != null) {
+        awayTeamId = Integer.parseInt(String.valueOf(((JSONObject)jsonMatchup.get("away")).get("teamId")));
+        awayPoints = Double.parseDouble(String.valueOf(((JSONObject)jsonMatchup.get("away")).get("totalPoints")));
+      }
+      Matchup matchup = new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints);
+      league.addMatchup(matchupPeriod, matchup);
+    }
   }
 }

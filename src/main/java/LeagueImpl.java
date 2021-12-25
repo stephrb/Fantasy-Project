@@ -59,8 +59,8 @@ public class LeagueImpl implements League {
   }
 
   @Override
-  public void addPlayer(Player player, int id) {
-    teams.get(id).addPlayer(player);
+  public void addPlayer(Player player, int teamId) {
+    teams.get(teamId).addPlayer(player);
   }
 
   public void setFreeAgents(List<Player> freeAgents) {
@@ -70,5 +70,11 @@ public class LeagueImpl implements League {
   @Override
   public List<Player> getFreeAgents() {
     return freeAgents;
+  }
+
+  @Override
+  public void addMatchup(int matchupPeriod, Matchup matchup) {
+    teams.get(matchup.getHomeTeamId()).addMatchup(matchupPeriod, matchup);
+    if (matchup.getAwayTeamId() != -1) teams.get(matchup.getAwayTeamId()).addMatchup(matchupPeriod, matchup);
   }
 }

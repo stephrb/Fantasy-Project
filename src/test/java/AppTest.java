@@ -36,7 +36,7 @@ public class AppTest {
     League league = Factory.createLeague(jsonLeague);
     String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
     JSONObject jsonTeam = Utils.parseString(teamInfo);
-    Factory.createTeams(league, jsonTeam);
+    Factory.setTeams(league, jsonTeam);
 
     assertNotNull(league.getTeams());
   }
@@ -48,7 +48,7 @@ public class AppTest {
     League league = Factory.createLeague(jsonLeague);
     String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
     JSONObject jsonTeam = Utils.parseString(teamInfo);
-    Factory.createTeams(league, jsonTeam);
+    Factory.setTeams(league, jsonTeam);
 
     String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
     JSONObject jsonRosters = Utils.parseString(rostersInfo);
@@ -195,13 +195,13 @@ public class AppTest {
   }
 
   @Test
-  public void totalGamesTest() {
+  public void pointsGamesTest() {
     String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
     JSONObject jsonLeague = Utils.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
     String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
     JSONObject jsonTeam = Utils.parseString(teamInfo);
-    Factory.createTeams(league, jsonTeam);
+    Factory.setTeams(league, jsonTeam);
 
     String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
     JSONObject jsonRosters = Utils.parseString(rostersInfo);
@@ -212,15 +212,36 @@ public class AppTest {
     Map<String, Map<Integer, boolean[]>> map = Utils.getTeamWeeklySchedules();
     for (Team team : teams) {
       int points = 0;
+      int totalGames = 0;
       List<Player> players = team.getPlayers();
       for (Player player : players) {
         int count = 0;
         boolean[] games = map.get(player.getProTeam()).get(matchupPeriod);
         if (player.getInjuryStatus().equals("ACTIVE")) for (int i = 0; i < 7; i++) if (games[i]) count++;
         points += player.getStatsMap().get("Last 30  2022").getAvg().get("FPTS") * count;
+        totalGames += count;
       }
-      System.out.println("Total number of points projected for " + team.getName() + " in week " + matchupPeriod + " is " + points);
+      System.out.println("Total number of points projected for " + team.getName() + " in week " + matchupPeriod + " is " + points + " in " + totalGames + " games.");
     }
   }
 
+  @Test
+  public void matchupTest() {
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    League league = Factory.createLeague(jsonLeague);
+
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    Factory.setTeams(league, jsonTeam);
+
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    Factory.setRosters(league, jsonRosters);
+
+    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    Factory.setMatchups(league, jsonMatchups);
+    assertNotNull(league);
+  }
 }

@@ -1,1 +1,4 @@
-public interface Matchup {}
+public interface Matchup {
+    int getHomeTeamId();
+    int getAwayTeamId();
+}

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ public class TeamImpl implements Team {
   private final int drops;
   private final int playoffSeed;
   private final int totalAcquisitions;
+  private Map<Integer, Matchup> matchups;
 
   public TeamImpl(
       String nickname,
@@ -51,6 +53,7 @@ public class TeamImpl implements Team {
     this.playoffSeed = playoffSeed;
     this.totalAcquisitions = totalAcquisitions;
     players = new ArrayList<>();
+    matchups = new HashMap<>();
   }
 
   @Override
@@ -69,5 +72,15 @@ public class TeamImpl implements Team {
 
   public String getName() {
     return location + " " + nickname;
+  }
+
+  @Override
+  public void addMatchup(int matchupPeriod, Matchup matchup) {
+    matchups.put(matchupPeriod, matchup);
+  }
+
+  @Override
+  public Map<Integer, Matchup> getMatchups() {
+    return matchups;
   }
 }
