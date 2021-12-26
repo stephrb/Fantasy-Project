@@ -1,6 +1,4 @@
 public class MatchupImpl implements Matchup {
-  private Team homeTeam;
-  private Team awayTeam;
   private double homePoints;
   private double awayPoints;
   private int homeTeamId;
@@ -19,5 +17,18 @@ public class MatchupImpl implements Matchup {
 
   public int getAwayTeamId() {
     return awayTeamId;
+  }
+
+  public double getAwayPoints() {
+    return awayPoints;
+  }
+
+  public double getHomePoints() {
+    return homePoints;
+  }
+
+  @Override
+  public boolean isBye() {
+    return awayPoints == -1;
   }
 }

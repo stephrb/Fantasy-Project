@@ -83,4 +83,36 @@ public class TeamImpl implements Team {
   public Map<Integer, Matchup> getMatchups() {
     return matchups;
   }
+
+  @Override
+  public double getPointsFor(int matchupPeriod) {
+    Matchup matchup = matchups.get(matchupPeriod);
+    if (teamId == matchup.getHomeTeamId()) return matchup.getHomePoints();
+    else return matchup.getAwayPoints();
+  }
+
+  @Override
+  public double getPointsAgainst(int matchupPeriod) {
+    Matchup matchup = matchups.get(matchupPeriod);
+    if (teamId == matchup.getHomeTeamId()) return matchup.getAwayPoints();
+    else return matchup.getHomePoints();
+  }
+
+  @Override
+  public Map<Integer, Double> getPointsForPerWeek(int currentMatchupPeriod) {
+    Map<Integer, Double> weeklyPointsFor = new HashMap<>();
+    for (int i = 1; i < currentMatchupPeriod; i++) {
+      weeklyPointsFor.put(i, getPointsFor(i));
+    }
+    return weeklyPointsFor;
+  }
+
+  @Override
+  public Map<Integer, Double> getPointsAgainstPerWeek(int currentMatchupPeriod) {
+    Map<Integer, Double> weeklyPointsAgainst = new HashMap<>();
+    for (int i = 1; i < currentMatchupPeriod; i++) {
+      weeklyPointsAgainst.put(i, getPointsAgainst(i));
+    }
+    return weeklyPointsAgainst;
+  }
 }

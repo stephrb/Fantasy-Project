@@ -20,6 +20,12 @@ public class LeagueImpl implements League {
   }
 
   @Override
+  public Team getTeam(int teamId) {
+    if (!teams.containsKey(teamId)) throw new IllegalArgumentException("Team ID not found");
+    return teams.get(teamId);
+  }
+
+  @Override
   public void addTeam(int id, Team team) {
     teams.put(id, team);
   }
@@ -77,4 +83,36 @@ public class LeagueImpl implements League {
     teams.get(matchup.getHomeTeamId()).addMatchup(matchupPeriod, matchup);
     if (matchup.getAwayTeamId() != -1) teams.get(matchup.getAwayTeamId()).addMatchup(matchupPeriod, matchup);
   }
+
+  @Override
+  public int[] compareSchedules(int compareTeamId, int scheduleTeamId) {
+    int[] record = new int[3];
+    for (int i = 1; i < currentMatchupPeriod; i++) {
+      double pointsFor = teams.get(compareTeamId).getPointsFor(i);
+      double pointsAgainst = teams.get(scheduleTeamId).getPointsAgainst(i);
+      if (pointsFor == pointsAgainst) {
+        pointsAgainst = teams.get(compareTeamId).getPointsAgainst(i);
+      }
+      if (pointsAgainst == -1) continue;
+      if (pointsFor > pointsAgainst) record[0]++;
+      else if (pointsFor < pointsAgainst) record[1]++;
+      else record[2]++;
+    }
+    return record;
+  }
+
+  @Override
+  public int[] weeklyRecord(int matchupPeriod, int teamId) {
+    int[] record = new int[3];
+    double pointsFor = teams.get(teamId).getPointsFor(matchupPeriod);
+    for (Team team: getTeams()) {
+      if (team.getTeamId() == teamId) continue;
+      double pointsAgainst = teams.get(team.getTeamId()).getPointsFor(matchupPeriod);
+      if (pointsFor > pointsAgainst) record[0]++;
+      else if (pointsFor < pointsAgainst) record[1]++;
+      else record[2]++;
+    }
+    return record;
+  }
+
 }

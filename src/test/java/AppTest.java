@@ -243,5 +243,57 @@ public class AppTest {
     JSONObject jsonMatchups = Utils.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
     assertNotNull(league);
+
+    Team team = league.getTeam(7);
+    Map<Integer, Double> pointsFor = team.getPointsForPerWeek(league.getCurrentMatchupPeriod());
+    Map<Integer, Double> pointsAgainst = team.getPointsAgainstPerWeek(league.getCurrentMatchupPeriod());
+    assertNotNull(pointsFor);
+  }
+
+  @Test
+  public void scheduleComparisonTest() {
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    League league = Factory.createLeague(jsonLeague);
+
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    Factory.setTeams(league, jsonTeam);
+
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    Factory.setRosters(league, jsonRosters);
+
+    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    Factory.setMatchups(league, jsonMatchups);
+
+    for (Team compareTeam : league.getTeams()) {
+      System.out.print(compareTeam.getName() + ":\t");
+      for (Team scheduleTeam : league.getTeams()) {
+        int[] record = league.compareSchedules(compareTeam.getTeamId(), scheduleTeam.getTeamId());
+        System.out.print(scheduleTeam.getName() + ": " + record[0] + "-" + record[1] + "-" + record[2] + "\t");
+      }
+      System.out.println("\n");
+    }
+    System.out.println("\n\n\n");
+    for (int i = 1; i < league.getCurrentMatchupPeriod(); i++) {
+      System.out.print(i + "\t\t");
+    }
+    System.out.print("total");
+    System.out.println();
+    for (Team team : league.getTeams()) {
+      int wins = 0;
+      int losses = 0;
+      int ties = 0;
+      for (int i = 1; i < league.getCurrentMatchupPeriod(); i++) {
+        int[] record = league.weeklyRecord(i, team.getTeamId());
+        System.out.print(record[0] + "-" + record[1] + "-" + record[2] + "\t");
+        wins += record[0];
+        losses += record[1];
+        ties += record[2];
+      }
+      System.out.println( wins + "-" + losses + "-" + ties + " for " + team.getName());
+    }
   }
 }
