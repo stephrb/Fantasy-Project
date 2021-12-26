@@ -58,12 +58,12 @@ public class AppTest {
 
     for (Team team : teams) {
       List<Player> players = team.getPlayers();
-      // System.out.println(team.getName());
+       System.out.println(team.getName());
       for (Player player : players) {
         assertNotNull(player);
-        // System.out.println(player.getFullName());
+         System.out.println(player.getFullName());
         if (!player.getInjuryStatus().equals("ACTIVE")) {
-          // System.out.println("------------------is: " + player.getInjuryStatus());
+           System.out.println("------------------is: " + player.getInjuryStatus());
         }
       }
       System.out.println("_________");
@@ -295,5 +295,28 @@ public class AppTest {
       }
       System.out.println( wins + "-" + losses + "-" + ties + " for " + team.getName());
     }
+    assertNotNull(league);
+  }
+
+  @Test
+  public void playoffMachineTest() {
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    League league = Factory.createLeague(jsonLeague);
+
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    Factory.setTeams(league, jsonTeam);
+
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    Factory.setRosters(league, jsonRosters);
+
+    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    Factory.setMatchups(league, jsonMatchups);
+
+    PlayoffMachine playoffMachine = new PlayoffMachineImpl(league);
+    assertNotNull(playoffMachine);
   }
 }

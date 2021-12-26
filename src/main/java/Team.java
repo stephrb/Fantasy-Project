@@ -9,6 +9,7 @@ public interface Team {
   /** @param player the player to add to the team */
   void addPlayer(Player player);
 
+  /** @return the id of the team */
   int getTeamId();
 
   /** @return the team name */
@@ -35,9 +36,40 @@ public interface Team {
    */
   double getPointsAgainst(int matchupPeriod);
 
+  /**
+   * @param currentMatchupPeriod the matchup period the league is currently in
+   * @return a map where the keys are matchup periods up to the current matchup and the values are
+   *     the number of points that a team scored in that week
+   */
   Map<Integer, Double> getPointsForPerWeek(int currentMatchupPeriod);
 
+  /**
+   * @param currentMatchupPeriod the matchup period the league is currently in
+   * @return a map where the keys are matchup periods up to the current matchup and the values are
+   *     the number of points that a team's opponent scored in that week
+   */
   Map<Integer, Double> getPointsAgainstPerWeek(int currentMatchupPeriod);
 
+  /**
+   * @return returns a new instance of the team object
+   */
+  Team clone();
 
+  void setPlayers(List<Player> players);
+
+  void setMatchups(Map<Integer, Matchup> matchups);
+
+  int getWins();
+
+  void setWins(int wins);
+
+  int getLosses();
+
+  void setLosses(int losses);
+
+  int getTies();
+
+  void setTies(int ties);
+
+  double getWinPercentage();
 }

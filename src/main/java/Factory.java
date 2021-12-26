@@ -26,7 +26,8 @@ public class Factory {
 
   /**
    * @param league the League that the teams should be added to
-   * @param jsonLeague the JSON object that holds the information about each team (endpoint is mTeam)
+   * @param jsonLeague the JSON object that holds the information about each team (endpoint is
+   *     mTeam)
    */
   public static void setTeams(League league, JSONObject jsonLeague) {
     JSONArray jsonTeams = (JSONArray) jsonLeague.get("teams");
@@ -35,6 +36,7 @@ public class Factory {
       JSONObject jsonTeam = (JSONObject) team;
       String abbrev = String.valueOf(jsonTeam.get("abbrev"));
       int teamId = Integer.parseInt(String.valueOf(jsonTeam.get("id")));
+      int divisionId = Integer.parseInt(String.valueOf(jsonTeam.get("divisionId")));
       String location = String.valueOf(jsonTeam.get("location"));
       String nickname = String.valueOf(jsonTeam.get("nickname"));
       int playoffSeed = Integer.parseInt(String.valueOf(jsonTeam.get("playoffSeed")));
@@ -42,6 +44,7 @@ public class Factory {
       JSONObject jsonRecord = ((JSONObject) ((JSONObject) jsonTeam.get("record")).get("overall"));
       int wins = Integer.parseInt(String.valueOf(jsonRecord.get("wins")));
       int losses = Integer.parseInt(String.valueOf(jsonRecord.get("losses")));
+      int ties = Integer.parseInt(String.valueOf(jsonRecord.get("ties")));
       double pointsFor = Double.parseDouble(String.valueOf(jsonRecord.get("pointsFor")));
       double pointsAgainst = Double.parseDouble(String.valueOf(jsonRecord.get("pointsAgainst")));
       double gamesBack = Double.parseDouble(String.valueOf(jsonRecord.get("gamesBack")));
@@ -69,6 +72,7 @@ public class Factory {
               teamId,
               wins,
               losses,
+              ties,
               pointsFor,
               pointsAgainst,
               gamesBack,
@@ -76,7 +80,8 @@ public class Factory {
               moveToActive,
               drops,
               playoffSeed,
-              totalAcquisitions));
+              totalAcquisitions,
+              divisionId));
     }
   }
 
@@ -214,13 +219,19 @@ public class Factory {
     for (Object json : jsonSchedule) {
       JSONObject jsonMatchup = (JSONObject) json;
       int matchupPeriod = Integer.parseInt(String.valueOf(jsonMatchup.get("matchupPeriodId")));
-      int homeTeamId = Integer.parseInt(String.valueOf(((JSONObject)jsonMatchup.get("home")).get("teamId")));
-      double homePoints = Double.parseDouble(String.valueOf(((JSONObject)jsonMatchup.get("home")).get("totalPoints")));
+      int homeTeamId =
+          Integer.parseInt(String.valueOf(((JSONObject) jsonMatchup.get("home")).get("teamId")));
+      double homePoints =
+          Double.parseDouble(
+              String.valueOf(((JSONObject) jsonMatchup.get("home")).get("totalPoints")));
       int awayTeamId = -1;
       double awayPoints = -1;
       if (jsonMatchup.get("away") != null) {
-        awayTeamId = Integer.parseInt(String.valueOf(((JSONObject)jsonMatchup.get("away")).get("teamId")));
-        awayPoints = Double.parseDouble(String.valueOf(((JSONObject)jsonMatchup.get("away")).get("totalPoints")));
+        awayTeamId =
+            Integer.parseInt(String.valueOf(((JSONObject) jsonMatchup.get("away")).get("teamId")));
+        awayPoints =
+            Double.parseDouble(
+                String.valueOf(((JSONObject) jsonMatchup.get("away")).get("totalPoints")));
       }
       Matchup matchup = new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints);
       league.addMatchup(matchupPeriod, matchup);
