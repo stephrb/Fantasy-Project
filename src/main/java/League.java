@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface League {
@@ -69,4 +70,13 @@ public interface League {
    * @return the record of the team against every other team in the league for a given week
    */
   int[] weeklyRecord(int matchupPeriod, int teamId);
+
+  Map<Integer, Double> getMedianPointsPerWeek();
+
+  Double getMedianPointsPerWeek(int matchupPeriod);
+  /**
+   * @param teamId the id of the team
+   * @return the power ranking score (Points Scored + (Points Scored * Winning %) + (Points Scored vs the median score of the week)
+   */
+  double getPowerRankingScore(int teamId);
 }

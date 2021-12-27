@@ -22,8 +22,9 @@ public class TeamImpl implements Team {
   private final int drops;
   private int playoffSeed;
   private final int totalAcquisitions;
-  private final int divisionId;
+  private int divisionId;
   private Map<Integer, Matchup> matchups;
+  private double powerRankingScore;
 
   public TeamImpl(
       String nickname,
@@ -93,6 +94,7 @@ public class TeamImpl implements Team {
   @Override
   public double getPointsFor(int matchupPeriod) {
     Matchup matchup = matchups.get(matchupPeriod);
+    if (matchup == null) throw new IllegalArgumentException("Matchup not found");
     if (teamId == matchup.getHomeTeamId()) return matchup.getHomePoints();
     else return matchup.getAwayPoints();
   }
@@ -123,8 +125,9 @@ public class TeamImpl implements Team {
   }
 
   @Override
-  public Team clone() {
-    Team team = new TeamImpl(
+  public Team copy() {
+    Team team =
+        new TeamImpl(
             nickname,
             location,
             abbrev,
@@ -144,7 +147,6 @@ public class TeamImpl implements Team {
     team.setPlayers(players);
     team.setMatchups(matchups);
     return team;
-
   }
 
   @Override
@@ -189,6 +191,50 @@ public class TeamImpl implements Team {
 
   @Override
   public double getWinPercentage() {
-    return ((double)(wins * 2 + ties)) / ((double)(2 * (wins + ties + losses)));
+    return ((double) (wins * 2 + ties)) / ((double) (2 * (wins + ties + losses)));
+  }
+
+  @Override
+  public int getPlayoffSeed() {
+    return playoffSeed;
+  }
+
+  @Override
+  public int getDivisionId() {
+    return divisionId;
+  }
+
+  @Override
+  public int[] getHeadToHeadRecord(int teamId) {
+    int[] record = new int[3];
+
+    for (Matchup matchup : matchups.values()) {
+      if (matchup.getAwayTeamId() != teamId && matchup.getHomeTeamId() != teamId
+          || !matchup.getIsPlayed()) continue;
+      if (matchup.getWinnerTeamId() == this.teamId) record[0]++;
+      else if (matchup.getWinnerTeamId() == teamId) record[1]++;
+      else record[2]++;
+    }
+    return record;
+  }
+
+  @Override
+  public double getPointsFor() {
+    return pointsFor;
+  }
+
+  @Override
+  public void setDivisionId(int divisionId) {
+    this.divisionId = divisionId;
+  }
+
+  @Override
+  public double getPowerRankingScore() {
+    return powerRankingScore;
+  }
+
+  @Override
+  public void setPowerRankingScore(double powerRankingScore) {
+    this.powerRankingScore = powerRankingScore;
   }
 }

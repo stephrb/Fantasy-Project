@@ -12,9 +12,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -58,12 +56,12 @@ public class AppTest {
 
     for (Team team : teams) {
       List<Player> players = team.getPlayers();
-       System.out.println(team.getName());
+      System.out.println(team.getName());
       for (Player player : players) {
         assertNotNull(player);
-         System.out.println(player.getFullName());
+        System.out.println(player.getFullName());
         if (!player.getInjuryStatus().equals("ACTIVE")) {
-           System.out.println("------------------is: " + player.getInjuryStatus());
+          System.out.println("------------------is: " + player.getInjuryStatus());
         }
       }
       System.out.println("_________");
@@ -104,12 +102,12 @@ public class AppTest {
 
     for (Player player : fas) {
       assertNotNull(player);
-      // System.out.println(player.getFullName());
+      System.out.println(player.getFullName());
       if (!player.getInjuryStatus().equals("ACTIVE")) {
-        // System.out.println("------------------is: " + player.getInjuryStatus());
+        System.out.println("------------------is: " + player.getInjuryStatus());
       }
     }
-    // System.out.println("_________");
+    System.out.println("_________");
   }
 
   @Test
@@ -207,21 +205,35 @@ public class AppTest {
     JSONObject jsonRosters = Utils.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
+    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    Factory.setMatchups(league, jsonMatchups);
+
     Set<Team> teams = league.getTeams();
     int matchupPeriod = league.getCurrentMatchupPeriod();
     Map<String, Map<Integer, boolean[]>> map = Utils.getTeamWeeklySchedules();
     for (Team team : teams) {
-      int points = 0;
+      int points = (int) team.getPointsFor(matchupPeriod);
       int totalGames = 0;
       List<Player> players = team.getPlayers();
       for (Player player : players) {
         int count = 0;
         boolean[] games = map.get(player.getProTeam()).get(matchupPeriod);
-        if (player.getInjuryStatus().equals("ACTIVE")) for (int i = 0; i < 7; i++) if (games[i]) count++;
+        if (player.getInjuryStatus().equals("ACTIVE"))
+          for (int i = league.getCurrentScoringPeriod() % 7; i < 7; i++) if (games[i]) count++;
         points += player.getStatsMap().get("Last 30  2022").getAvg().get("FPTS") * count;
         totalGames += count;
       }
-      System.out.println("Total number of points projected for " + team.getName() + " in week " + matchupPeriod + " is " + points + " in " + totalGames + " games.");
+      System.out.println(
+          "Total number of points projected for "
+              + team.getName()
+              + " in week "
+              + matchupPeriod
+              + " is "
+              + points
+              + " in "
+              + totalGames
+              + " remainng games.");
     }
   }
 
@@ -246,7 +258,8 @@ public class AppTest {
 
     Team team = league.getTeam(7);
     Map<Integer, Double> pointsFor = team.getPointsForPerWeek(league.getCurrentMatchupPeriod());
-    Map<Integer, Double> pointsAgainst = team.getPointsAgainstPerWeek(league.getCurrentMatchupPeriod());
+    Map<Integer, Double> pointsAgainst =
+        team.getPointsAgainstPerWeek(league.getCurrentMatchupPeriod());
     assertNotNull(pointsFor);
   }
 
@@ -272,7 +285,8 @@ public class AppTest {
       System.out.print(compareTeam.getName() + ":\t");
       for (Team scheduleTeam : league.getTeams()) {
         int[] record = league.compareSchedules(compareTeam.getTeamId(), scheduleTeam.getTeamId());
-        System.out.print(scheduleTeam.getName() + ": " + record[0] + "-" + record[1] + "-" + record[2] + "\t");
+        System.out.print(
+            scheduleTeam.getName() + ": " + record[0] + "-" + record[1] + "-" + record[2] + "\t");
       }
       System.out.println("\n");
     }
@@ -293,7 +307,7 @@ public class AppTest {
         losses += record[1];
         ties += record[2];
       }
-      System.out.println( wins + "-" + losses + "-" + ties + " for " + team.getName());
+      System.out.println(wins + "-" + losses + "-" + ties + " for " + team.getName());
     }
     assertNotNull(league);
   }
@@ -316,7 +330,143 @@ public class AppTest {
     JSONObject jsonMatchups = Utils.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 
+    //    league.getTeam(7).setDivisionId(2);
+    //    league.getTeam(3).setLosses(1);
+    //    league.getTeam(3).setWins(7);
     PlayoffMachine playoffMachine = new PlayoffMachineImpl(league);
     assertNotNull(playoffMachine);
+    int[] record = league.getTeam(7).getHeadToHeadRecord(10);
+    // System.out.print(record[0] + "-" + record[1] + "-" + record[2]);
+
+    playoffMachine.setWinner(league.getTeam(7).getMatchups().get(10), -1);
+    playoffMachine.printRankings();
+    System.out.println("__________________");
+    playoffMachine.setWinner(league.getTeam(7).getMatchups().get(10), -1);
+    playoffMachine.printRankings();
+    System.out.println("__________________");
+    playoffMachine.setWinner(league.getTeam(7).getMatchups().get(10), 7);
+    playoffMachine.printRankings();
+    System.out.println("__________________");
+    playoffMachine.setWinner(league.getTeam(7).getMatchups().get(10), -1);
+    playoffMachine.printRankings();
+    System.out.println("__________________");
+    playoffMachine.setWinner(league.getTeam(7).getMatchups().get(10), 3);
+    playoffMachine.printRankings();
+    System.out.println("__________________");
+    assertNotNull(playoffMachine);
+  }
+
+  @Test
+  public void playoffMachineTest2() {
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    League league = Factory.createLeague(jsonLeague);
+
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    Factory.setTeams(league, jsonTeam);
+
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    Factory.setRosters(league, jsonRosters);
+
+    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    Factory.setMatchups(league, jsonMatchups);
+
+    PlayoffMachine playoffMachine = new PlayoffMachineImpl(league);
+    for (Map.Entry<Integer, Set<Matchup>> entry : playoffMachine.getMatchups().entrySet()) {
+      int matchupPeriod = entry.getKey();
+      for (Matchup matchup : entry.getValue()) {
+        Team homeTeam = league.getTeam(matchup.getHomeTeamId());
+        Team awayTeam = league.getTeam(matchup.getAwayTeamId());
+        System.out.println(
+            "Outcome of match? "
+                + homeTeam.getName()
+                + " ("
+                + homeTeam.getTeamId()
+                + ") "
+                + " vs "
+                + awayTeam.getName()
+                + " ("
+                + awayTeam.getTeamId()
+                + ") or tie (-1)");
+
+        playoffMachine.setWinner(matchup, -1);
+      }
+    }
+    playoffMachine.sortRankings();
+    int rank = 1;
+    for (Team team : playoffMachine.getRankings())
+      System.out.println(
+          rank++
+              + "\t"
+              + team.getName()
+              + "\t"
+              + team.getWins()
+              + "-"
+              + team.getLosses()
+              + "-"
+              + team.getTies());
+  }
+
+  @Test
+  public void mediansTest() {
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    League league = Factory.createLeague(jsonLeague);
+
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    Factory.setTeams(league, jsonTeam);
+
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    Factory.setRosters(league, jsonRosters);
+
+    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    Factory.setMatchups(league, jsonMatchups);
+
+    Map<Integer, Double> map = league.getMedianPointsPerWeek();
+    assertNotNull(map);
+  }
+
+  @Test
+  public void powerRankingScoreTest() {
+    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    League league = Factory.createLeague(jsonLeague);
+
+    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    Factory.setTeams(league, jsonTeam);
+
+    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    Factory.setRosters(league, jsonRosters);
+
+    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    Factory.setMatchups(league, jsonMatchups);
+
+    System.out.println("Power Ranking Scores");
+    List<Team> teams = new ArrayList<>();
+    for (Team team : league.getTeams()) {
+      team.setPowerRankingScore(league.getPowerRankingScore(team.getTeamId()));
+      teams.add(team);
+    }
+    teams.sort((o1, o2) -> (int) (o2.getPowerRankingScore() - o1.getPowerRankingScore()));
+    for (Team team : teams)
+      System.out.println(
+          team.getName()
+              + "\t"
+              + team.getPowerRankingScore()
+              + " "
+              + team.getWins()
+              + "-"
+              + team.getLosses()
+              + "-"
+              + team.getTies());
   }
 }

@@ -8,6 +8,7 @@ public class LeagueImpl implements League {
   private int currentScoringPeriod;
   private final String name;
   private List<Player> freeAgents;
+
   public LeagueImpl(String leagueId, String name) {
     teams = new HashMap<>();
     this.leagueId = leagueId;
@@ -81,7 +82,8 @@ public class LeagueImpl implements League {
   @Override
   public void addMatchup(int matchupPeriod, Matchup matchup) {
     teams.get(matchup.getHomeTeamId()).addMatchup(matchupPeriod, matchup);
-    if (matchup.getAwayTeamId() != -1) teams.get(matchup.getAwayTeamId()).addMatchup(matchupPeriod, matchup);
+    if (matchup.getAwayTeamId() != -1)
+      teams.get(matchup.getAwayTeamId()).addMatchup(matchupPeriod, matchup);
   }
 
   @Override
@@ -105,7 +107,7 @@ public class LeagueImpl implements League {
   public int[] weeklyRecord(int matchupPeriod, int teamId) {
     int[] record = new int[3];
     double pointsFor = teams.get(teamId).getPointsFor(matchupPeriod);
-    for (Team team: getTeams()) {
+    for (Team team : getTeams()) {
       if (team.getTeamId() == teamId) continue;
       double pointsAgainst = teams.get(team.getTeamId()).getPointsFor(matchupPeriod);
       if (pointsFor > pointsAgainst) record[0]++;
@@ -115,4 +117,45 @@ public class LeagueImpl implements League {
     return record;
   }
 
+  @Override
+  public Map<Integer, Double> getMedianPointsPerWeek() {
+    Map<Integer, Double> medians = new HashMap<>(currentMatchupPeriod);
+    for (int i = 1; i < currentMatchupPeriod; i++) {
+      List<Double> scores = new ArrayList<>(teams.size());
+      for (Team team : teams.values()) {
+        scores.add(team.getPointsFor(i));
+      }
+      scores.sort((o1, o2) -> (int) (o2 - o1));
+      double median =
+          (scores.size() % 2 == 1)
+              ? scores.get(scores.size() / 2)
+              : (scores.get(scores.size() / 2) + scores.get(scores.size() / 2 - 1)) / 2;
+      medians.put(i, median);
+    }
+    return medians;
+  }
+
+  @Override
+  public Double getMedianPointsPerWeek(int matchupPeriod) {
+    List<Double> scores = new ArrayList<>(teams.size());
+    for (Team team : teams.values()) {
+      scores.add(team.getPointsFor(matchupPeriod));
+    }
+    scores.sort((o1, o2) -> (int) (o2 - o1));
+    return (scores.size() % 2 == 1)
+        ? scores.get(scores.size() / 2)
+        : (scores.get(scores.size() / 2) + scores.get(scores.size() / 2 - 1)) / 2;
+  }
+
+  @Override
+  public double getPowerRankingScore(int teamId) {
+    Team team = teams.get(teamId);
+    double pointsVsMedian = 0;
+    for (int i = 1; i < currentMatchupPeriod; i++) {
+      pointsVsMedian += team.getPointsAgainst(i) - getMedianPointsPerWeek(i);
+    }
+    return team.getPointsFor()
+        + (team.getPointsFor() * team.getWinPercentage())
+        + team.getPointsFor() + pointsVsMedian;
+  }
 }

@@ -233,7 +233,8 @@ public class Factory {
             Double.parseDouble(
                 String.valueOf(((JSONObject) jsonMatchup.get("away")).get("totalPoints")));
       }
-      Matchup matchup = new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints);
+      boolean isPlayed = matchupPeriod < league.getCurrentMatchupPeriod();
+      Matchup matchup = new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints, isPlayed);
       league.addMatchup(matchupPeriod, matchup);
     }
   }

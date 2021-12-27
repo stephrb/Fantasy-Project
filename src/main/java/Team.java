@@ -53,7 +53,8 @@ public interface Team {
   /**
    * @return returns a new instance of the team object
    */
-  Team clone();
+
+  Team copy();
 
   void setPlayers(List<Player> players);
 
@@ -72,4 +73,18 @@ public interface Team {
   void setTies(int ties);
 
   double getWinPercentage();
+
+  int getPlayoffSeed();
+
+  int getDivisionId();
+
+  int[] getHeadToHeadRecord(int teamId);
+
+  double getPointsFor();
+
+  void setDivisionId(int divisionId);
+
+  double getPowerRankingScore();
+
+  void setPowerRankingScore(double powerRankingScore);
 }
