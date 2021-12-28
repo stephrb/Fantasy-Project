@@ -1,15 +1,15 @@
 import java.util.Map;
 
 public interface Player {
-  String getFullName();
+    String getFullName();
 
-  String getInjuryStatus();
+    String getInjuryStatus();
 
-  void setAcquisitionDate(String acquisitionDate);
+    void setAcquisitionDate(String acquisitionDate);
 
-  void setLineUpSlotId(int lineUpSlotId);
+    void setLineUpSlotId(int lineUpSlotId);
 
-  String getProTeam();
+    String getProTeam();
 
-  Map<String, PlayerStats> getStatsMap();
+    Map<String, PlayerStats> getStatsMap();
 }

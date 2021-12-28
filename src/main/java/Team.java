@@ -87,4 +87,5 @@ public interface Team {
   double getPowerRankingScore();
 
   void setPowerRankingScore(double powerRankingScore);
+
 }

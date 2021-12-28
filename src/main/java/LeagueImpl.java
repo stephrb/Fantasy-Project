@@ -8,6 +8,7 @@ public class LeagueImpl implements League {
   private int currentScoringPeriod;
   private final String name;
   private List<Player> freeAgents;
+  private Map<String, Map<Integer, boolean[]>> proTeamMatchups;
 
   public LeagueImpl(String leagueId, String name) {
     teams = new HashMap<>();
@@ -157,5 +158,13 @@ public class LeagueImpl implements League {
     return team.getPointsFor()
         + (team.getPointsFor() * team.getWinPercentage())
         + team.getPointsFor() + pointsVsMedian;
+  }
+
+  public Map<String, Map<Integer, boolean[]>> getProTeamMatchups() {
+    return proTeamMatchups;
+  }
+
+  public void setProTeamMatchups(Map<String, Map<Integer, boolean[]>> proTeamMatchups) {
+    this.proTeamMatchups = proTeamMatchups;
   }
 }

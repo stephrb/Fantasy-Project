@@ -18,6 +18,7 @@ public class Factory {
     String name = String.valueOf(((JSONObject) jsonLeague.get("settings")).get("name"));
 
     League league = new LeagueImpl(leagueId, name);
+    league.setProTeamMatchups(Request.getTeamWeeklySchedules());
     league.setYear(year);
     league.setCurrentMatchupPeriod(currentMatchupPeriod);
     league.setCurrentScoringPeriod(currentScoringPeriod);
@@ -129,8 +130,8 @@ public class Factory {
               : 0;
 
       return new PlayerStatsImpl(
-          Utils.parseStats((JSONObject) jsonStats.get("averageStats")),
-          Utils.parseStats((JSONObject) jsonStats.get("stats")),
+          Request.parseStats((JSONObject) jsonStats.get("averageStats")),
+          Request.parseStats((JSONObject) jsonStats.get("stats")),
           fPtsAvg,
           fPtsTot);
     } else {
@@ -141,7 +142,7 @@ public class Factory {
 
   /**
    * @param jsonPlayer the JSON object that contains player information
-   * @return the Player object that holds the same information as the JSON object
+   * @return the Utils.Player object that holds the same information as the JSON object
    */
   public static Player createPlayer(JSONObject jsonPlayer) {
 
@@ -153,11 +154,22 @@ public class Factory {
     int proTeamId = Integer.parseInt(String.valueOf(jsonPlayer.get("proTeamId")));
     int position = Integer.parseInt(String.valueOf(jsonPlayer.get("defaultPositionId")));
     JSONObject jsonOwnership = ((JSONObject) jsonPlayer.get("ownership"));
-    double percentOwned = Double.parseDouble(String.valueOf(jsonOwnership.get("percentOwned")));
-    double percentChange = Double.parseDouble(String.valueOf(jsonOwnership.get("percentChange")));
-    double percentStarted = Double.parseDouble(String.valueOf(jsonOwnership.get("percentStarted")));
+    double percentOwned =
+        (jsonOwnership == null)
+            ? 0
+            : Double.parseDouble(String.valueOf(jsonOwnership.get("percentOwned")));
+    double percentChange =
+        (jsonOwnership == null)
+            ? 0
+            : Double.parseDouble(String.valueOf(jsonOwnership.get("percentChange")));
+    double percentStarted =
+        (jsonOwnership == null)
+            ? 0
+            : Double.parseDouble(String.valueOf(jsonOwnership.get("percentStarted")));
     double averageDraftPosition =
-        Double.parseDouble(String.valueOf(jsonOwnership.get("averageDraftPosition")));
+        (jsonOwnership == null)
+            ? 0
+            : Double.parseDouble(String.valueOf(jsonOwnership.get("averageDraftPosition")));
     JSONArray jsonEligibleSlotsArr = ((JSONArray) jsonPlayer.get("eligibleSlots"));
     List<Integer> eligibleSlots = new ArrayList<>();
     for (Object o : jsonEligibleSlotsArr) {
@@ -237,5 +249,35 @@ public class Factory {
       Matchup matchup = new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints, isPlayed);
       league.addMatchup(matchupPeriod, matchup);
     }
+  }
+
+  public static Model createModel(String leagueId) {
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
+    League league = Factory.createLeague(jsonLeague);
+
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
+    Factory.setTeams(league, jsonTeam);
+
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
+    Factory.setRosters(league, jsonRosters);
+
+    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Request.parseString(matchupInfo);
+    Factory.setMatchups(league, jsonMatchups);
+
+    for (Team team : league.getTeams())
+      team.setPowerRankingScore(league.getPowerRankingScore(team.getTeamId()));
+    String header =
+        "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
+    String freeAgentInfo =
+        Request.getESPNInformation("1213148421", "2022", "?view=kona_player_info", header);
+    JSONObject jsonFreeAgents = Request.parseString(freeAgentInfo);
+    JSONArray jsonFreeAgentsArr = (JSONArray) jsonFreeAgents.get("players");
+    league.setFreeAgents(Factory.createFreeAgents(jsonFreeAgentsArr));
+
+    return new ModelImpl(league, new PlayoffMachineImpl(league));
   }
 }

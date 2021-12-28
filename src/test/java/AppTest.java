@@ -19,8 +19,8 @@ import static org.junit.Assert.*;
 public class AppTest {
   @Test
   public void leagueTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject json = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject json = Request.parseString(leagueInfo);
     League league = Factory.createLeague(json);
     assertEquals("1213148421", league.getLeagueId());
 
@@ -29,11 +29,11 @@ public class AppTest {
 
   @Test
   public void addTeamsTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
     assertNotNull(league.getTeams());
@@ -41,15 +41,15 @@ public class AppTest {
 
   @Test
   public void setRostersTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
     Set<Team> teams = league.getTeams();
@@ -72,8 +72,8 @@ public class AppTest {
 
   @Test
   public void parseStatTest() {
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     JSONArray jsonRostersArr = (JSONArray) jsonRosters.get("teams");
     JSONObject jsonTeam = (JSONObject) jsonRostersArr.get(0);
     JSONArray jsonPlayersArr = ((JSONArray) ((JSONObject) jsonTeam.get("roster")).get("entries"));
@@ -84,8 +84,8 @@ public class AppTest {
     JSONObject jsonStat = ((JSONObject) jsonStatsArr.get(0));
     JSONObject avgStat = ((JSONObject) jsonStat.get("averageStats"));
     JSONObject totStat = ((JSONObject) jsonStat.get("stats"));
-    Map<String, Double> avg = Utils.parseStats(avgStat);
-    Map<String, Double> tot = Utils.parseStats(totStat);
+    Map<String, Double> avg = Request.parseStats(avgStat);
+    Map<String, Double> tot = Request.parseStats(totStat);
     assertNotNull(jsonStat);
   }
 
@@ -94,8 +94,8 @@ public class AppTest {
     String header =
         "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
     String freeAgentInfo =
-        Utils.getESPNInformation("1213148421", "2022", "?view=kona_player_info", header);
-    JSONObject jsonFreeAgents = Utils.parseString(freeAgentInfo);
+        Request.getESPNInformation("1213148421", "2022", "?view=kona_player_info", header);
+    JSONObject jsonFreeAgents = Request.parseString(freeAgentInfo);
     JSONArray jsonFreeAgentsArr = (JSONArray) jsonFreeAgents.get("players");
     List<Player> fas = Factory.createFreeAgents(jsonFreeAgentsArr);
     assertNotNull(fas);
@@ -112,14 +112,14 @@ public class AppTest {
 
   @Test
   public void freeAgentTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject json = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject json = Request.parseString(leagueInfo);
     League league = Factory.createLeague(json);
     String header =
         "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
     String freeAgentInfo =
-        Utils.getESPNInformation("1213148421", "2022", "?view=kona_player_info", header);
-    JSONObject jsonFreeAgents = Utils.parseString(freeAgentInfo);
+        Request.getESPNInformation("1213148421", "2022", "?view=kona_player_info", header);
+    JSONObject jsonFreeAgents = Request.parseString(freeAgentInfo);
     JSONArray jsonFreeAgentsArr = (JSONArray) jsonFreeAgents.get("players");
     league.setFreeAgents(Factory.createFreeAgents(jsonFreeAgentsArr));
 
@@ -139,7 +139,7 @@ public class AppTest {
       // conn.setRequestProperty("content-type", "application/json");
       String filter =
           "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
-      JSONObject jsonFilter = Utils.parseString(filter);
+      JSONObject jsonFilter = Request.parseString(filter);
       conn.setRequestProperty("x-fantasy-filter", String.valueOf(jsonFilter));
       int responseCode = conn.getResponseCode();
       if (responseCode == 200) {
@@ -151,7 +151,7 @@ public class AppTest {
           response.append(inputLine);
         }
         in.close();
-        json = Utils.parseString(String.valueOf(response));
+        json = Request.parseString(String.valueOf(response));
         // System.out.print(json);
         assertNotNull(json);
       }
@@ -186,32 +186,32 @@ public class AppTest {
   @Test
   public void scheduleTest() {
 
-    JSONObject json = Utils.parseString(Utils.getScheduleInformation());
+    JSONObject json = Request.parseString(Request.getScheduleInformation());
     assertNotNull(json);
-    Map<String, Map<Integer, boolean[]>> map = Utils.getTeamWeeklySchedules();
+    Map<String, Map<Integer, boolean[]>> map = Request.getTeamWeeklySchedules();
     assertNotNull(map);
   }
 
   @Test
   public void pointsGamesTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
-    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 
     Set<Team> teams = league.getTeams();
     int matchupPeriod = league.getCurrentMatchupPeriod();
-    Map<String, Map<Integer, boolean[]>> map = Utils.getTeamWeeklySchedules();
+    Map<String, Map<Integer, boolean[]>> map = Request.getTeamWeeklySchedules();
     for (Team team : teams) {
       int points = (int) team.getPointsFor(matchupPeriod);
       int totalGames = 0;
@@ -221,7 +221,7 @@ public class AppTest {
         boolean[] games = map.get(player.getProTeam()).get(matchupPeriod);
         if (player.getInjuryStatus().equals("ACTIVE"))
           for (int i = league.getCurrentScoringPeriod() % 7; i < 7; i++) if (games[i]) count++;
-        points += player.getStatsMap().get("Last 30  2022").getAvg().get("FPTS") * count;
+        points += player.getStatsMap().get("Last 15  2022").getAvg().get("FPTS") * count;
         totalGames += count;
       }
       System.out.println(
@@ -239,20 +239,20 @@ public class AppTest {
 
   @Test
   public void matchupTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
 
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
-    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
     assertNotNull(league);
 
@@ -265,20 +265,20 @@ public class AppTest {
 
   @Test
   public void scheduleComparisonTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
 
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
-    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 
     for (Team compareTeam : league.getTeams()) {
@@ -314,20 +314,20 @@ public class AppTest {
 
   @Test
   public void playoffMachineTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
 
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
-    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 
     //    league.getTeam(7).setDivisionId(2);
@@ -358,20 +358,20 @@ public class AppTest {
 
   @Test
   public void playoffMachineTest2() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
 
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
-    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 
     PlayoffMachine playoffMachine = new PlayoffMachineImpl(league);
@@ -412,20 +412,20 @@ public class AppTest {
 
   @Test
   public void mediansTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
 
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
-    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 
     Map<Integer, Double> map = league.getMedianPointsPerWeek();
@@ -434,20 +434,20 @@ public class AppTest {
 
   @Test
   public void powerRankingScoreTest() {
-    String leagueInfo = Utils.getESPNInformation("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Utils.parseString(leagueInfo);
+    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
 
-    String teamInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Utils.parseString(teamInfo);
+    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Utils.parseString(rostersInfo);
+    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Utils.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
-    JSONObject jsonMatchups = Utils.parseString(matchupInfo);
+    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 
     System.out.println("Power Ranking Scores");
@@ -469,4 +469,10 @@ public class AppTest {
               + "-"
               + team.getTies());
   }
+  @Test
+  public void modelTest() {
+    Model model = Factory.createModel("1213148421");
+    assertNotNull(model);
+  }
+
 }

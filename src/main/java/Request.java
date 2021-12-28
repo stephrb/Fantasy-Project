@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
-public class Utils {
+public class Request {
   /**
    * @param leagueId the ESPN league id
    * @param year the year of the league
@@ -141,7 +141,7 @@ public class Utils {
       Map<Integer, boolean[]> teamShedule = new HashMap<>();
       weeklySchedules.put(team, teamShedule);
     }
-    JSONObject jsonSchedule = Utils.parseString(Utils.getScheduleInformation());
+    JSONObject jsonSchedule = Request.parseString(Request.getScheduleInformation());
     JSONArray jsonGameDates =
         (JSONArray) ((JSONObject) jsonSchedule.get("leagueSchedule")).get("gameDates");
     for (Object jsonGameDate : jsonGameDates) {
@@ -177,4 +177,5 @@ public class Utils {
   private static boolean isRegularSeason(JSONObject jsonGame) {
     return String.valueOf(jsonGame.get("gameId")).charAt(2) == '2';
   }
+
 }

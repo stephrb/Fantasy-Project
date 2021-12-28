@@ -79,4 +79,8 @@ public interface League {
    * @return the power ranking score (Points Scored + (Points Scored * Winning %) + (Points Scored vs the median score of the week)
    */
   double getPowerRankingScore(int teamId);
+
+  Map<String, Map<Integer, boolean[]>> getProTeamMatchups();
+
+  void setProTeamMatchups(Map<String, Map<Integer, boolean[]>> proTeamMatchups);
 }
