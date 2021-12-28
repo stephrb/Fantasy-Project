@@ -1,3 +1,8 @@
+package Model;
+
+import Model.Player.Player;
+import Model.Team.*;
+
 import java.util.*;
 
 public class LeagueImpl implements League {
@@ -23,7 +28,8 @@ public class LeagueImpl implements League {
 
   @Override
   public Team getTeam(int teamId) {
-    if (!teams.containsKey(teamId)) throw new IllegalArgumentException("Team ID not found");
+    if (!teams.containsKey(teamId))
+      throw new IllegalArgumentException("Model.Team.Team ID not found");
     return teams.get(teamId);
   }
 
@@ -157,7 +163,8 @@ public class LeagueImpl implements League {
     }
     return team.getPointsFor()
         + (team.getPointsFor() * team.getWinPercentage())
-        + team.getPointsFor() + pointsVsMedian;
+        + team.getPointsFor()
+        + pointsVsMedian;
   }
 
   public Map<String, Map<Integer, boolean[]>> getProTeamMatchups() {

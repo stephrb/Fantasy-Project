@@ -1,3 +1,7 @@
+package Model.Team;
+
+import Model.Player.Player;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,7 +98,8 @@ public class TeamImpl implements Team {
   @Override
   public double getPointsFor(int matchupPeriod) {
     Matchup matchup = matchups.get(matchupPeriod);
-    if (matchup == null) throw new IllegalArgumentException("Matchup not found");
+    if (matchup == null)
+      throw new IllegalArgumentException("Model.Model.Team.Team.Matchup not found");
     if (teamId == matchup.getHomeTeamId()) return matchup.getHomePoints();
     else return matchup.getAwayPoints();
   }

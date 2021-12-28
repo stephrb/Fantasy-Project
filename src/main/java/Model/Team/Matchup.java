@@ -1,3 +1,7 @@
+package Model.Team;
+
+import Model.Model;
+
 public interface Matchup {
   int getHomeTeamId();
 

@@ -1,3 +1,5 @@
+package Model.Player;
+
 import java.util.Map;
 
 public interface PlayerStats {

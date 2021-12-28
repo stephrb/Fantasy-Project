@@ -1,8 +1,13 @@
+import Model.*;
+import Model.Team.*;
+import Utils.*;
 import org.json.simple.JSONObject;
 
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import Model.*;
 
 public class Main {
 

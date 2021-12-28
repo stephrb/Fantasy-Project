@@ -1,3 +1,5 @@
+package Utils;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -177,5 +179,4 @@ public class Request {
   private static boolean isRegularSeason(JSONObject jsonGame) {
     return String.valueOf(jsonGame.get("gameId")).charAt(2) == '2';
   }
-
 }

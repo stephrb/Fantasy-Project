@@ -1,3 +1,7 @@
+package Model.Team;
+
+import Model.Player.Player;
+
 import java.util.List;
 import java.util.Map;
 
@@ -50,10 +54,7 @@ public interface Team {
    */
   Map<Integer, Double> getPointsAgainstPerWeek(int currentMatchupPeriod);
 
-  /**
-   * @return returns a new instance of the team object
-   */
-
+  /** @return returns a new instance of the team object */
   Team copy();
 
   void setPlayers(List<Player> players);
@@ -87,5 +88,4 @@ public interface Team {
   double getPowerRankingScore();
 
   void setPowerRankingScore(double powerRankingScore);
-
 }

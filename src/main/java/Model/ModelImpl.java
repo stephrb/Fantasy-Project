@@ -1,3 +1,7 @@
+package Model;
+
+import Model.Player.Player;
+import Model.Team.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

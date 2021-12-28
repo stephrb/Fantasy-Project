@@ -1,3 +1,5 @@
+package Model.Team;
+
 public class MatchupImpl implements Matchup {
   private double homePoints;
   private double awayPoints;

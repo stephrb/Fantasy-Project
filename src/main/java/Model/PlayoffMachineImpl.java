@@ -1,3 +1,7 @@
+package Model;
+
+import Model.Team.*;
+
 import java.util.*;
 
 public class PlayoffMachineImpl implements PlayoffMachine {
@@ -93,5 +97,4 @@ public class PlayoffMachineImpl implements PlayoffMachine {
               + "-"
               + team.getTies());
   }
-
 }

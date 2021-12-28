@@ -1,3 +1,8 @@
+package Model;
+
+import Model.Player.Player;
+import Model.Team.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,7 +63,8 @@ public interface League {
   void addMatchup(int matchupPeriod, Matchup matchup);
 
   /**
-   * @param compareTeamId the team id for the team that will compare its schedule to the schedule team
+   * @param compareTeamId the team id for the team that will compare its schedule to the schedule
+   *     team
    * @param scheduleTeamId the team id for the schedule team to be compared to
    * @return an array of size 3 where 0 is wins, 1 is losses, and 2 is ties
    */
@@ -76,7 +82,8 @@ public interface League {
   Double getMedianPointsPerWeek(int matchupPeriod);
   /**
    * @param teamId the id of the team
-   * @return the power ranking score (Points Scored + (Points Scored * Winning %) + (Points Scored vs the median score of the week)
+   * @return the power ranking score (Points Scored + (Points Scored * Winning %) + (Points Scored
+   *     vs the median score of the week)
    */
   double getPowerRankingScore(int teamId);
 

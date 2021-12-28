@@ -1,12 +1,20 @@
+package Utils;
+
+import Model.Player.Player;
+import Model.Player.PlayerImpl;
+import Model.Player.PlayerStats;
+import Model.Player.PlayerStatsImpl;
+import Model.Team.Team;
+import Model.Team.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
+import Model.*;
 import java.util.*;
 
 public class Factory {
   /**
    * @param jsonLeague the json object that contains ESPN league information (endpoint is "")
-   * @return a League object that contains the information in the json object
+   * @return a Model.Model.League object that contains the information in the json object
    */
   public static League createLeague(JSONObject jsonLeague) {
     int year = Integer.parseInt(String.valueOf(jsonLeague.get("seasonId")));
@@ -26,7 +34,7 @@ public class Factory {
   }
 
   /**
-   * @param league the League that the teams should be added to
+   * @param league the Model.Model.League that the teams should be added to
    * @param jsonLeague the JSON object that holds the information about each team (endpoint is
    *     mTeam)
    */
@@ -87,7 +95,7 @@ public class Factory {
   }
 
   /**
-   * @param league the League object where the rosters should be set
+   * @param league the Model.Model.League object where the rosters should be set
    * @param jsonRosters the JSON object that holds information on the rosters (endpoint is mRoster)
    */
   public static void setRosters(League league, JSONObject jsonRosters) {
@@ -142,7 +150,8 @@ public class Factory {
 
   /**
    * @param jsonPlayer the JSON object that contains player information
-   * @return the Utils.Player object that holds the same information as the JSON object
+   * @return the Utils.Model.Model.Player.Player object that holds the same information as the JSON
+   *     object
    */
   public static Player createPlayer(JSONObject jsonPlayer) {
 
