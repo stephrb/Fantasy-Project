@@ -1,7 +1,12 @@
-import model.*;
-import model.Player.Player;
-import model.Team.*;
-import utils.*;
+import fba.model.League;
+import fba.model.Model;
+import fba.model.PlayoffMachine;
+import fba.model.PlayoffMachineImpl;
+import fba.model.player.Player;
+import fba.model.team.Matchup;
+import fba.model.team.Team;
+import fba.utils.Factory;
+import fba.utils.Request;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Test;

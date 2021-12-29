@@ -1,4 +1,4 @@
-package model.Player;
+package fba.model.player;
 
 import java.util.Map;
 

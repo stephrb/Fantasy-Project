@@ -1,4 +1,4 @@
-package model.Team;
+package fba.model.team;
 
 public interface Matchup {
   int getHomeTeamId();

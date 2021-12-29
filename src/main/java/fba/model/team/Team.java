@@ -1,6 +1,6 @@
-package model.Team;
+package fba.model.team;
 
-import model.Player.Player;
+import fba.model.player.Player;
 
 import java.util.List;
 import java.util.Map;

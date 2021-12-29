@@ -1,14 +1,17 @@
-package utils;
+package fba.utils;
 
-import model.Player.Player;
-import model.Player.PlayerImpl;
-import model.Player.PlayerStats;
-import model.Player.PlayerStatsImpl;
-import model.Team.Team;
-import model.Team.*;
+import fba.model.*;
+import fba.model.player.Player;
+import fba.model.player.PlayerImpl;
+import fba.model.player.PlayerStats;
+import fba.model.player.PlayerStatsImpl;
+import fba.model.team.Team;
+import fba.model.team.Matchup;
+import fba.model.team.MatchupImpl;
+import fba.model.team.TeamImpl;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import model.*;
+
 import java.util.*;
 
 public class Factory {

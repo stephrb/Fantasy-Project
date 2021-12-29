@@ -1,6 +1,8 @@
-package model.Player;
+package fba.model.player;
 
-import utils.MapConstants;
+import fba.model.player.Player;
+import fba.model.player.PlayerStats;
+import fba.utils.MapConstants;
 
 import java.util.List;
 import java.util.Map;

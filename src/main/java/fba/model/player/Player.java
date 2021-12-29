@@ -1,4 +1,6 @@
-package model.Player;
+package fba.model.player;
+
+import fba.model.player.PlayerStats;
 
 import java.util.Map;
 

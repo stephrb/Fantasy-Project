@@ -1,4 +1,4 @@
-package model.Team;
+package fba.model.team;
 
 public class MatchupImpl implements Matchup {
   private double homePoints;

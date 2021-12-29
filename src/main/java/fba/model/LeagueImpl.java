@@ -1,7 +1,8 @@
-package model;
+package fba.model;
 
-import model.Player.Player;
-import model.Team.*;
+import fba.model.player.Player;
+import fba.model.team.Matchup;
+import fba.model.team.Team;
 
 import java.util.*;
 
