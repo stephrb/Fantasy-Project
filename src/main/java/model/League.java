@@ -1,7 +1,7 @@
-package Model;
+package model;
 
-import Model.Player.Player;
-import Model.Team.*;
+import model.Player.Player;
+import model.Team.*;
 
 import java.util.List;
 import java.util.Map;
@@ -86,6 +86,8 @@ public interface League {
    *     vs the median score of the week)
    */
   double getPowerRankingScore(int teamId);
+
+  List<Team> getPowerRankings();
 
   Map<String, Map<Integer, boolean[]>> getProTeamMatchups();
 

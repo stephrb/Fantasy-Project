@@ -1,7 +1,7 @@
-package Model;
+package model;
 
-import Model.Player.Player;
-import Model.Team.*;
+import model.Player.Player;
+import model.Team.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,6 +108,11 @@ public class ModelImpl implements Model {
   @Override
   public double getPowerRankingScore(int teamId) {
     return league.getPowerRankingScore(teamId);
+  }
+
+  @Override
+  public List<Team> getPowerRankings() {
+    return league.getPowerRankings();
   }
 
   @Override

@@ -1,7 +1,7 @@
-import Model.*;
-import Model.Player.Player;
-import Model.Team.*;
-import Utils.*;;
+import model.*;
+import model.Player.Player;
+import model.Team.*;
+import utils.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Test;
@@ -476,7 +476,7 @@ public class AppTest {
   @Test
   public void modelTest() {
     Model model = Factory.createModel("1213148421");
-    assertNotNull(model);
+       assertNotNull(model);
   }
 
 }

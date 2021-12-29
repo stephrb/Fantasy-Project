@@ -1,6 +1,6 @@
-package Model.Player;
+package model.Player;
 
-import Utils.MapConstants;
+import utils.MapConstants;
 
 import java.util.List;
 import java.util.Map;

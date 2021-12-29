@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import Model.Team.*;
+import model.Team.*;
 
 import java.util.*;
 

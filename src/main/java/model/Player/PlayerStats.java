@@ -1,4 +1,4 @@
-package Model.Player;
+package model.Player;
 
 import java.util.Map;
 

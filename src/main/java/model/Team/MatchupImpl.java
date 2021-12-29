@@ -1,4 +1,4 @@
-package Model.Team;
+package model.Team;
 
 public class MatchupImpl implements Matchup {
   private double homePoints;

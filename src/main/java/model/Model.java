@@ -1,3 +1,3 @@
-package Model;
+package model;
 
 public interface Model extends League, PlayoffMachine {}

@@ -1,14 +1,14 @@
-package Utils;
+package utils;
 
-import Model.Player.Player;
-import Model.Player.PlayerImpl;
-import Model.Player.PlayerStats;
-import Model.Player.PlayerStatsImpl;
-import Model.Team.Team;
-import Model.Team.*;
+import model.Player.Player;
+import model.Player.PlayerImpl;
+import model.Player.PlayerStats;
+import model.Player.PlayerStatsImpl;
+import model.Team.Team;
+import model.Team.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import Model.*;
+import model.*;
 import java.util.*;
 
 public class Factory {

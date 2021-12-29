@@ -1,6 +1,6 @@
-package Model.Team;
+package model.Team;
 
-import Model.Player.Player;
+import model.Player.Player;
 
 import java.util.List;
 import java.util.Map;

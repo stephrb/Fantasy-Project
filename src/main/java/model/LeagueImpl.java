@@ -1,7 +1,7 @@
-package Model;
+package model;
 
-import Model.Player.Player;
-import Model.Team.*;
+import model.Player.Player;
+import model.Team.*;
 
 import java.util.*;
 
@@ -165,6 +165,13 @@ public class LeagueImpl implements League {
         + (team.getPointsFor() * team.getWinPercentage())
         + team.getPointsFor()
         + pointsVsMedian;
+  }
+
+  @Override
+  public List<Team> getPowerRankings() {
+    List<Team> teams = new ArrayList<>(getTeams());
+    teams.sort((o1, o2) -> (int) (o2.getPowerRankingScore() - o1.getPowerRankingScore()));
+    return teams;
   }
 
   public Map<String, Map<Integer, boolean[]>> getProTeamMatchups() {
