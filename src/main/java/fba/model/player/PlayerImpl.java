@@ -1,7 +1,5 @@
 package fba.model.player;
 
-import fba.model.player.Player;
-import fba.model.player.PlayerStats;
 import fba.utils.MapConstants;
 
 import java.util.List;

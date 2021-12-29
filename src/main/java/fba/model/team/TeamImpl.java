@@ -229,11 +229,6 @@ public class TeamImpl implements Team {
   }
 
   @Override
-  public void setDivisionId(int divisionId) {
-    this.divisionId = divisionId;
-  }
-
-  @Override
   public double getPowerRankingScore() {
     return powerRankingScore;
   }

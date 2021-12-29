@@ -134,14 +134,14 @@ public class Request {
 
   /**
    * @return a map with the key being a pro team and the value being a Map with keys being
-   *     matchipPeriods and values being boolean arrays. A value of true means that the pro team has
+   *     matchupPeriods and values being boolean arrays. A value of true means that the pro team has
    *     a game on that day, with an index of 0 being Monday and 6 being Sunday
    */
   public static Map<String, Map<Integer, boolean[]>> getTeamWeeklySchedules() {
     Map<String, Map<Integer, boolean[]>> weeklySchedules = new HashMap<>();
     for (String team : MapConstants.proTeamMap.values()) {
-      Map<Integer, boolean[]> teamShedule = new HashMap<>();
-      weeklySchedules.put(team, teamShedule);
+      Map<Integer, boolean[]> teamSchedule = new HashMap<>();
+      weeklySchedules.put(team, teamSchedule);
     }
     JSONObject jsonSchedule = Request.parseString(Request.getScheduleInformation());
     JSONArray jsonGameDates =

@@ -1,10 +1,10 @@
 package fba.model.team;
 
 public class MatchupImpl implements Matchup {
-  private double homePoints;
-  private double awayPoints;
-  private int homeTeamId;
-  private int awayTeamId;
+  private final double homePoints;
+  private final double awayPoints;
+  private final int homeTeamId;
+  private final int awayTeamId;
   private int winnerTeamId;
   private boolean isPlayed;
 

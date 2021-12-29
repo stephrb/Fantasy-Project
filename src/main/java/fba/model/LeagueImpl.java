@@ -8,7 +8,7 @@ import java.util.*;
 
 public class LeagueImpl implements League {
   private int year;
-  private Map<Integer, Team> teams;
+  private final Map<Integer, Team> teams;
   private final String leagueId;
   private int currentMatchupPeriod;
   private int currentScoringPeriod;

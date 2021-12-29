@@ -264,19 +264,19 @@ public class Factory {
   }
 
   public static Model createModel(String leagueId) {
-    String leagueInfo = Request.getESPNInformation("1213148421", "2022", "", "");
+    String leagueInfo = Request.getESPNInformation(leagueId, "2022", "", "");
     JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
 
-    String teamInfo = Request.getESPNInformation("1213148421", "2022", "?view=mTeam", "");
+    String teamInfo = Request.getESPNInformation(leagueId, "2022", "?view=mTeam", "");
     JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Request.getESPNInformation("1213148421", "2022", "?view=mRoster", "");
+    String rostersInfo = Request.getESPNInformation(leagueId, "2022", "?view=mRoster", "");
     JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Request.getESPNInformation("1213148421", "2022", "?view=mBoxscore", "");
+    String matchupInfo = Request.getESPNInformation(leagueId, "2022", "?view=mBoxscore", "");
     JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 

@@ -1,3 +1,5 @@
+package fba;
+
 import fba.model.League;
 import fba.model.Model;
 import fba.model.PlayoffMachine;
@@ -242,7 +244,7 @@ public class AppTest {
               + points
               + " in "
               + totalGames
-              + " remainng games.");
+              + " remaining games.");
     }
   }
 

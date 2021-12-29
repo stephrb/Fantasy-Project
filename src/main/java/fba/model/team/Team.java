@@ -83,8 +83,6 @@ public interface Team {
 
   double getPointsFor();
 
-  void setDivisionId(int divisionId);
-
   double getPowerRankingScore();
 
   void setPowerRankingScore(double powerRankingScore);

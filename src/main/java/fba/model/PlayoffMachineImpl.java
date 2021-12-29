@@ -8,7 +8,7 @@ import java.util.*;
 public class PlayoffMachineImpl implements PlayoffMachine {
   private List<Team> rankings;
   private int currentMatchupPeriod;
-  private int finalMatchupPeriod;
+  private final int finalMatchupPeriod;
   private final Map<Integer, Set<Matchup>> matchups;
 
   public PlayoffMachineImpl(League league) {
