@@ -1,0 +1,76 @@
+  .control {
+    margin-bottom: 0.5rem;
+    font: inherit;  
+    padding: 0.25rem;
+  }
+  
+  .actions {
+    margin-top: 1rem;
+    text-align: right;
+  }
+  
+  .actionsbutton {
+    font: inherit;
+    cursor: pointer;
+    background-color: #7BAFD4;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #7BAFD4;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+  }
+
+  .textbox {
+    width: 98%;
+    border-radius: thin;
+    margin-left:thin;
+  }
+  
+  .actionsbutton:hover,
+  .actionsbutton:active {
+    background-color: #69c7ec;
+    border-color: #69c7ec;
+  }
+
+  .header {
+    font-weight: normal;
+    position: relative;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    font: inherit;
+    font-size: 28px;
+    line-height: 40px;
+    background: #7BAFD4;
+    border: thin solid #fff;
+    padding: 5px 15px;
+    color: white;
+    border-radius: 10px;  
+  }
+
+  .loader {
+    border: 6px solid #f3f3f3; /* Light grey */
+    border-top: 6px solid #7BAFD4; /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .inline {
+    margin-left: 15%;
+    display: inline-flex;
+    font: inherit;
+    cursor: pointer;
+    background-color: #ca5850;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #ca5850;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+  }
