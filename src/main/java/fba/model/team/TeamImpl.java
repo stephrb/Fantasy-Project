@@ -235,6 +235,11 @@ public class TeamImpl implements Team {
 
   @Override
   public void setPowerRankingScore(double powerRankingScore) {
-    this.powerRankingScore = powerRankingScore;
+    this.powerRankingScore = (int)(powerRankingScore * 100) / 100.00;
+  }
+
+  @Override
+  public String getRecord() {
+    return wins + "-" + losses + "-" + ties;
   }
 }

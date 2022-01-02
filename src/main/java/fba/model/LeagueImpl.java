@@ -182,4 +182,47 @@ public class LeagueImpl implements League {
   public void setProTeamMatchups(Map<String, Map<Integer, boolean[]>> proTeamMatchups) {
     this.proTeamMatchups = proTeamMatchups;
   }
+
+  @Override
+  public List<Map<String, List<String>>> getScheduleComparison() {
+    List<Map<String, List<String>>> scheduleComparison = new ArrayList<>();
+    for (Team compareTeam : getTeams()) {
+      Map<String, List<String>> teamMap = new HashMap<>();
+      teamMap.put("teamName", new ArrayList<>());
+      teamMap.get("teamName").add(compareTeam.getName());
+      teamMap.put("records", new ArrayList<>());
+      for (Team scheduleTeam : getTeams()) {
+        int[] record = compareSchedules(compareTeam.getTeamId(), scheduleTeam.getTeamId());
+        String recordString = record[0] + "-" + record[1] + "-" + record[2];
+        teamMap.get("records").add(recordString);
+      }
+      scheduleComparison.add(teamMap);
+    }
+    return scheduleComparison;
+  }
+
+  @Override
+  public List<Map<String, List<String>>> getWeeklyComparison() {
+    List<Map<String, List<String>>> weeklyComparison = new ArrayList<>();
+    for (Team team : getTeams()) {
+      Map<String, List<String>> teamMap = new HashMap<>();
+      teamMap.put("teamName", new ArrayList<>());
+      teamMap.get("teamName").add(team.getName());
+      teamMap.put("records", new ArrayList<>());
+      int wins = 0;
+      int losses = 0;
+      int ties = 0;
+      for (int i = 1; i < getCurrentMatchupPeriod(); i++) {
+        int[] record = weeklyRecord(i, team.getTeamId());
+        String recordString = record[0] + "-" + record[1] + "-" + record[2];
+        teamMap.get("records").add(recordString);
+        wins += record[0];
+        losses += record[1];
+        ties += record[2];
+      }
+      teamMap.get("records").add(wins + "-" + losses + "-" +  ties);
+      weeklyComparison.add(teamMap);
+    }
+    return weeklyComparison;
+  }
 }

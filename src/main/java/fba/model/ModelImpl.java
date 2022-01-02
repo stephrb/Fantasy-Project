@@ -151,4 +151,14 @@ public class ModelImpl implements Model {
   public void printRankings() {
     playoffMachine.printRankings();
   }
+
+  @Override
+  public List<Map<String, List<String>>> getScheduleComparison() {
+    return league.getScheduleComparison();
+  }
+
+  @Override
+  public List<Map<String, List<String>>> getWeeklyComparison() {
+    return league.getWeeklyComparison();
+  }
 }

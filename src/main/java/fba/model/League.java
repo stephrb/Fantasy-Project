@@ -93,4 +93,10 @@ public interface League {
   Map<String, Map<Integer, boolean[]>> getProTeamMatchups();
 
   void setProTeamMatchups(Map<String, Map<Integer, boolean[]>> proTeamMatchups);
+
+  List<Map<String, List<String>>> getScheduleComparison();
+
+  List<Map<String, List<String>>> getWeeklyComparison();
+
+
 }

@@ -486,4 +486,11 @@ public class AppTest {
        assertNotNull(model);
   }
 
+  @Test
+  public void weeklyComparisonTest(){
+    Model model = Factory.createModel("1213148421");
+    List<Map<String, List<String>>> list = model.getWeeklyComparison();
+    assertNotNull(list);
+  }
+
 }
