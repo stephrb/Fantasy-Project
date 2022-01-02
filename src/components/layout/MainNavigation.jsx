@@ -4,21 +4,24 @@ import React from 'react';
 function MainNavigation() {
 
   return (
-    <header className={classes.header}>
-      <div className={classes.logo}>Fantasy ToolKit</div>
+    <header className={classes.container}>
+      <div className={classes.logo}>Fantasy Analytics</div>
       <nav>
         <ul>
           <li>
             <Link to=''>Home</Link>
           </li>
           <li>
-            <Link to='/teams'>Power Rankings</Link>
+            <Link to='/rankings'>Power Rankings</Link>
           </li>
           <li>
-            <Link to='/compare'> Compare Schedules</Link>
+            <Link to='/compare'>Compare Schedules</Link>
           </li>
           <li>
-            <Link to='/playoff'> Playoff Machine</Link>
+            <Link to='/playoff'>Playoff Machine</Link>
+          </li>
+          <li>
+            <Link to='/projections'>Matchup Projections</Link>
           </li>
         </ul>
       </nav>

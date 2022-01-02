@@ -1,0 +1,32 @@
+.list {
+    
+    list-style: none;
+    padding: 0;
+    display:inline-flex;
+  }
+
+  .actionsbutton {
+    cursor: pointer;
+    background-color: rgb(44, 42, 41);
+    color: white;
+    border: 1px solid rgb(44, 42, 41);
+    border-radius: 10px;
+    width: 98%;
+    margin-left: 1%;
+  }
+
+  .header {
+    text-align: center;
+    font-weight:lighter;
+    text-shadow: 0 -1px rgba(160, 100, 100, 0.6);
+    background: rgb(44, 42, 41);
+    color: white;
+    border-radius: 10px;  
+  }
+
+  .header:hover,
+  .header:active,
+  .header:active {
+    color: #A2AAAD;
+  }
+  

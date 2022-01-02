@@ -1,11 +1,11 @@
-.header {
+.container {
     width: 80%;
     height: 5rem;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
     background-color: #7BAFD4;
     padding: 0 10%;
+    justify-content: space-between;
   }
   
   .logo {
@@ -16,27 +16,28 @@
     font-weight: bold;
   }
   
-  .header ul {
-    list-style: none;
+  .container ul {
+    flex: 1 1 auto;
+    list-style:none;
     margin: 0;
-    padding-left: 700px;
+    padding-left: 460px;
     display: flex;
     align-items: baseline;
   }
   
-  .header li {
+  .container li {
     margin-left: 3rem;
   }
   
-  .header a {
+  .container a {
     text-decoration: none;
     font-size: 1.5rem;
-    color: #dbebf1;
+    color: #eaf2f5;
   }
   
-  .header a:hover,
-  .header a:active,
-  .header a.active {
+  .container a:hover,
+  .container a:active,
+  .container a.active {
     color: white;
   }
   

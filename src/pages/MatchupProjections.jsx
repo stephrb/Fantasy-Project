@@ -1,11 +1,11 @@
 import React from 'react';
 import Header from '../components/ui/Header';
-function PlayoffMachine(props) {
+function MatchupProjections(props) {
     return (
         <div>
-            <Header text="Playoff Machine" />
+            <Header text="Matchup Projections" />
         </div>
     );
 }
 
-export default PlayoffMachine;
+export default MatchupProjections;

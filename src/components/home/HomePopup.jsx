@@ -1,10 +1,11 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 
 import Card from '../ui/Card';
 import classes from './HomePopup.module.css';
+import Header from '../ui/Header';
 
 function HomePopup(props) {
-    const leagueId = useRef();
+    const leagueId = useRef("");
     const isLoading = props.loading;
     const wasError = props.error;
 
@@ -18,21 +19,23 @@ function HomePopup(props) {
 
     return (
         
-        <Card>
-            <h1 className={classes.header}>Enter your ESPN League ID to get started!</h1>
-            <div className={classes.control}>
-                {!isLoading 
-                    ? <input className={classes.textbox} placeholder="League ID" 
-                        type="text"
-                        ref={leagueId}
-                        />
-                    : <div className={classes.loader}></div>
-                }
-            </div>
-            {!isLoading && <button className={classes.actionsbutton} onClick={submitHandler}>Submit</button>}
-            {!isLoading && wasError && <a className={classes.inline}>The entered League ID could not be found.</a>}
+        <section className={classes.center}>
+            <Card>
+                <Header text="Enter your ESPN League ID to get started!" />
+                <div className={classes.control}>
+                    {!isLoading 
+                        ? <input className={classes.textbox} placeholder="League ID" 
+                            type="text"
+                            ref={leagueId}
+                            />
+                        : <div className={classes.loader}></div>
+                    }
+                </div>
+                {!isLoading && <button className={classes.actionsbutton} onClick={submitHandler}>Submit</button>}
+                {!isLoading && wasError && <p className={classes.inline}>The entered League ID could not be found.</p>}
+            </Card>
             
-        </Card>
+        </section>
     );
 }
 

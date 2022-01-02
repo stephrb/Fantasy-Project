@@ -23,8 +23,6 @@
 
   .textbox {
     width: 98%;
-    border-radius: thin;
-    margin-left:thin;
   }
   
   .actionsbutton:hover,
@@ -33,19 +31,6 @@
     border-color: #69c7ec;
   }
 
-  .header {
-    font-weight: normal;
-    position: relative;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-    font: inherit;
-    font-size: 28px;
-    line-height: 40px;
-    background: #7BAFD4;
-    border: thin solid #fff;
-    padding: 5px 15px;
-    color: white;
-    border-radius: 10px;  
-  }
 
   .loader {
     border: 6px solid #f3f3f3; /* Light grey */
@@ -65,7 +50,6 @@
     margin-left: 15%;
     display: inline-flex;
     font: inherit;
-    cursor: pointer;
     background-color: #ca5850;
     color: white;
     padding: 0.5rem 1.5rem;
@@ -73,4 +57,10 @@
     border-radius: 4px;
     font-weight: bold;
     text-shadow: 0 -1px rgba(0,0,0,0.6);
+  }
+
+  .center {
+    margin-top: 12%;
+    margin-left: 32.5%;
+    width: 35%;
   }
