@@ -143,8 +143,28 @@ public class ModelImpl implements Model {
   }
 
   @Override
+  public Map<String, Set<Matchup>> getMatchupsJson() {
+    return playoffMachine.getMatchupsJson();
+  }
+
+  @Override
   public void setWinner(Matchup matchup, int winnerTeamId) {
     playoffMachine.setWinner(matchup, winnerTeamId);
+  }
+
+  @Override
+  public void setWinnerHome(int matchupPeriod, int matchupId) {
+    playoffMachine.setWinnerHome(matchupPeriod, matchupId);
+  }
+
+  @Override
+  public void setWinnerAway(int matchupPeriod, int matchupId) {
+    playoffMachine.setWinnerAway(matchupPeriod, matchupId);
+  }
+
+  @Override
+  public void setWinnerTie(int matchupPeriod, int matchupId) {
+    playoffMachine.setWinnerTie(matchupPeriod, matchupId);
   }
 
   @Override
@@ -160,5 +180,20 @@ public class ModelImpl implements Model {
   @Override
   public List<Map<String, List<String>>> getWeeklyComparison() {
     return league.getWeeklyComparison();
+  }
+
+  @Override
+  public PlayoffMachine getPlayoffMachine() {
+    return playoffMachine;
+  }
+
+  @Override
+  public List<String> getRemainingMatchupPeriods() {
+    return playoffMachine.getRemainingMatchupPeriods();
+  }
+
+  @Override
+  public boolean getIsSorted() {
+    return playoffMachine.getIsSorted();
   }
 }

@@ -493,4 +493,12 @@ public class AppTest {
     assertNotNull(list);
   }
 
+  @Test
+  public void setWinnerTest() {
+    Model model = Factory.createModel("1213148421");
+    model.printRankings();
+    model.setWinnerHome(12, 44);
+    model.printRankings();
+  }
+
 }

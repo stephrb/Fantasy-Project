@@ -240,6 +240,7 @@ public class Factory {
    */
   public static void setMatchups(League league, JSONObject jsonMatchups) {
     JSONArray jsonSchedule = (JSONArray) jsonMatchups.get("schedule");
+    int matchupId = 0;
     for (Object json : jsonSchedule) {
       JSONObject jsonMatchup = (JSONObject) json;
       int matchupPeriod = Integer.parseInt(String.valueOf(jsonMatchup.get("matchupPeriodId")));
@@ -258,7 +259,9 @@ public class Factory {
                 String.valueOf(((JSONObject) jsonMatchup.get("away")).get("totalPoints")));
       }
       boolean isPlayed = matchupPeriod < league.getCurrentMatchupPeriod();
-      Matchup matchup = new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints, isPlayed);
+      String homeTeamName = league.getTeam(homeTeamId).getName();
+      String awayTeamName = (awayTeamId == -1) ? "Bye Week" : league.getTeam(awayTeamId).getName();
+      Matchup matchup = new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints, isPlayed, homeTeamName, awayTeamName, matchupId++, matchupPeriod);
       league.addMatchup(matchupPeriod, matchup);
     }
   }

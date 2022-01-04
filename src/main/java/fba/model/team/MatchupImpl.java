@@ -7,9 +7,13 @@ public class MatchupImpl implements Matchup {
   private final int awayTeamId;
   private int winnerTeamId;
   private boolean isPlayed;
+  private final String homeTeamName;
+  private final String awayTeamName;
+  private final int matchupId;
+  private final int matchupPeriod;
 
   public MatchupImpl(
-      int homeTeamId, double homePoints, int awayTeamId, double awayPoints, boolean isPlayed) {
+      int homeTeamId, double homePoints, int awayTeamId, double awayPoints, boolean isPlayed, String homeTeamName, String awayTeamName, int matchupId, int matchupPeriod) {
     this.homeTeamId = homeTeamId;
     this.homePoints = homePoints;
     this.awayTeamId = awayTeamId;
@@ -18,6 +22,10 @@ public class MatchupImpl implements Matchup {
     else if (homePoints > awayPoints) winnerTeamId = homeTeamId;
     else winnerTeamId = awayTeamId;
     this.isPlayed = isPlayed;
+    this.homeTeamName = homeTeamName;
+    this.awayTeamName = awayTeamName;
+    this.matchupId = matchupId;
+    this.matchupPeriod = matchupPeriod;
   }
 
   @Override
@@ -66,4 +74,44 @@ public class MatchupImpl implements Matchup {
   public boolean isTie() {
     return isPlayed && !isBye() && winnerTeamId == -1;
   }
+
+  @Override
+  public String getWinnerTeamName() {
+    if (winnerTeamId == homeTeamId) return homeTeamName;
+    if (winnerTeamId == awayTeamId) return awayTeamName;
+    return null;
+  }
+
+  @Override
+  public String getHomeTeamName() {
+    return homeTeamName;
+  }
+
+  @Override
+  public String getAwayTeamName() {
+    return awayTeamName;
+  }
+
+  @Override
+  public void setWinnerHome() {
+    this.winnerTeamId = homeTeamId;
+  }
+
+  @Override
+  public void setWinnerAway() {
+    if (awayTeamId == -1) throw new IllegalStateException();
+    this.winnerTeamId = awayTeamId;
+  }
+
+  @Override
+  public int getMatchupId() {
+    return matchupId;
+  }
+
+  @Override
+  public int getMatchupPeriod() {
+    return matchupPeriod;
+  }
+
+
 }

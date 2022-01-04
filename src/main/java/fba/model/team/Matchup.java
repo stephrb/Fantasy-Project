@@ -18,4 +18,18 @@ public interface Matchup {
   boolean getIsPlayed();
 
   boolean isTie();
+
+  String getWinnerTeamName();
+
+  String getHomeTeamName();
+
+  String getAwayTeamName();
+
+  void setWinnerHome();
+
+  void setWinnerAway();
+
+  int getMatchupId();
+
+  int getMatchupPeriod();
 }

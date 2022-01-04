@@ -1,13 +1,19 @@
 package fba;
 
 import fba.model.Model;
+import fba.model.PlayoffMachine;
+import fba.model.team.Matchup;
 import fba.model.team.Team;
 import fba.utils.Factory;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -21,7 +27,7 @@ public class ModelController {
     return model.getPowerRankings();
   }
 
-  @PostMapping("/teams")
+  @PostMapping("/create")
   public void createModel(@RequestBody JSONObject leagueId) {
     model = Factory.createModel(String.valueOf(leagueId.get("leagueId")));
   }
@@ -39,5 +45,48 @@ public class ModelController {
   @GetMapping("/compareWeekly")
   public List<Map<String, List<String>>> getWeeklyComparison() {
     return model.getWeeklyComparison();
+  }
+
+  @GetMapping("/playoffRankings")
+  public List<Team> getPlayoffRankings() {
+
+    return model.getRankings();
+  }
+
+  @GetMapping("remainingMatchupPeriods")
+  public List<String> getRemainingMatchupPeriods() {
+    return model.getRemainingMatchupPeriods();
+  }
+
+  @GetMapping("playoffMachineMatchups")
+  public Map<String, Set<Matchup>> getPlayoffMachineMatchups() {
+    return model.getMatchupsJson();
+  }
+
+  @PostMapping("setWinnerHome")
+  public void setWinnerHome(@RequestBody JSONObject json) {
+    System.out.println(model.getIsSorted());
+    model.setWinnerHome(
+        Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
+        Integer.parseInt(String.valueOf(json.get("matchupId"))));
+  }
+
+  @PostMapping("setWinnerAway")
+  public void setWinnerAway(@RequestBody JSONObject json) {
+    System.out.println(model.getIsSorted());
+    model.setWinnerAway(
+        Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
+        Integer.parseInt(String.valueOf(json.get("matchupId"))));
+  }
+
+  @PostMapping("setWinnerTie")
+  public void setWinnerTie(@RequestBody JSONObject json) {
+    model.setWinnerTie(Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
+            Integer.parseInt(String.valueOf(json.get("matchupId"))));
+  }
+
+  @GetMapping("isSorted")
+  public boolean isSorted() {
+    return model.getIsSorted();
   }
 }

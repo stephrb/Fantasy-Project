@@ -14,7 +14,19 @@ public interface PlayoffMachine {
 
   Map<Integer, Set<Matchup>> getMatchups();
 
+  Map<String, Set<Matchup>> getMatchupsJson();
+
   void setWinner(Matchup matchup, int winnerTeamId);
 
+  void setWinnerHome(int matchupPeriod, int matchupId);
+
+  void setWinnerAway(int matchupPeriod, int matchupId);
+
+  void setWinnerTie(int matchupPeriod, int matchupId);
+
   void printRankings();
+
+  List<String> getRemainingMatchupPeriods();
+
+  boolean getIsSorted();
 }

@@ -7,4 +7,8 @@ public interface Model extends League, PlayoffMachine {
     List<Map<String, List<String>>> getScheduleComparison();
 
     List<Map<String, List<String>>> getWeeklyComparison();
+
+    PlayoffMachine getPlayoffMachine();
+
+    List<String> getRemainingMatchupPeriods();
 }

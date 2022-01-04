@@ -10,6 +10,7 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   private int currentMatchupPeriod;
   private final int finalMatchupPeriod;
   private final Map<Integer, Set<Matchup>> matchups;
+  private boolean isSorted;
 
   public PlayoffMachineImpl(League league) {
     rankings = new ArrayList<>();
@@ -29,6 +30,7 @@ public class PlayoffMachineImpl implements PlayoffMachine {
         if (!team.getMatchups().get(i).isBye()) matchups.get(i).add(team.getMatchups().get(i));
       }
     }
+    isSorted = true;
   }
 
   public void sortRankings() {
@@ -50,10 +52,12 @@ public class PlayoffMachineImpl implements PlayoffMachine {
         rankings.add(divisions.size() - 1, team);
       }
     }
+    isSorted = true;
   }
 
   @Override
   public List<Team> getRankings() {
+    sortRankings();
     return rankings;
   }
 
@@ -63,9 +67,17 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   }
 
   @Override
+  public Map<String, Set<Matchup>> getMatchupsJson() {
+    Map<String, Set<Matchup>> matchupsJson = new HashMap<>();
+    for (Map.Entry<Integer, Set<Matchup>> entry : matchups.entrySet()) {
+      matchupsJson.put(String.valueOf(entry.getKey()), entry.getValue());
+    }
+    return matchupsJson;
+  }
+
+  @Override
   public void setWinner(Matchup matchup, int winnerTeamId) {
     if (winnerTeamId == matchup.getWinnerTeamId() && matchup.getIsPlayed()) return;
-
     for (Team team : rankings) {
       if (team.getTeamId() == matchup.getHomeTeamId()
           || team.getTeamId() == matchup.getAwayTeamId()) {
@@ -83,6 +95,39 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   }
 
   @Override
+  public void setWinnerHome(int matchupPeriod, int matchupId) {
+    isSorted = false;
+    for (Matchup matchup : matchups.get(matchupPeriod)) {
+      if (matchup.getMatchupId() == matchupId) {
+        setWinner(matchup, matchup.getHomeTeamId());
+        break;
+      }
+    }
+  }
+
+  @Override
+  public void setWinnerAway(int matchupPeriod, int matchupId) {
+    isSorted = false;
+    for (Matchup matchup : matchups.get(matchupPeriod)) {
+      if (matchup.getMatchupId() == matchupId) {
+        setWinner(matchup, matchup.getAwayTeamId());
+        break;
+      }
+    }
+  }
+
+  @Override
+  public void setWinnerTie(int matchupPeriod, int matchupId) {
+    isSorted = false;
+    for (Matchup matchup : matchups.get(matchupPeriod)) {
+      if (matchup.getMatchupId() == matchupId) {
+        setWinner(matchup, -1);
+        break;
+      }
+    }
+  }
+
+  @Override
   public void printRankings() {
     sortRankings();
     int rank = 1;
@@ -97,5 +142,19 @@ public class PlayoffMachineImpl implements PlayoffMachine {
               + team.getLosses()
               + "-"
               + team.getTies());
+  }
+
+  @Override
+  public List<String> getRemainingMatchupPeriods() {
+    List<String> remainingMatchups = new ArrayList<>();
+    for (int i = currentMatchupPeriod; i <= finalMatchupPeriod; i++) {
+      remainingMatchups.add(String.valueOf(i));
+    }
+    return remainingMatchups;
+  }
+
+  @Override
+  public boolean getIsSorted() {
+    return isSorted;
   }
 }
