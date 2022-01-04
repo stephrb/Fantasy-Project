@@ -16,6 +16,14 @@ function PowerRankingsTable(props) {
 
 
     console.log(teams);
+
+    if (typeof teams === 'undefined') {
+        return (
+            <p>
+                loading...
+            </p>
+        )
+    }
     return (
         <Card>
             <table className={classes.styledtable}>
@@ -31,7 +39,9 @@ function PowerRankingsTable(props) {
                             teams.map(
                                 team => 
                                 <tr key = {team.powerRankingScore}>
-                                    <td> {team.name}</td>
+                                    <td> 
+                                        <b>{team.name}</b>
+                                    </td>
                                     <td> {team.record}</td>
                                     <td> {team.powerRankingScore}</td>
                                 </tr>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ModelService from '../../services/ModelService';
 import Card from '../ui/Card';
+import classes from './ComparisonTable.module.css';
 function ScheduleComparison(props) {
     const [teamRecords, setTeamRecords] = useState();
 
@@ -20,38 +21,37 @@ function ScheduleComparison(props) {
     }
     return (
         <Card>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Team Name</th>
+                <table className={classes.styledtable}>
+                    <thead>
+                        <tr>
+                            <th>Team Name</th>
+                        {
+                        teamRecords.map(
+                            (teamRecord, index) =>
+                                <th key={index} scope="col">{(teamRecord.teamName)[0]}</th>
+                        )
+                    }
+                        </tr>
+                    </thead>
+                    <tbody>
                     {
-                    teamRecords.map(
-                        teamRecord =>
-                            <th key={(teamRecord.teamName)[0]} scope="col">{(teamRecord.teamName)[0]}</th>
-                    )
-                }
-                    </tr>
-               
-                </thead>
-                <tbody>
-                   {
-                       teamRecords.map(
-                           teamRecord =>
-                           <tr key= {(teamRecord.teamName)[0]}>
-                               <td>
-                                   <b>{(teamRecord.teamName)[0]}</b>
-                                </td>
-                               {
-                                   teamRecord.records.map(
-                                       (record, index) =>
-                                       <td key={(teamRecord.teamName)[0]}>{record}</td>
-                                   )
-                               }
-                           </tr>
-                       )
-                   }
-                </tbody>
-            </table>
+                        teamRecords.map(
+                            (teamRecord, index) =>
+                            <tr key= {(teamRecord.teamName)[0]}>
+                                <td>
+                                    <b>{(teamRecord.teamName)[0]}</b>
+                                    </td>
+                                {
+                                    teamRecord.records.map(
+                                        (record, index) =>
+                                        <td key={index}>{record}</td>
+                                    )
+                                }
+                            </tr>
+                        )
+                    }
+                    </tbody>
+                </table>
         </Card>
     );
 }

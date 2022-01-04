@@ -13,10 +13,8 @@ function HomePopup(props) {
         event.preventDefault();
         const leagueIdData = {leagueId : leagueId.current.value};
         props.createModel(leagueIdData)
-        
     }
     
-
     return (
         
         <section className={classes.center}>
@@ -34,7 +32,6 @@ function HomePopup(props) {
                 {!isLoading && <button className={classes.actionsbutton} onClick={submitHandler}>Submit</button>}
                 {!isLoading && wasError && <p className={classes.inline}>The entered League ID could not be found.</p>}
             </Card>
-            
         </section>
     );
 }

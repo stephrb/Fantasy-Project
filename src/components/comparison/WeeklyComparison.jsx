@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ModelService from '../../services/ModelService';
 import Card from '../ui/Card';
+import classes from './ComparisonTable.module.css';
 function WeeklyComparison(props) {
     const [teamRecords, setTeamRecords] = useState();
     useEffect(() => {
@@ -16,28 +17,24 @@ function WeeklyComparison(props) {
             </p>
         )
     }
-    console.log(teamRecords[0].records);
     return (
         <Card>
-            <table>
+            <table className={classes.styledtable}>
                 <thead>
                     <tr>
                         <th>Team Name</th>
                         {
                         (teamRecords[0].records).map(
                             (record, index) => {
-                                console.log(index === teamRecords[0].records.length - 1);
                                 if (teamRecords[0].records.length - 1 !== index) {
                                     return <th key={index +  1}>{index + 1 }</th>
                                 }
                                 
                                 return <th key={index +  1}>Total</th>
                             }
-                            
                         )
                     }
                     </tr>
-               
                 </thead>
                 <tbody>
                    {

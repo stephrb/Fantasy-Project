@@ -20,7 +20,7 @@ function App() {
             <Route path="/compare" element={<Comparison />} />
             <Route path="/playoff" element={<PlayoffMachine />} />
             <Route path="/projections" element={<MatchupProjections />} />
-          
+
           </Routes>
         </Layout>
       </BrowserRouter>

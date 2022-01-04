@@ -8,7 +8,7 @@ class ModelService {
     }
 
     createModel(leagueId) {
-        return axios.post(MODEL_API_BASE_URL + "teams", leagueId);
+        return axios.post(MODEL_API_BASE_URL + "create", leagueId);
     }
 
     modelGenerated() {
@@ -21,6 +21,33 @@ class ModelService {
 
     getWeeklyComparison() {
         return axios.get(MODEL_API_BASE_URL + "compareWeekly");
+    }
+
+    getPlayoffRankings() {
+        return axios.get(MODEL_API_BASE_URL + "playoffRankings");
+    }
+
+    getRemainingMatchupPeriods() {
+        return axios.get(MODEL_API_BASE_URL + "remainingMatchupPeriods");
+    }
+
+    getPlayoffMachineMatchups() {
+        return axios.get(MODEL_API_BASE_URL + "playoffMachineMatchups");
+    }
+
+    setWinnerHome(matchup) {
+        return axios.post(MODEL_API_BASE_URL + "setWinnerHome", matchup);
+    }
+
+    setWinnerAway(matchup) {
+        return axios.post(MODEL_API_BASE_URL + "setWinnerAway", matchup);
+    }
+
+    setWinnerTie(matchup) {
+        return axios.post(MODEL_API_BASE_URL + "setWinnerTie", matchup)
+    }
+    getIsSorted() {
+        return axios.get(MODEL_API_BASE_URL + "isSorted");
     }
 }
 

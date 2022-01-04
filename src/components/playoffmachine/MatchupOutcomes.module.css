@@ -1,0 +1,33 @@
+.matchupButton {
+    font: inherit;
+    cursor: pointer;
+    background-color: rgb(44, 42, 41);
+    color: white;
+    padding: 0.5rem 1.75rem;
+    border: 1px solid rgb(44, 42, 41);
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    margin: 5px;
+    margin-top: 1%;
+}
+
+.matchupButton:hover,
+  .matchupButton:active,
+  .matchupButton:active {
+    color: #A2AAAD;
+  }
+  
+.activeMatchupButton {
+    font: inherit;
+    cursor: pointer;
+    background-color: rgb(44, 42, 41);
+    color: #A2AAAD;
+    padding: 0.5rem 1.75rem;
+    border: 1px solid rgb(44, 42, 41);
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    margin: 5px;
+    margin-top: 1%;
+}
