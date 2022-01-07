@@ -10,20 +10,19 @@ function MatchupWeek(props) {
     useEffect(() => {
         ModelService.getPlayoffMachineMatchups().then((res) => {
             setMatchups(res.data[week]);
-            
         });
      }, [week]);
 
      function setWinnerHomeHandler(matchup) {
-         ModelService.setWinnerHome(matchup).then(props.handleSetOutcome());
+         ModelService.setWinnerHome(matchup).then(props.handleOutcomeChange());
      }
 
      function setWinnerAwayHandler(matchup) {
-         ModelService.setWinnerAway(matchup).then(props.handleSetOutcome());
+         ModelService.setWinnerAway(matchup).then(props.handleOutcomeChange());
     }
 
     function setWinnerTieHandler(matchup) {
-        ModelService.setWinnerTie(matchup).then(props.handleSetOutcome());
+        ModelService.setWinnerTie(matchup).then(props.handleOutcomeChange());
     }
      
     if (typeof matchups === 'undefined') {
@@ -41,7 +40,7 @@ function MatchupWeek(props) {
                         (matchup, index) => {
                             return (
                             <div key={matchup.matchupId}>
-                                <Matchup matchup={matchup} setWinnerHomeHandler={setWinnerHomeHandler} setWinnerAwayHandler={setWinnerAwayHandler} setWinnerTieHandler={setWinnerTieHandler}/>
+                                <Matchup reset={props.reset} matchup={matchup} setWinnerHomeHandler={setWinnerHomeHandler} setWinnerAwayHandler={setWinnerAwayHandler} setWinnerTieHandler={setWinnerTieHandler}/>
                             </div>
                             )
                         } 

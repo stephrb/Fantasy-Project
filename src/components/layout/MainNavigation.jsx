@@ -23,6 +23,9 @@ function MainNavigation() {
           <li>
             <Link to='/projections'>Matchup Projections</Link>
           </li>
+          <li>
+            <Link to='/nbagames'>NBA Weekly Games</Link>
+          </li>
         </ul>
       </nav>
     </header>

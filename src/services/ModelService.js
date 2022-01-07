@@ -49,6 +49,22 @@ class ModelService {
     getIsSorted() {
         return axios.get(MODEL_API_BASE_URL + "isSorted");
     }
+
+    resetPlayoffMachine() {
+        return axios.post(MODEL_API_BASE_URL + "resetPlayoffMachine");
+    }
+
+    getProjectedScores(timePeriod, matchupPeriod, assessInjuries) {
+        return axios.get(MODEL_API_BASE_URL + "scoreProjections?timePeriod=" + timePeriod + "&matchupPeriod=" + matchupPeriod + "&assessInjuries=" + assessInjuries);
+    }
+
+    getCurrentMatchupPeriod() {
+        return axios.get(MODEL_API_BASE_URL + "currentMatchupPeriod");
+    }
+
+    getProTeamGames(matchupPeriod) {
+        return axios.get(MODEL_API_BASE_URL + "proTeamGames?matchupPeriod=" + matchupPeriod);
+    }
 }
 
 export default new ModelService()

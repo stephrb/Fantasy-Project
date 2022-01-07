@@ -19,7 +19,7 @@ function PlayoffMachine(props) {
         }).catch();
      }, [isSorted]);
 
-     function handleSetOutcome() {
+     function handleOutcomeChange() {
         setIsSorted(!isSorted);
      }
 
@@ -34,7 +34,7 @@ function PlayoffMachine(props) {
         <div>
             <Header text="Playoff Machine" />
             <PlayoffRankings playoffRankings={playoffRankings} isSorted={isSorted}/>
-            <MatchupOutcomes handleSetOutcome={handleSetOutcome}/>
+            <MatchupOutcomes handleOutcomeChange={handleOutcomeChange}/>
         </div>
     );
 }

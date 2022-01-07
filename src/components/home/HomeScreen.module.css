@@ -2,9 +2,14 @@
     
     list-style: none;
     padding: 0;
-    display:inline-flex;
+    display: flex;
+    flex-wrap:wrap;
   }
 
+  .list li {
+    width: 400px;
+    padding: 10px 15px;
+  }
   .actionsbutton {
     cursor: pointer;
     background-color: rgb(44, 42, 41);

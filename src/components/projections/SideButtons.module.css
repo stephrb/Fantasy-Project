@@ -1,0 +1,60 @@
+.container {
+    list-style-type: none;
+    vertical-align: middle;
+    margin-top:100px;
+    margin-right: 0;
+}
+
+.default {
+    font: inherit;
+    cursor: pointer;
+    background-color: rgb(44, 42, 41);
+    color: white;
+    padding: 0.5rem 1.75rem;
+    border: 1px solid rgb(44, 42, 41);
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    margin: 2px;
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.default:hover,
+  .default:active,
+  .default:active {
+    color: #8D9092;
+  }
+  
+.activeButton {
+    font: inherit;
+    cursor: pointer;
+    background-color: #00594C;
+    color: white;
+    padding: 0.5rem 1.75rem;
+    border: 1px solid #00594C;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    margin-top: 1%;
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.activeInjuries {
+    font: inherit;
+    cursor: pointer;
+    background-color: #4F758B;
+    color: white;
+    padding: 0.5rem 1.75rem;
+    border: 1px solid #4F758B;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    margin-top: 1%;
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}

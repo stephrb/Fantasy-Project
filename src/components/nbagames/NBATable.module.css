@@ -1,9 +1,4 @@
-.footer {
-    font-size: 10px;
-    padding-top: 8%;
-    width:95%; 
-    margin-left:5%;
-}
+
 
 .styledtable {
     border-collapse: collapse;
@@ -14,7 +9,7 @@
     width:70%; 
     margin-left:15%; 
     margin-right:15%;
-    margin-top: 7%;
+    margin-top: 6px;
 }
 
 .styledtable thead tr {
@@ -25,7 +20,7 @@
 
 .styledtable th,
 .styledtable td {
-    padding: 12px 15px;
+    padding: 2PX 15px;
 }
 
 .styledtable tbody tr {
@@ -40,3 +35,11 @@
     border-bottom: 2px solid rgb(44, 42, 41);
 }
 
+
+.hasGame {
+    background-color: #27d845;
+}
+
+.noGame {
+    background-color: #d11c16;
+}

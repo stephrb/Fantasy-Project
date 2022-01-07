@@ -3,17 +3,20 @@
 }
 
 .default {
-    background-color:rgb(150, 150, 150);
+    background-color:#8D9092;
     font: inherit;
     cursor: pointer;
     color: white;
     padding: 0.5rem 1.75rem;
-    border: 1px solid rgb(150, 150, 150);
+    border: 1px solid #8D9092;
     border-radius: 4px;
     font-weight: bold;
     text-shadow: 0 -1px rgba(0,0,0,0.6);
     margin: 5px;
     margin-top: 1%;
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
 }
 
 .winner {
@@ -28,6 +31,9 @@
     text-shadow: 0 -1px rgba(0,0,0,0.6);
     margin: 5px;
     margin-top: 1%;
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
 }
 
 .loser {
@@ -42,6 +48,26 @@
     text-shadow: 0 -1px rgba(0,0,0,0.6);
     margin: 5px;
     margin-top: 1%;
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+.defaultTie {
+    background-color:#8D9092;
+    font: inherit;
+    cursor: pointer;
+    color: white;
+    padding: 0.5rem 1.75rem;
+    border: 1px solid #8D9092;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    margin: 5px;
+    margin-top: 1%;
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
 }
 
 .tie {
@@ -56,6 +82,9 @@
     text-shadow: 0 -1px rgba(0,0,0,0.6);
     margin: 5px;
     margin-top: 1%;
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
 }
 
 .vs {

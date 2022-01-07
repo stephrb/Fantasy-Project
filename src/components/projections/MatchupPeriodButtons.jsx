@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ModelService from '../../services/ModelService';
-import classes from './MatchupOutcomes.module.css';
-import MatchupWeek from './MatchupWeek';
-function MatchupOutcomes(props) {
+import classes from './MatchupPeriodButtons.module.css';
+
+function MatchupPeriodButtons(props) {
     const [remMatchupList, setRemMatchupList] = useState();
     const [curMatchupPeriod, setCurMatchupPeriod] = useState();
-    const [isReset, setIsReset] = useState(false);
+
     useEffect(() => {
         ModelService.getRemainingMatchupPeriods().then((res) => {
             setRemMatchupList(res.data);
@@ -14,15 +14,10 @@ function MatchupOutcomes(props) {
      }, []);
 
      function changeMatchupWeekHandler(week) {
-         setCurMatchupPeriod(week);
-     }
-
-     function resetPlayoffMachineHandler() {
-         ModelService.resetPlayoffMachine();
-         setIsReset(!isReset);
-         props.handleOutcomeChange();
-     }
-
+        setCurMatchupPeriod(week);
+        props.changeMatchupWeekHandler(week);
+    }
+    
      if (typeof remMatchupList === 'undefined' || typeof curMatchupPeriod === 'undefined') {
         return (
             <p>
@@ -32,8 +27,7 @@ function MatchupOutcomes(props) {
     }
     return (
         <div>
-            <div>
-                {
+             {
                     remMatchupList.map(
                         (week, index) => {
                         if (week === curMatchupPeriod) {
@@ -47,11 +41,8 @@ function MatchupOutcomes(props) {
                         }
                     )
                 }
-            </div>
-            <MatchupWeek week={curMatchupPeriod} reset={isReset} handleOutcomeChange={props.handleOutcomeChange}/>
-            <button className={classes.matchupButton} onClick={resetPlayoffMachineHandler}>Reset</button>
         </div>
     );
 }
 
-export default MatchupOutcomes;
+export default MatchupPeriodButtons;

@@ -10,7 +10,7 @@ function Matchup(props) {
         setHomeTeamWinner(props.matchup.winnerTeamId === props.matchup.homeTeamId);
         setAwayTeamWinner(props.matchup.winnerTeamId === props.matchup.awayTeamId);
         setTieWinner(props.isTie);
-    }, [])
+    }, [props.reset])
 
     function setWinnerHomeHandler() {
         setHomeTeamWinner(true);
@@ -36,7 +36,7 @@ function Matchup(props) {
     return (
         <ul className={classes.container}>
             <button className={homeTeamWinner ? classes.winner : awayTeamWinner ? classes.loser : classes.default} onClick={setWinnerHomeHandler}>{props.matchup.homeTeamName}</button>
-            <button className={homeTeamWinner ? classes.default : awayTeamWinner ? classes.default : tieWinner  ? classes.tie : classes.default}onClick={setWinnerTieHandler}>Tie</button>
+            <button className={homeTeamWinner ? classes.defaultTie : awayTeamWinner ? classes.defaultTie : tieWinner  ? classes.tie : classes.defaultTie}onClick={setWinnerTieHandler}>Tie</button>
             <button className={homeTeamWinner ? classes.loser : awayTeamWinner ? classes.winner : classes.default} onClick={setWinnerAwayHandler}>{props.matchup.awayTeamName}</button>
         </ul>
     );

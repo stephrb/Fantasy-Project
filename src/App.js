@@ -5,7 +5,8 @@ import PowerRankings from './pages/PowerRankings';
 import Home from './pages/Home';
 import PlayoffMachine from './pages/PlayoffMachine';
 import Comparison from './pages/Comparison';
-import MatchupProjections from './pages/MatchupProjections';
+import MatchupProjections from './pages/ScoreProjections';
+import NBAWeeklyGames from './pages/NBAWeeklyGames';
 
 function App() {
   
@@ -20,6 +21,7 @@ function App() {
             <Route path="/compare" element={<Comparison />} />
             <Route path="/playoff" element={<PlayoffMachine />} />
             <Route path="/projections" element={<MatchupProjections />} />
+            <Route path="/nbagames" element={<NBAWeeklyGames />} />
 
           </Routes>
         </Layout>

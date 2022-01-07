@@ -11,7 +11,7 @@
 }
 
 .styledtable thead tr {
-    background-color: #3f3d3d;
+    background-color: rgb(44, 42, 41);
     color: #ffffff;
     text-align: left;
 }
@@ -35,6 +35,6 @@
 
 
 .styledtable tbody tr:last-of-type {
-    border-bottom: 2px solid #3f3d3d;
+    border-bottom: 2px solid rgb(44, 42, 41);
 }
 
