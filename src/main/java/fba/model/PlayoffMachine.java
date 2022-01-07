@@ -29,4 +29,6 @@ public interface PlayoffMachine {
   List<String> getRemainingMatchupPeriods();
 
   boolean getIsSorted();
+
+  void resetPlayoffMachine();
 }

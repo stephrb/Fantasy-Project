@@ -501,4 +501,25 @@ public class AppTest {
     model.printRankings();
   }
 
+  @Test
+  public void cloneMatchupsTest() {
+    Model model = Factory.createModel("1213148421");
+    model.setWinnerHome(12, 44);
+    model.resetPlayoffMachine();
+    assertNotNull(model);
+  }
+
+  @Test
+  public void getProjectedScoresTest() {
+    Model model = Factory.createModel("1213148421");
+    List<JSONObject> list = model.getProjectedScores("Season_2022", 12, true);
+    assertNotNull(list);
+  }
+
+  @Test
+  public void getProTeamGamesTest() {
+    Model model = Factory.createModel("1213148421");
+    List<JSONObject> list = model.getProTeamGames(12);
+    assertNotNull(list);
+  }
 }

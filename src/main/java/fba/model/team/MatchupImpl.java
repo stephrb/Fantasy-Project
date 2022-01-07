@@ -71,6 +71,11 @@ public class MatchupImpl implements Matchup {
   }
 
   @Override
+  public void setIsPlayed(boolean isPlayed) {
+    this.isPlayed = isPlayed;
+  }
+
+  @Override
   public boolean isTie() {
     return isPlayed && !isBye() && winnerTeamId == -1;
   }
@@ -111,6 +116,11 @@ public class MatchupImpl implements Matchup {
   @Override
   public int getMatchupPeriod() {
     return matchupPeriod;
+  }
+
+  @Override
+  public Matchup copy() {
+    return new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints, isPlayed, homeTeamName, awayTeamName, matchupId, matchupPeriod);
   }
 
 

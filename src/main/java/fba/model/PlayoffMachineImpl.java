@@ -1,15 +1,17 @@
 package fba.model;
 
 import fba.model.team.Matchup;
+import fba.model.team.MatchupImpl;
 import fba.model.team.Team;
 
 import java.util.*;
 
 public class PlayoffMachineImpl implements PlayoffMachine {
   private List<Team> rankings;
-  private int currentMatchupPeriod;
+  private List<Team> startingRankings;
+  private final int currentMatchupPeriod;
   private final int finalMatchupPeriod;
-  private final Map<Integer, Set<Matchup>> matchups;
+  private Map<Integer, Set<Matchup>> matchups;
   private boolean isSorted;
 
   public PlayoffMachineImpl(League league) {
@@ -18,7 +20,7 @@ public class PlayoffMachineImpl implements PlayoffMachine {
       rankings.add(team.copy());
     }
     sortRankings();
-
+    startingRankings = cloneRankings(rankings);
     currentMatchupPeriod = league.getCurrentMatchupPeriod();
     finalMatchupPeriod =
         league.getTeam(league.getTeams().iterator().next().getTeamId()).getMatchups().size();
@@ -27,7 +29,13 @@ public class PlayoffMachineImpl implements PlayoffMachine {
       matchups.put(i, new HashSet<>());
       for (Team team : rankings) {
         if (matchups.get(i).contains(team.getMatchups().get(i))) continue;
-        if (!team.getMatchups().get(i).isBye()) matchups.get(i).add(team.getMatchups().get(i));
+        if (!team.getMatchups().get(i).isBye()) {
+          if (i == currentMatchupPeriod) {
+            team.getMatchups().get(i).setWinnerTeamId(-1);
+            team.getMatchups().get(i).setIsPlayed(false);
+          }
+          matchups.get(i).add(team.getMatchups().get(i));
+        }
       }
     }
     isSorted = true;
@@ -156,5 +164,27 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   @Override
   public boolean getIsSorted() {
     return isSorted;
+  }
+
+  @Override
+  public void resetPlayoffMachine() {
+    rankings = startingRankings;
+    resetMatchups();
+    startingRankings = cloneRankings(rankings);
+  }
+
+  private void resetMatchups() {
+    for (Set<Matchup> set : matchups.values()) {
+      for (Matchup matchup : set) {
+        matchup.setWinnerTeamId(-1);
+        matchup.setIsPlayed(false);
+      }
+    }
+  }
+
+  private List<Team> cloneRankings(List<Team> rankings) {
+    List<Team> clonedRankings = new ArrayList<>();
+    for (Team team : rankings) clonedRankings.add(team.copy());
+    return clonedRankings;
   }
 }

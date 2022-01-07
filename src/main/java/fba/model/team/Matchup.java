@@ -17,6 +17,8 @@ public interface Matchup {
 
   boolean getIsPlayed();
 
+  void setIsPlayed(boolean isPlayed);
+
   boolean isTie();
 
   String getWinnerTeamName();
@@ -32,4 +34,6 @@ public interface Matchup {
   int getMatchupId();
 
   int getMatchupPeriod();
+
+  Matchup copy();
 }

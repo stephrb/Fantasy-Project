@@ -3,6 +3,7 @@ package fba.model;
 import fba.model.player.Player;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
+import org.json.simple.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -183,8 +184,13 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public PlayoffMachine getPlayoffMachine() {
-    return playoffMachine;
+  public List<JSONObject> getProjectedScores(String timePeriod, int matchupPeriod, boolean assessInjuries) {
+    return league.getProjectedScores(timePeriod, matchupPeriod, assessInjuries);
+  }
+
+  @Override
+  public List<JSONObject> getProTeamGames(int matchupPeriod) {
+    return league.getProTeamGames(matchupPeriod);
   }
 
   @Override
@@ -195,5 +201,10 @@ public class ModelImpl implements Model {
   @Override
   public boolean getIsSorted() {
     return playoffMachine.getIsSorted();
+  }
+
+  @Override
+  public void resetPlayoffMachine() {
+    playoffMachine.resetPlayoffMachine();
   }
 }

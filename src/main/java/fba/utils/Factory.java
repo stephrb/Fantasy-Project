@@ -196,7 +196,7 @@ public class Factory {
       String statId =
           MapConstants.statIdMap.get(
                   String.valueOf(jsonStat.get("statSourceId")) + jsonStat.get("statSplitTypeId"))
-              + "  "
+              + "_"
               + jsonStat.get("seasonId");
       statsMap.put(statId, createPlayerStat(jsonStat));
     }
@@ -261,7 +261,17 @@ public class Factory {
       boolean isPlayed = matchupPeriod < league.getCurrentMatchupPeriod();
       String homeTeamName = league.getTeam(homeTeamId).getName();
       String awayTeamName = (awayTeamId == -1) ? "Bye Week" : league.getTeam(awayTeamId).getName();
-      Matchup matchup = new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints, isPlayed, homeTeamName, awayTeamName, matchupId++, matchupPeriod);
+      Matchup matchup =
+          new MatchupImpl(
+              homeTeamId,
+              homePoints,
+              awayTeamId,
+              awayPoints,
+              isPlayed,
+              homeTeamName,
+              awayTeamName,
+              matchupId++,
+              matchupPeriod);
       league.addMatchup(matchupPeriod, matchup);
     }
   }

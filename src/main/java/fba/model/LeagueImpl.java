@@ -3,6 +3,7 @@ package fba.model;
 import fba.model.player.Player;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
+import org.json.simple.JSONObject;
 
 import java.util.*;
 
@@ -224,5 +225,70 @@ public class LeagueImpl implements League {
       weeklyComparison.add(teamMap);
     }
     return weeklyComparison;
+  }
+
+  @Override
+  public List<JSONObject> getProjectedScores(String timePeriod, int matchupPeriod, boolean assessInjuries) {
+    switch (timePeriod) {
+      case "Last_7_2022" -> timePeriod = "Last 7_2022";
+      case "Last_15_2022" -> timePeriod = "Last 15_2022";
+      case "Last_30_2022" -> timePeriod = "Last 30_2022";
+    }
+
+    List<JSONObject> projectedScores = new ArrayList<>();
+    for (Team team : getTeams()) {
+      projectedScores.add(getTeamProjectedScore(team, timePeriod, matchupPeriod, assessInjuries));
+    }
+    projectedScores.sort(Comparator.comparingDouble(o -> -Double.parseDouble(String.valueOf(o.get("points")))));
+    return projectedScores;
+  }
+
+  @Override
+  public List<JSONObject> getProTeamGames(int matchupPeriod) {
+    List<JSONObject> list = new ArrayList<>();
+    for (Map.Entry<String, Map<Integer, boolean[]>> entry : proTeamMatchups.entrySet()) {
+      JSONObject jsonGames = new JSONObject();
+      String teamName = entry.getKey();
+      if (teamName.equals("FA")) continue;
+      boolean[] games = entry.getValue().get(matchupPeriod);
+      int count=0;
+      for (int i = 0; i < 7; i++) if (games[i]) count++;
+      jsonGames.put("teamName", teamName);
+      jsonGames.put("games", games);
+      jsonGames.put("count", count);
+      list.add(jsonGames);
+    }
+    list.sort(Comparator.comparingInt(o -> -Integer.parseInt(String.valueOf(o.get("count")))));
+    return list;
+  }
+
+  private JSONObject getTeamProjectedScore(Team team, String timePeriod, int matchupPeriod, boolean assessInjuries) {
+    double points = team.getPointsFor(matchupPeriod);
+    int totalGames = 0;
+    for (Player player : team.getPlayers()) {
+      int count = 0;
+      boolean[] games = proTeamMatchups.get(player.getProTeam()).get(matchupPeriod);
+      if (assessInjuries && player.getInjuryStatus().equals("ACTIVE")) {
+        count = getGamesCount(games, matchupPeriod);
+      } else if (!assessInjuries) count = getGamesCount(games, matchupPeriod);
+      points += (player.getStatsMap().get(timePeriod) == null) ? 0 : player.getStatsMap().get(timePeriod).getAvg().get("FPTS") * count;
+      totalGames += count;
+    }
+    JSONObject jsonProjected = new JSONObject();
+    jsonProjected.put("teamName", team.getName());
+    jsonProjected.put("totalGames", totalGames);
+    jsonProjected.put("points", ((int)(points * 100))/100.00);
+    return jsonProjected;
+  }
+
+  private int getGamesCount(boolean[] playerGames, int matchupPeriod) {
+    int count = 0;
+    int start = 0;
+    if (matchupPeriod == currentMatchupPeriod) start = currentScoringPeriod % 7;
+    else if (matchupPeriod < currentMatchupPeriod) start = 7;
+    for (int i = start; i < 7; i++) {
+      if (playerGames[i]) count++;
+    }
+    return count;
   }
 }

@@ -3,6 +3,7 @@ package fba.model;
 import fba.model.player.Player;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
+import org.json.simple.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -98,5 +99,15 @@ public interface League {
 
   List<Map<String, List<String>>> getWeeklyComparison();
 
+  /**
+   * @param timePeriod time period that the players average score is taken into account. acceptable
+   *     values are: "Last_15_2022", "Last_30_2022", "Projected_2022", "Season_2022", "Projected_2021", "Season_2021",
+   *     "Last_7_2022"
+   * @param matchupPeriod the matchupPeriod that the scores are requested for
+   * @param assessInjuries whether or not injuries should be taken into account
+   * @return a list of JSON objects for each team that holds data about the projected scores
+   */
+  List<JSONObject> getProjectedScores(String timePeriod, int matchupPeriod, boolean assessInjuries);
 
+  List<JSONObject> getProTeamGames(int matchupPeriod);
 }

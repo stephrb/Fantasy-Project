@@ -1,19 +1,15 @@
 package fba;
 
 import fba.model.Model;
-import fba.model.PlayoffMachine;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
 import fba.utils.Factory;
 import org.json.simple.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -81,12 +77,38 @@ public class ModelController {
 
   @PostMapping("setWinnerTie")
   public void setWinnerTie(@RequestBody JSONObject json) {
-    model.setWinnerTie(Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
-            Integer.parseInt(String.valueOf(json.get("matchupId"))));
+    model.setWinnerTie(
+        Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
+        Integer.parseInt(String.valueOf(json.get("matchupId"))));
+  }
+
+  @PostMapping("resetPlayoffMachine")
+  public void resetPlayoffMachine() {
+    model.resetPlayoffMachine();
   }
 
   @GetMapping("isSorted")
   public boolean isSorted() {
     return model.getIsSorted();
+  }
+
+  @GetMapping("scoreProjections")
+  public List<JSONObject> getScoreProjections(
+      @RequestParam("timePeriod") String timePeriod,
+      @RequestParam("matchupPeriod") int matchupPeriod,
+      @RequestParam("assessInjuries") boolean assessInjuries) {
+    System.out.print(matchupPeriod);
+    return model.getProjectedScores(timePeriod, matchupPeriod, assessInjuries);
+  }
+
+  @GetMapping("currentMatchupPeriod")
+  public int getMatchupPeriod() {
+    return model.getCurrentMatchupPeriod();
+  }
+
+  @GetMapping("proTeamGames")
+  public List<JSONObject> getProTeamGames(@RequestParam("matchupPeriod") int matchupPeriod) {
+    System.out.print(matchupPeriod);
+    return model.getProTeamGames(matchupPeriod);
   }
 }
