@@ -11,6 +11,10 @@ class ModelService {
         return axios.post(MODEL_API_BASE_URL + "create", leagueId);
     }
 
+    createDemo() {
+        return axios.post(MODEL_API_BASE_URL + "demo");
+    }
+
     modelGenerated() {
         return axios.post(MODEL_API_BASE_URL + "request");
     }

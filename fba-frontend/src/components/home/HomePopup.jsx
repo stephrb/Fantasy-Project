@@ -14,6 +14,11 @@ function HomePopup(props) {
         const leagueIdData = {leagueId : leagueId.current.value};
         props.createModel(leagueIdData)
     }
+
+    function demoHandler(event) {
+        event.preventDefault();
+        props.createDemo()
+    }
     
     return (
         
@@ -30,6 +35,7 @@ function HomePopup(props) {
                     }
                 </div>
                 {!isLoading && <button className={classes.actionsbutton} onClick={submitHandler}>Submit</button>}
+                {!isLoading && <button className= {classes.actionsbutton} onClick={demoHandler}>Demo</button>}
                 {!isLoading && wasError && <p className={classes.inline}>The entered League ID could not be found.</p>}
             </Card>
         </section>

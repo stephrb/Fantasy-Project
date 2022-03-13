@@ -22,6 +22,19 @@ function Home(props) {
         });
     }
 
+    function createDemoHandler() {
+        setIsLoading(true);
+        ModelService.createDemo()
+        .then( (res) => {
+            setIsLoading(false);
+            model.setModelLoaded(true);
+            setWasError(false);
+        }).catch(function (error) {
+            setWasError(true);
+            setIsLoading(false);
+        });
+    }
+
     function popupHandler() {
         model.setModelLoaded(false);
     }
@@ -29,7 +42,7 @@ function Home(props) {
     if (!model.isLoaded) {
         return (
             <Backdrop > 
-                    <HomePopup loading={isLoading} error={wasError} createModel={createModelHandler}/>
+                    <HomePopup loading={isLoading} error={wasError} createModel={createModelHandler} createDemo = {createDemoHandler}/>
             </Backdrop>
         );
     }
