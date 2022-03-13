@@ -6,7 +6,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#technologies">Technologies</a></li>
       </ul>
     </li>
     <li>
@@ -29,18 +29,17 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-
-
+![Product Name Screen Shot](fba-screenshots/title.png?raw=true)
+<p> Fantasy Analytics aids users in analysis of their ESPN Fantasy Basketball league. Users can speculate who will make the playoffs based on matchup decisions from the user, observe power rankings, see score projections based on player averages over a given time period and set whether injuries should be accounted for, compare their schedule to other members of the league, and easily see the NBA games scheduled for a given week to determine player pickups. </p>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-### Built With
+### Technologies
 
 * [React.js](https://reactjs.org/)
+* [Java Spring Boot](https://spring.io/projects/spring-boot)
+* [NBA Schedule API](https://fantasy.espn.com/apis/v3/games/fba/)
+* [ESPN Fantasy API](https://write.corbpie.com/using-the-nba-schedule-api-with-php/)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -65,7 +64,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/stephrb/Fantasy-Project.git
    ```
 2. Install NPM packages
    ```sh
@@ -78,13 +77,24 @@ This is an example of how to list things you need to use the software and how to
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
+### Running Locally
+1. Run main in fba-backend
+2. Run frontend
+ ```sh
+   npm start
+   ```
 ### Screen Shots
+#### Home Page
 ![Alt text](fba-screenshots/homepage.png?raw=true "Home Page")
+#### Power Rankings
 ![Alt text](fba-screenshots/powerrankings.png?raw=true "Power Rankings")
+#### Schedule Comparisons
 ![Alt text](fba-screenshots/comparison.png?raw=true "Schedule Comparisons")
+#### Playoff Machine
 ![Alt text](fba-screenshots/playoffmachine.png?raw=true "Playoff Machine")
+#### Matchup Projections
 ![Alt text](fba-screenshots/projections.png?raw=true "Matchup Projections")
+#### NBA Weekly Games
 ![Alt text](fba-screenshots/nbagames.png?raw=true "NBA Weekly Games")
 
 
@@ -98,6 +108,7 @@ This is an example of how to list things you need to use the software and how to
 - [x] Playoff Machine
 - [ ] Waiver Wire Helper
 - [ ] Player Streaming Helper
+- [ ] Host Website
 
 See the [open issues](https://github.com/stephrb/Fantasy-Projec/issues) for a full list of proposed features (and known issues).
 
@@ -146,7 +157,7 @@ Project Link: [https://github.com/stephrb/Fantasy-Project/](https://github.com/s
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
+* [The ESPN fantasy API documentation is very limited, so this was very helpful](https://github.com/cwendt94/espn-api)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
