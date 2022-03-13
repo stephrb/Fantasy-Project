@@ -28,6 +28,11 @@ public class ModelController {
     model = Factory.createModel(String.valueOf(leagueId.get("leagueId")));
   }
 
+  @PostMapping("/demo")
+  public void createDemo() {
+    model = Factory.createDemo();
+  }
+
   @GetMapping("/request")
   public Boolean modelGenerated() {
     return model != null;
@@ -45,7 +50,6 @@ public class ModelController {
 
   @GetMapping("/playoffRankings")
   public List<Team> getPlayoffRankings() {
-
     return model.getRankings();
   }
 

@@ -305,4 +305,15 @@ public class Factory {
 
     return new ModelImpl(league, new PlayoffMachineImpl(league));
   }
+
+  public static Model createDemo() {
+    Model model = createModel("1213148421");
+    String[] teamNames = new String[]{"team1", "team2", "team3", "team4", "team5", "team6", "team7"};
+    int i = 0;
+    for (Team team : model.getRankings()) {
+      model.getTeam(team.getTeamId()).setName(teamNames[i]);
+      team.setName(teamNames[i++]);
+    }
+    return model;
+  }
 }

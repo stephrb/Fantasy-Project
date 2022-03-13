@@ -522,4 +522,10 @@ public class AppTest {
     List<JSONObject> list = model.getProTeamGames(12);
     assertNotNull(list);
   }
+
+  @Test
+  public void demoTest() {
+    Model model = Factory.createDemo();
+    assertNotNull(model);
+  }
 }

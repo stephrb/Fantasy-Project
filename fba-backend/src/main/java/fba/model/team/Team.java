@@ -88,4 +88,6 @@ public interface Team {
   void setPowerRankingScore(double powerRankingScore);
 
   String getRecord();
+
+  void setName(String name);
 }

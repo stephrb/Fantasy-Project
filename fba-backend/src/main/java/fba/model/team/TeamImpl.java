@@ -10,8 +10,8 @@ import java.util.Map;
 public class TeamImpl implements Team {
 
   private List<Player> players;
-  private final String nickname;
-  private final String location;
+  private String nickname;
+  private String location;
   private final String abbrev;
   private final int teamId; // The playerId of the espn user
   private int wins; // Number of wins
@@ -241,5 +241,11 @@ public class TeamImpl implements Team {
   @Override
   public String getRecord() {
     return wins + "-" + losses + "-" + ties;
+  }
+
+  @Override
+  public void setName(String name) {
+    location = name;
+    nickname = "";
   }
 }
