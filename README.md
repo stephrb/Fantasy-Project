@@ -86,7 +86,11 @@ To get a local copy up and running follow these simple example steps.
    npm start
    ```
 3. Navigate to [http://localhost:3000/](http://localhost:3000/)
+4. Type in your ESPN League ID or try out a demo with a sample league!
+
 ### Screen Shots
+#### League ID Popup
+![Alt text](fba-screenshots/popup.png?raw=true "Popup")
 #### Home Page
 ![Alt text](fba-screenshots/homepage.png?raw=true "Home Page")
 #### Power Rankings
