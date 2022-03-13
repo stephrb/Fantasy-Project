@@ -1,0 +1,42 @@
+.footer {
+    font-size: 10px;
+    padding-top: 8%;
+    width:95%; 
+    margin-left:5%;
+}
+
+.styledtable {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width:70%; 
+    margin-left:15%; 
+    margin-right:15%;
+    margin-top: 7%;
+}
+
+.styledtable thead tr {
+    background-color: rgb(44, 42, 41);
+    color: #ffffff;
+    text-align: left;
+}
+
+.styledtable th,
+.styledtable td {
+    padding: 12px 15px;
+}
+
+.styledtable tbody tr {
+    border-bottom: thin solid #dddddd;
+}
+
+.styledtable tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styledtable tbody tr:last-of-type {
+    border-bottom: 2px solid rgb(44, 42, 41);
+}
+
