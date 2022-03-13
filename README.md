@@ -40,6 +40,7 @@
 * [Java Spring Boot](https://spring.io/projects/spring-boot)
 * [NBA Schedule API](https://fantasy.espn.com/apis/v3/games/fba/)
 * [ESPN Fantasy API](https://write.corbpie.com/using-the-nba-schedule-api-with-php/)
+* [Maven](https://maven.apache.org/)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -54,11 +55,11 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
   ```
+ * Maven
 
 ### Installation
 
@@ -78,11 +79,13 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 ### Running Locally
-1. Run main in fba-backend
+1. Run Main in fba-backend
 2. Run frontend
  ```sh
+   cd fba-frontend
    npm start
    ```
+3. Navigate to [http://localhost:3000/](http://localhost:3000/)
 ### Screen Shots
 #### Home Page
 ![Alt text](fba-screenshots/homepage.png?raw=true "Home Page")
