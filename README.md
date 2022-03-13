@@ -38,8 +38,8 @@
 
 * [React.js](https://reactjs.org/)
 * [Java Spring Boot](https://spring.io/projects/spring-boot)
-* [NBA Schedule API](https://fantasy.espn.com/apis/v3/games/fba/)
-* [ESPN Fantasy API](https://write.corbpie.com/using-the-nba-schedule-api-with-php/)
+* [NBA Schedule API](https://write.corbpie.com/using-the-nba-schedule-api-with-php/)
+* [ESPN Fantasy API](https://fantasy.espn.com/apis/v3/games/fba/)
 * [Maven](https://maven.apache.org/)
 
 
