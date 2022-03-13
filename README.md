@@ -30,7 +30,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 ![Product Name Screen Shot](fba-screenshots/title.png?raw=true)
-<p> Fantasy Analytics aids users in analysis of their ESPN Fantasy Basketball league. Users can speculate who will make the playoffs based on matchup decisions from the user, observe power rankings, see score projections based on player averages over a given time period and set whether injuries should be accounted for, compare their schedule to other members of the league, and easily see the NBA games scheduled for a given week to determine player pickups </p>
+<p> Fantasy Analytics aids users in analysis of their ESPN Fantasy Basketball league. Users can speculate who will make the playoffs based on matchup decisions from the user, observe power rankings, see score projections based on player averages over a given time period and set whether injuries should be accounted for, compare their schedule to other members of the league, and easily see the NBA games scheduled for a given week to determine player pickups. </p>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
