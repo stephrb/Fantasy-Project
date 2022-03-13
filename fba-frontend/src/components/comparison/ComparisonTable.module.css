@@ -4,12 +4,12 @@
     border-collapse: collapse;
     font-size: 0.9em;
     font-family: sans-serif;
-    min-width: 400px;
+    min-width: 1000px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    width:70%; 
-    margin-left:15%; 
-    margin-right:15%;
-    margin-top: 4px;
+    width:auto; 
+    margin-left:auto; 
+    margin-right:auto;
+    margin-top: auto;
 }
 
 .styledtable thead tr {
@@ -21,6 +21,7 @@
 .styledtable th,
 .styledtable td {
     padding: 10px 15px;
+    white-space: nowrap
 }
 
 .styledtable tbody tr {

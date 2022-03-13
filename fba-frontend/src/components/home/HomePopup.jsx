@@ -35,7 +35,7 @@ function HomePopup(props) {
                     }
                 </div>
                 {!isLoading && <button className={classes.actionsbutton} onClick={submitHandler}>Submit</button>}
-                {!isLoading && <button className= {classes.actionsbutton} onClick={demoHandler}>Demo</button>}
+                {!isLoading && <button className= {classes.demo} onClick={demoHandler}>Demo</button>}
                 {!isLoading && wasError && <p className={classes.inline}>The entered League ID could not be found.</p>}
             </Card>
         </section>

@@ -21,10 +21,29 @@
     text-shadow: 0 -1px rgba(0,0,0,0.6);
   }
 
+  .demo {
+    margin-left: 2.5%;
+    font: inherit;
+    cursor: pointer;
+    background-color: #13294B;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #13294B;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+  }
+
   .textbox {
     width: 98%;
   }
   
+
+  .demo:hover,
+  .demo:active {
+    background-color: #26426b;
+    border-color: #26426b;
+  }
   .actionsbutton:hover,
   .actionsbutton:active {
     background-color: #69c7ec;
@@ -47,7 +66,7 @@
   }
 
   .inline {
-    margin-left: 15%;
+    margin-left: 5%;
     display: inline-flex;
     font: inherit;
     background-color: #ca5850;
