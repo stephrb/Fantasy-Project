@@ -155,7 +155,7 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   @Override
   public List<String> getRemainingMatchupPeriods() {
     List<String> remainingMatchups = new ArrayList<>();
-    for (int i = currentMatchupPeriod; i <= finalMatchupPeriod; i++) {
+    for (int i = 1; i <= finalMatchupPeriod; i++) {
       remainingMatchups.add(String.valueOf(i));
     }
     return remainingMatchups;

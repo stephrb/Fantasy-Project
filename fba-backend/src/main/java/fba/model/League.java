@@ -46,6 +46,9 @@ public interface League {
   /** @return the scoring period of the league */
   int getCurrentScoringPeriod();
 
+  void setFinalScoringPeriod(int finalScoringPeriod);
+
+  int getFinalScoringPeriod();
   /**
    * @param player the player to add to the team
    * @param teamId the teamId of the team

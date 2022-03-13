@@ -13,6 +13,7 @@ public class LeagueImpl implements League {
   private final String leagueId;
   private int currentMatchupPeriod;
   private int currentScoringPeriod;
+  private int finalScoringPeriod;
   private final String name;
   private List<Player> freeAgents;
   private Map<String, Map<Integer, boolean[]>> proTeamMatchups;
@@ -72,6 +73,16 @@ public class LeagueImpl implements League {
   @Override
   public int getCurrentScoringPeriod() {
     return currentScoringPeriod;
+  }
+
+  @Override
+  public void setFinalScoringPeriod(int finalScoringPeriod) {
+    this.finalScoringPeriod = finalScoringPeriod;
+  }
+
+  @Override
+  public int getFinalScoringPeriod() {
+    return finalScoringPeriod;
   }
 
   @Override

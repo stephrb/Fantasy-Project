@@ -239,6 +239,8 @@ public class Factory {
    * @param jsonMatchups the JSON object that contains all the data data (endpoint is mBoxscore)
    */
   public static void setMatchups(League league, JSONObject jsonMatchups) {
+    league.setFinalScoringPeriod(Integer.parseInt(String.valueOf(((JSONObject)jsonMatchups.get("status")).get("finalScoringPeriod"))));
+
     JSONArray jsonSchedule = (JSONArray) jsonMatchups.get("schedule");
     int matchupId = 0;
     for (Object json : jsonSchedule) {
@@ -308,7 +310,7 @@ public class Factory {
 
   public static Model createDemo() {
     Model model = createModel("1213148421");
-    String[] teamNames = new String[]{"team1", "team2", "team3", "team4", "team5", "team6", "team7"};
+    String[] teamNames = new String[]{"Jokic's Jokers", "Los Angeles Retirement Home", "LeMickey Jamison", "Russ's Brick House", "Splash Bros", "Anthony Day-to-Davis", "The Greek Freaks"};
     int i = 0;
     for (Team team : model.getRankings()) {
       model.getTeam(team.getTeamId()).setName(teamNames[i]);

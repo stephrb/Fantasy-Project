@@ -69,6 +69,16 @@ public class ModelImpl implements Model {
   }
 
   @Override
+  public void setFinalScoringPeriod(int finalScoringPeriod) {
+     league.setFinalScoringPeriod(finalScoringPeriod);
+  }
+
+  @Override
+  public int getFinalScoringPeriod() {
+    return league.getFinalScoringPeriod();
+  }
+
+  @Override
   public void addPlayer(Player player, int teamId) {
     league.addPlayer(player, teamId);
   }
