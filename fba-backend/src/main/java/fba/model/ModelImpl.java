@@ -209,6 +209,17 @@ public class ModelImpl implements Model {
   }
 
   @Override
+  public void updateMatchupNames() {
+
+      for (Set<Matchup> set : playoffMachine.getMatchups().values()) {
+        for (Matchup matchup : set) {
+          matchup.setHomeTeamName(league.getTeam(matchup.getHomeTeamId()).getName());
+          matchup.setAwayTeamName(league.getTeam(matchup.getAwayTeamId()).getName());
+        }
+      }
+  }
+
+  @Override
   public boolean getIsSorted() {
     return playoffMachine.getIsSorted();
   }

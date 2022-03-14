@@ -3,13 +3,15 @@ import ModelService from '../../services/ModelService';
 import classes from './MatchupPeriodButtons.module.css';
 
 function MatchupPeriodButtons(props) {
-    const [remMatchupList, setRemMatchupList] = useState();
+    const [allMatchups, setAllMatchups] = useState();
     const [curMatchupPeriod, setCurMatchupPeriod] = useState();
 
     useEffect(() => {
-        ModelService.getRemainingMatchupPeriods().then((res) => {
-            setRemMatchupList(res.data);
-            setCurMatchupPeriod(res.data[0]);
+        ModelService.getAllMatchups().then((res) => {
+            setAllMatchups(res.data);
+        });
+        ModelService.getCurrentMatchupPeriod().then((res) => {
+            setCurMatchupPeriod(res.data)
         });
      }, []);
 
@@ -18,7 +20,7 @@ function MatchupPeriodButtons(props) {
         props.changeMatchupWeekHandler(week);
     }
     
-     if (typeof remMatchupList === 'undefined' || typeof curMatchupPeriod === 'undefined') {
+     if (typeof allMatchups === 'undefined' || typeof curMatchupPeriod === 'undefined') {
         return (
             <p>
                 loading...
@@ -28,7 +30,7 @@ function MatchupPeriodButtons(props) {
     return (
         <div>
              {
-                    remMatchupList.map(
+                    allMatchups.map(
                         (week, index) => {
                         if (week === curMatchupPeriod) {
                             return <button key={index + 1000} className={classes.activeMatchupButton} onClick={() => changeMatchupWeekHandler(week)} >

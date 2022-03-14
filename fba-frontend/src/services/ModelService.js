@@ -35,6 +35,10 @@ class ModelService {
         return axios.get(MODEL_API_BASE_URL + "remainingMatchupPeriods");
     }
 
+    getAllMatchups() {
+        return axios.get(MODEL_API_BASE_URL + "allMatchups");
+    }
+
     getPlayoffMachineMatchups() {
         return axios.get(MODEL_API_BASE_URL + "playoffMachineMatchups");
     }

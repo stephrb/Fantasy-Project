@@ -99,7 +99,8 @@ public class TeamImpl implements Team {
   public double getPointsFor(int matchupPeriod) {
     Matchup matchup = matchups.get(matchupPeriod);
     if (matchup == null)
-      throw new IllegalArgumentException("Model.Model.Team.Team.Matchup not found");
+      return 0;
+      //throw new IllegalArgumentException("Model.Model.Team.Team.Matchup not found");
     if (teamId == matchup.getHomeTeamId()) return matchup.getHomePoints();
     else return matchup.getAwayPoints();
   }

@@ -9,4 +9,6 @@ public interface Model extends League, PlayoffMachine {
     List<Map<String, List<String>>> getWeeklyComparison();
 
     List<String> getRemainingMatchupPeriods();
+
+    void updateMatchupNames();
 }

@@ -7,8 +7,8 @@ public class MatchupImpl implements Matchup {
   private final int awayTeamId;
   private int winnerTeamId;
   private boolean isPlayed;
-  private final String homeTeamName;
-  private final String awayTeamName;
+  private String homeTeamName;
+  private String awayTeamName;
   private final int matchupId;
   private final int matchupPeriod;
 
@@ -93,8 +93,18 @@ public class MatchupImpl implements Matchup {
   }
 
   @Override
+  public void setHomeTeamName(String homeTeamName) {
+    this.homeTeamName = homeTeamName;
+  }
+
+  @Override
   public String getAwayTeamName() {
     return awayTeamName;
+  }
+
+  @Override
+  public void setAwayTeamName(String awayTeamName) {
+    this.awayTeamName = awayTeamName;
   }
 
   @Override

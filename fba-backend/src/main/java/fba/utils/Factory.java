@@ -316,6 +316,7 @@ public class Factory {
       model.getTeam(team.getTeamId()).setName(teamNames[i]);
       team.setName(teamNames[i++]);
     }
+    model.updateMatchupNames();
     return model;
   }
 }

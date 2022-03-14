@@ -25,7 +25,11 @@ public interface Matchup {
 
   String getHomeTeamName();
 
+  void setHomeTeamName(String homeTeamName);
+
   String getAwayTeamName();
+
+  void setAwayTeamName(String awayTeamName);
 
   void setWinnerHome();
 

@@ -7,6 +7,7 @@ import fba.utils.Factory;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,6 +59,14 @@ public class ModelController {
     return model.getRemainingMatchupPeriods();
   }
 
+  @GetMapping("allMatchups")
+  public List<String> getAllMatchups() {
+    List<String> allMatchups = new ArrayList<>();
+    for (int i = 1; i <= (int) Math.ceil(model.getFinalScoringPeriod() / 7); i++) {
+      allMatchups.add(String.valueOf(i));
+    }
+    return allMatchups;
+  }
   @GetMapping("playoffMachineMatchups")
   public Map<String, Set<Matchup>> getPlayoffMachineMatchups() {
     return model.getMatchupsJson();

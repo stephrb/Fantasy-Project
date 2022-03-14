@@ -31,4 +31,5 @@ public interface PlayoffMachine {
   boolean getIsSorted();
 
   void resetPlayoffMachine();
+
 }
