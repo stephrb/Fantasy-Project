@@ -62,7 +62,7 @@ public class ModelController {
   @GetMapping("allMatchups")
   public List<String> getAllMatchups() {
     List<String> allMatchups = new ArrayList<>();
-    for (int i = 1; i <= (int) Math.ceil(model.getFinalScoringPeriod() / 7); i++) {
+    for (int i = 1; i <= (int) Math.ceil(model.getFinalScoringPeriod() / 7) + 1; i++) {
       allMatchups.add(String.valueOf(i));
     }
     return allMatchups;
