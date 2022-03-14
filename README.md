@@ -42,6 +42,7 @@
 * [ESPN Fantasy API](https://fantasy.espn.com/apis/v3/games/fba/)
 * [Maven](https://maven.apache.org/)
 * [Axios](https://axios-http.com/)
+* [JSON.simple](https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
