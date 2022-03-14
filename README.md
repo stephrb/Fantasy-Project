@@ -91,19 +91,25 @@ To get a local copy up and running follow these simple example steps.
 ### Screen Shots
 #### League ID Popup
 ![Alt text](fba-screenshots/popup.png?raw=true "Popup")
+Popup for user to enter their league ID.
 #### Home Page
 ![Alt text](fba-screenshots/homepage.png?raw=true "Home Page")
+Home page that allows for navigation between and displays information on analytical tools.
 #### Power Rankings
 ![Alt text](fba-screenshots/powerrankings.png?raw=true "Power Rankings")
+Power Rankings rank the teams by various statistics.
 #### Schedule Comparisons
 ![Alt text](fba-screenshots/comparison.png?raw=true "Schedule Comparisons")
+Compares the schedules of each team to each other team for the whole season and evaluates each teams' hypothetical record against other teams for each week.
 #### Playoff Machine
 ![Alt text](fba-screenshots/playoffmachine.png?raw=true "Playoff Machine")
+Allows user to set matchup results for the remaining matchup weeks and displays the playoff rankings.
 #### Matchup Projections
 ![Alt text](fba-screenshots/projections.png?raw=true "Matchup Projections")
+Calcuates the projected score by taking the average of each player on a team over a user-set time period multiplied by the number of games that player has left to play in a week. The user can also select for injuries to be accounted for.
 #### NBA Weekly Games
 ![Alt text](fba-screenshots/nbagames.png?raw=true "NBA Weekly Games")
-
+Displays the number of games each NBA team plays in a given week to aid the user in selecting players from the waiver wire.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
