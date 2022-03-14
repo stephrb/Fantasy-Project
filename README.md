@@ -123,7 +123,7 @@ Displays the number of games each NBA team plays in a given week to aid the user
 - [ ] Player Streaming Helper
 - [ ] Host Website
 
-See the [open issues](https://github.com/stephrb/Fantasy-Projec/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/stephrb/Fantasy-Project/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
