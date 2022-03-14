@@ -65,7 +65,8 @@ public class PlayoffMachineImpl implements PlayoffMachine {
 
   @Override
   public List<Team> getRankings() {
-    sortRankings();
+
+    if (!isSorted) sortRankings();
     return rankings;
   }
 
