@@ -71,6 +71,8 @@ To get a local copy up and running follow these simple example steps.
    ```
 2. Install NPM packages
    ```sh
+   cd Fantasy-Project
+   cd fba-frontend
    npm install
    ```
 
