@@ -72,12 +72,6 @@ To get a local copy up and running follow these simple example steps.
    npm install
    ```
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
 ### Running Locally
 1. Run Main in fba-backend
 2. Run frontend
@@ -87,7 +81,12 @@ To get a local copy up and running follow these simple example steps.
    ```
 3. Navigate to [http://localhost:3000/](http://localhost:3000/)
 4. Type in your ESPN League ID or try out a demo with a sample league!
+<p align="right">(<a href="#top">back to top</a>)</p>
 
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
 ### Screen Shots
 #### League ID Popup
 ![Alt text](fba-screenshots/popup.png?raw=true "Popup")
