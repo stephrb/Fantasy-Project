@@ -41,6 +41,7 @@
 * [NBA Schedule API](https://write.corbpie.com/using-the-nba-schedule-api-with-php/)
 * [ESPN Fantasy API](https://fantasy.espn.com/apis/v3/games/fba/)
 * [Maven](https://maven.apache.org/)
+* [Axios](https://axios-http.com/)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
