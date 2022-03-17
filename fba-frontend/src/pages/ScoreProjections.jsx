@@ -34,7 +34,7 @@ function ScoreProjections(props) {
     return (
         <div>
             <Header text="Score Projections" />
-            <MatchupPeriodButtons changeMatchupWeekHandler={changeMatchupWeekHandler}/>
+            <MatchupPeriodButtons changeMatchupWeekHandler={changeMatchupWeekHandler} matchupPeriod={matchupPeriod}/>
             <ScoreProjectionsBody setTimePeriodHandler={setTimePeriodHandler} toggleAssessInjuriesHandler={toggleAssessInjuriesHandler} 
                                   assessInjuries={assessInjuries} timePeriod={timePeriod} matchupPeriod={matchupPeriod}/>
         </div>

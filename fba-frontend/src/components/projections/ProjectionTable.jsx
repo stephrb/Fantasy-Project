@@ -7,7 +7,6 @@ function ProjectionTable(props) {
 
    
     useEffect(() => {
-        console.log(props.matchupPeriod)
        ModelService.getProjectedScores(props.timePeriod, props.matchupPeriod, props.assessInjuries).then((res) => {
            setScores(res.data);
        });

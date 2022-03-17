@@ -4,14 +4,11 @@ import classes from './MatchupPeriodButtons.module.css';
 
 function MatchupPeriodButtons(props) {
     const [allMatchups, setAllMatchups] = useState();
-    const [curMatchupPeriod, setCurMatchupPeriod] = useState();
+    const [curMatchupPeriod, setCurMatchupPeriod] = useState(props.matchupPeriod);
 
     useEffect(() => {
         ModelService.getAllMatchups().then((res) => {
             setAllMatchups(res.data);
-        });
-        ModelService.getCurrentMatchupPeriod().then((res) => {
-            setCurMatchupPeriod(res.data)
         });
      }, []);
 
@@ -32,7 +29,8 @@ function MatchupPeriodButtons(props) {
              {
                     allMatchups.map(
                         (week, index) => {
-                        if (week === curMatchupPeriod) {
+                        console.log(week, curMatchupPeriod)
+                        if (Number(week) === Number(curMatchupPeriod)) {
                             return <button key={index + 1000} className={classes.activeMatchupButton} onClick={() => changeMatchupWeekHandler(week)} >
                                         {week}
                                     </button>
