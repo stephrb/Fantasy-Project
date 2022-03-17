@@ -502,9 +502,8 @@ public class AppTest {
   }
 
   @Test
-  public void cloneMatchupsTest() {
+  public void resetPlayoffMachineTest() {
     Model model = Factory.createModel("1213148421");
-    model.setWinnerHome(12, 44);
     model.resetPlayoffMachine();
     assertNotNull(model);
   }

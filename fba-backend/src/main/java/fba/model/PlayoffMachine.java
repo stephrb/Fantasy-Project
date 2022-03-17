@@ -12,6 +12,8 @@ public interface PlayoffMachine {
 
   List<Team> getRankings();
 
+  List<Team> getStartingRankings();
+
   Map<Integer, Set<Matchup>> getMatchups();
 
   Map<String, Set<Matchup>> getMatchupsJson();

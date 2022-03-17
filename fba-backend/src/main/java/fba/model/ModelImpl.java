@@ -149,6 +149,11 @@ public class ModelImpl implements Model {
   }
 
   @Override
+  public List<Team> getStartingRankings() {
+    return playoffMachine.getStartingRankings();
+  }
+
+  @Override
   public Map<Integer, Set<Matchup>> getMatchups() {
     return playoffMachine.getMatchups();
   }
@@ -216,6 +221,10 @@ public class ModelImpl implements Model {
           matchup.setHomeTeamName(league.getTeam(matchup.getHomeTeamId()).getName());
           matchup.setAwayTeamName(league.getTeam(matchup.getAwayTeamId()).getName());
         }
+      }
+
+      for (Team team : playoffMachine.getStartingRankings()) {
+        team.setName(league.getTeam(team.getTeamId()).getName());
       }
   }
 

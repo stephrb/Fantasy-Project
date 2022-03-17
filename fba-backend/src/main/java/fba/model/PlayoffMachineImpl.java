@@ -71,6 +71,11 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   }
 
   @Override
+  public List<Team> getStartingRankings() {
+    return startingRankings;
+  }
+
+  @Override
   public Map<Integer, Set<Matchup>> getMatchups() {
     return matchups;
   }
