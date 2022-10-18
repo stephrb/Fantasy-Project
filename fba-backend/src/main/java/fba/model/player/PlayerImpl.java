@@ -73,7 +73,7 @@ public class PlayerImpl implements Player {
 
   @Override
   public String getProTeam() {
-    return MapConstants.proTeamMap.get(proTeamId);
+    return MapConstants.proTeamNumMap.get(proTeamId);
   }
 
   public Map<String, PlayerStats> getStatsMap() {

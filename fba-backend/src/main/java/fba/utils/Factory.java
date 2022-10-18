@@ -191,15 +191,18 @@ public class Factory {
 
     Map<String, PlayerStats> statsMap = new HashMap<>();
     JSONArray jsonStatsArr = ((JSONArray) jsonPlayer.get("stats"));
-    for (Object o : jsonStatsArr) {
-      JSONObject jsonStat = ((JSONObject) o);
-      String statId =
-          MapConstants.statIdMap.get(
-                  String.valueOf(jsonStat.get("statSourceId")) + jsonStat.get("statSplitTypeId"))
-              + "_"
-              + jsonStat.get("seasonId");
-      statsMap.put(statId, createPlayerStat(jsonStat));
+    if (jsonStatsArr != null) {
+      for (Object o : jsonStatsArr) {
+        JSONObject jsonStat = ((JSONObject) o);
+        String statId =
+                MapConstants.statIdMap.get(
+                        String.valueOf(jsonStat.get("statSourceId")) + jsonStat.get("statSplitTypeId"))
+                        + "_"
+                        + jsonStat.get("seasonId");
+        statsMap.put(statId, createPlayerStat(jsonStat));
+      }
     }
+
     return new PlayerImpl(
         firstName,
         lastName,
@@ -279,19 +282,20 @@ public class Factory {
   }
 
   public static Model createModel(String leagueId) {
-    String leagueInfo = Request.getESPNInformation(leagueId, "2022", "", "");
+    String year = "2023";
+    String leagueInfo = Request.getESPNInformation(leagueId, year, "", "");
     JSONObject jsonLeague = Request.parseString(leagueInfo);
     League league = Factory.createLeague(jsonLeague);
 
-    String teamInfo = Request.getESPNInformation(leagueId, "2022", "?view=mTeam", "");
+    String teamInfo = Request.getESPNInformation(leagueId, year, "?view=mTeam", "");
     JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
 
-    String rostersInfo = Request.getESPNInformation(leagueId, "2022", "?view=mRoster", "");
+    String rostersInfo = Request.getESPNInformation(leagueId, year, "?view=mRoster", "");
     JSONObject jsonRosters = Request.parseString(rostersInfo);
     Factory.setRosters(league, jsonRosters);
 
-    String matchupInfo = Request.getESPNInformation(leagueId, "2022", "?view=mBoxscore", "");
+    String matchupInfo = Request.getESPNInformation(leagueId, year, "?view=mBoxscore", "");
     JSONObject jsonMatchups = Request.parseString(matchupInfo);
     Factory.setMatchups(league, jsonMatchups);
 
@@ -300,7 +304,7 @@ public class Factory {
     String header =
         "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
     String freeAgentInfo =
-        Request.getESPNInformation("1213148421", "2022", "?view=kona_player_info", header);
+        Request.getESPNInformation(league.getLeagueId(), year, "?view=kona_player_info", header);
     JSONObject jsonFreeAgents = Request.parseString(freeAgentInfo);
     JSONArray jsonFreeAgentsArr = (JSONArray) jsonFreeAgents.get("players");
     league.setFreeAgents(Factory.createFreeAgents(jsonFreeAgentsArr));
@@ -309,8 +313,8 @@ public class Factory {
   }
 
   public static Model createDemo() {
-    Model model = createModel("1213148421");
-    String[] teamNames = new String[]{"Jokic's Jokers", "Los Angeles Retirement Home", "LeMickey Jamison", "Russ's Brick House", "Splash Bros", "Anthony Day-to-Davis", "The Greek Freaks"};
+    Model model = createModel("1117484973");
+    String[] teamNames = new String[]{"Jokic's Jokers", "Los Angeles Retirement Home", "LeMickey Jamison", "Russ's Brick House", "Splash Bros", "Anthony Day-to-Davis", "The Greek Freaks", "The Dawgs"};
     int i = 0;
     for (Team team : model.getRankings()) {
       model.getTeam(team.getTeamId()).setName(teamNames[i]);

@@ -244,6 +244,9 @@ public class LeagueImpl implements League {
       case "Last_7_2022" -> timePeriod = "Last 7_2022";
       case "Last_15_2022" -> timePeriod = "Last 15_2022";
       case "Last_30_2022" -> timePeriod = "Last 30_2022";
+      case "Last_7_2023" -> timePeriod = "Last 7_2023";
+      case "Last_15_2023" -> timePeriod = "Last 15_2023";
+      case "Last_30_2023" -> timePeriod = "Last 30_2023";
     }
 
     List<JSONObject> projectedScores = new ArrayList<>();

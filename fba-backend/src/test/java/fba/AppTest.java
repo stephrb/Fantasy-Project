@@ -13,9 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -482,13 +480,13 @@ public class AppTest {
   }
   @Test
   public void modelTest() {
-    Model model = Factory.createModel("1213148421");
+    Model model = Factory.createModel("1870103442");
        assertNotNull(model);
   }
 
   @Test
   public void weeklyComparisonTest(){
-    Model model = Factory.createModel("1213148421");
+    Model model = Factory.createModel("1870103442");
     List<Map<String, List<String>>> list = model.getWeeklyComparison();
     assertNotNull(list);
   }
@@ -526,6 +524,27 @@ public class AppTest {
   public void demoTest() {
     Model model = Factory.createDemo();
     assertNotNull(model);
+  }
+
+  @Test
+  public void proTeamsGamesTest() {
+    Map<String, Map<Integer, boolean[]>> result = Request.getTeamWeeklySchedules();
+    assertNotNull(result);
+  }
+
+  @Test
+  public void fileReadTest() {
+    try {
+      Scanner sc = new Scanner(new File("src/main/java/fba/utils/NBA2023Schedule.csv"));
+      sc.useDelimiter(",");   //sets the delimiter pattern
+      while (sc.hasNext())  //returns a boolean value
+      {
+        System.out.print(sc.next());
+      }
+      sc.close();  //closes the scanner
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
 
