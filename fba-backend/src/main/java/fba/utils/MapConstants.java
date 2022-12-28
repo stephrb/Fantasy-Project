@@ -4,10 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class MapConstants {
-  public static final Map<Integer, String> positionMap;
+  public static final Map<Integer, String> positionMap = new HashMap<>();;
 
   static {
-    positionMap = new HashMap<>();
     positionMap.put(0, "PG");
     positionMap.put(1, "SG");
     positionMap.put(2, "SF");
@@ -26,79 +25,43 @@ public final class MapConstants {
     positionMap.put(15, "Rookie");
   }
 
-  public static final Map<Integer, String> proTeamNumMap;
+  public static final Map<Integer, String> proTeamNumMap = new HashMap<>();
 
   static {
-    proTeamNumMap = new HashMap<>();
-    proTeamNumMap.put(0, "FA");
-    proTeamNumMap.put(1, "ATL");
-    proTeamNumMap.put(2, "BOS");
-    proTeamNumMap.put(3, "NOP");
-    proTeamNumMap.put(4, "CHI");
-    proTeamNumMap.put(5, "CLE");
-    proTeamNumMap.put(6, "DAL");
-    proTeamNumMap.put(7, "DEN");
-    proTeamNumMap.put(8, "DET");
-    proTeamNumMap.put(9, "GSW");
-    proTeamNumMap.put(10, "HOU");
-    proTeamNumMap.put(11, "IND");
-    proTeamNumMap.put(12, "LAC");
-    proTeamNumMap.put(13, "LAL");
-    proTeamNumMap.put(14, "MIA");
-    proTeamNumMap.put(15, "MIL");
-    proTeamNumMap.put(16, "MIN");
-    proTeamNumMap.put(17, "BKN");
-    proTeamNumMap.put(18, "NYK");
-    proTeamNumMap.put(19, "ORL");
-    proTeamNumMap.put(20, "PHI");
-    proTeamNumMap.put(21, "PHX");
-    proTeamNumMap.put(22, "POR");
-    proTeamNumMap.put(23, "SAC");
-    proTeamNumMap.put(24, "SAS");
-    proTeamNumMap.put(25, "OKC");
-    proTeamNumMap.put(26, "UTA");
-    proTeamNumMap.put(27, "WAS");
-    proTeamNumMap.put(28, "TOR");
-    proTeamNumMap.put(29, "MEM");
-    proTeamNumMap.put(30, "CHA");
+//    proTeamNumMap.put(0, "FA");
+//    proTeamNumMap.put(1, "ATL");
+//    proTeamNumMap.put(2, "BOS");
+//    proTeamNumMap.put(3, "NOP");
+//    proTeamNumMap.put(4, "CHI");
+//    proTeamNumMap.put(5, "CLE");
+//    proTeamNumMap.put(6, "DAL");
+//    proTeamNumMap.put(7, "DEN");
+//    proTeamNumMap.put(8, "DET");
+//    proTeamNumMap.put(9, "GSW");
+//    proTeamNumMap.put(10, "HOU");
+//    proTeamNumMap.put(11, "IND");
+//    proTeamNumMap.put(12, "LAC");
+//    proTeamNumMap.put(13, "LAL");
+//    proTeamNumMap.put(14, "MIA");
+//    proTeamNumMap.put(15, "MIL");
+//    proTeamNumMap.put(16, "MIN");
+//    proTeamNumMap.put(17, "BKN");
+//    proTeamNumMap.put(18, "NYK");
+//    proTeamNumMap.put(19, "ORL");
+//    proTeamNumMap.put(20, "PHI");
+//    proTeamNumMap.put(21, "PHX");
+//    proTeamNumMap.put(22, "POR");
+//    proTeamNumMap.put(23, "SAC");
+//    proTeamNumMap.put(24, "SAS");
+//    proTeamNumMap.put(25, "OKC");
+//    proTeamNumMap.put(26, "UTA");
+//    proTeamNumMap.put(27, "WAS");
+//    proTeamNumMap.put(28, "TOR");
+//    proTeamNumMap.put(29, "MEM");
+//    proTeamNumMap.put(30, "CHA");
   }
 
-  public static final Map<String, String> proTeamStringMap;
-
-  static {
-    proTeamStringMap = new HashMap<>();
-    proTeamStringMap.put("Free Agent", "FA");
-    proTeamStringMap.put("Atlanta Hawks", "ATL");
-    proTeamStringMap.put("Boston Celtics", "BOS");
-    proTeamStringMap.put("New Orleans Pelicans", "NOP");
-    proTeamStringMap.put("Chicago Bulls", "CHI");
-    proTeamStringMap.put("Cleveland Cavaliers", "CLE");
-    proTeamStringMap.put("Dallas Mavericks", "DAL");
-    proTeamStringMap.put("Denver Nuggets", "DEN");
-    proTeamStringMap.put("Detroit Pistons", "DET");
-    proTeamStringMap.put("Golden State Warriors", "GSW");
-    proTeamStringMap.put("Houston Rockets", "HOU");
-    proTeamStringMap.put("Indiana Pacers", "IND");
-    proTeamStringMap.put("Los Angeles Clippers", "LAC");
-    proTeamStringMap.put("Los Angeles Lakers", "LAL");
-    proTeamStringMap.put("Miami Heat", "MIA");
-    proTeamStringMap.put("Milwaukee Bucks", "MIL");
-    proTeamStringMap.put("Minnesota Timberwolves", "MIN");
-    proTeamStringMap.put("Brooklyn Nets", "BKN");
-    proTeamStringMap.put("New York Knicks", "NYK");
-    proTeamStringMap.put("Orlando Magic", "ORL");
-    proTeamStringMap.put("Philadelphia 76ers", "PHI");
-    proTeamStringMap.put("Phoenix Suns", "PHX");
-    proTeamStringMap.put("Portland Trail Blazers", "POR");
-    proTeamStringMap.put("Sacramento Kings", "SAC");
-    proTeamStringMap.put("San Antonio Spurs", "SAS");
-    proTeamStringMap.put("Oklahoma City Thunder", "OKC");
-    proTeamStringMap.put("Utah Jazz", "UTA");
-    proTeamStringMap.put("Washington Wizards", "WAS");
-    proTeamStringMap.put("Toronto Raptors", "TOR");
-    proTeamStringMap.put("Memphis Grizzlies", "MEM");
-    proTeamStringMap.put("Charlotte Hornets", "CHA");
-  }
+  public static final Map<String, String> proTeamStringMap = new HashMap<>();;
 
   public static final Map<Integer, String> statsMap;
 
@@ -163,16 +126,8 @@ public final class MapConstants {
     statIdMap.put("10", "Projected");
   }
 
-  public static final Map<String, Integer> dayOfWeekMap;
-
-  static {
-    dayOfWeekMap = new HashMap<>();
-    dayOfWeekMap.put("Mon", 0);
-    dayOfWeekMap.put("Tue", 1);
-    dayOfWeekMap.put("Wed", 2);
-    dayOfWeekMap.put("Thu", 3);
-    dayOfWeekMap.put("Fri", 4);
-    dayOfWeekMap.put("Sat", 5);
-    dayOfWeekMap.put("Sun", 6);
+  public static void set(String abbrev, String location, String name, int id) {
+    proTeamStringMap.put(abbrev, location + " " + name);
+    proTeamNumMap.put(id, abbrev);
   }
 }

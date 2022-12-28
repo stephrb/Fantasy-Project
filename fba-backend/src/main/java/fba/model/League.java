@@ -1,6 +1,7 @@
 package fba.model;
 
 import fba.model.player.Player;
+import fba.model.proteams.ProTeamGame;
 import fba.model.team.DraftPick;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
@@ -95,9 +96,9 @@ public interface League {
 
   List<Team> getPowerRankings();
 
-  Map<String, Map<Integer, boolean[]>> getProTeamMatchups();
+  Map<String, Map<Integer, ProTeamGame>> getProTeamMatchups();
 
-  void setProTeamMatchups(Map<String, Map<Integer, boolean[]>> proTeamMatchups);
+  void setProTeamMatchups(Map<String, Map<Integer, ProTeamGame>> proTeamMatchups);
   List<Map<String, List<String>>> getScheduleComparison();
   List<Map<String, List<String>>> getWeeklyComparison();
 
@@ -116,5 +117,5 @@ public interface League {
   void setAllPlayers(Map<String, Player> allPlayers);
   Map<String, Player> getAllPlayers();
   void setDraftPicks(Map<Integer, DraftPick> draftPicks);
-  public Map<Integer, DraftPick> getDraftPicks();
+  Map<Integer, DraftPick> getDraftPicks();
  }

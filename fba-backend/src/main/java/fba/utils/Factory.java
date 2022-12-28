@@ -5,6 +5,7 @@ import fba.model.player.Player;
 import fba.model.player.PlayerImpl;
 import fba.model.player.PlayerStats;
 import fba.model.player.PlayerStatsImpl;
+import fba.model.proteams.ProTeamSchedules;
 import fba.model.team.*;
 import javafx.util.Pair;
 import org.json.simple.JSONArray;
@@ -27,7 +28,7 @@ public final class Factory {
     String name = String.valueOf(((JSONObject) jsonLeague.get("settings")).get("name"));
 
     League league = new LeagueImpl(leagueId, name);
-    league.setProTeamMatchups(Request.getTeamWeeklySchedules());
+    league.setProTeamMatchups(ProTeamSchedules.getProTeamMatchups());
     league.setYear(year);
     league.setCurrentMatchupPeriod(currentMatchupPeriod);
     league.setCurrentScoringPeriod(currentScoringPeriod);
@@ -244,7 +245,7 @@ public final class Factory {
 
   /**
    * @param league the league where the matchups will be set
-   * @param jsonMatchups the JSON object that contains all the data data (endpoint is mBoxscore)
+   * @param jsonMatchups the JSON object that contains all the data (endpoint is mBoxscore)
    */
   public static void setMatchups(League league, JSONObject jsonMatchups) {
     league.setFinalScoringPeriod(
@@ -297,10 +298,6 @@ public final class Factory {
     String teamInfo = Request.get(leagueId, year, "?view=mTeam", "");
     JSONObject jsonTeam = Request.parseString(teamInfo);
     Factory.setTeams(league, jsonTeam);
-
-//    String rostersInfo = Request.getESPNInformation(leagueId, year, "?view=mRoster", "");
-//    JSONObject jsonRosters = Request.parseString(rostersInfo);
-//    Factory.setRosters(league, jsonRosters);
 
     String matchupInfo = Request.get(leagueId, year, "?view=mBoxscore", "");
     JSONObject jsonMatchups = Request.parseString(matchupInfo);
@@ -373,12 +370,6 @@ public final class Factory {
       if (teamId == 0)
         continue;
 
-//      for (Player player : league.getTeam(teamId).getPlayers()) {
-//        if (player.getPlayerId().equals(playerId)) {
-//          player.setPreviousGameScores(previousGameScores);
-//          break;
-//        }
-//      }
       league.getAllPlayers().get(playerId).setPreviousGameScores(previousGameScores);
     }
   }

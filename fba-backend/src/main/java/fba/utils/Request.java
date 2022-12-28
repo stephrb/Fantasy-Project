@@ -1,18 +1,14 @@
 package fba.utils;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.*;
 
-import static fba.utils.MapConstants.proTeamStringMap;
 
 public class Request {
   /**
@@ -50,7 +46,7 @@ public class Request {
       if (!header.isEmpty()) conn.setRequestProperty("x-fantasy-filter", header);
       int responseCode = conn.getResponseCode();
       if (responseCode != HttpURLConnection.HTTP_OK) {
-        throw new RuntimeException("Response Code: " + responseCode + url.toString());
+        throw new RuntimeException("Response Code: " + responseCode + url);
       } else {
         informationString = new StringBuilder();
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -100,127 +96,4 @@ public class Request {
     return stats;
   }
 
-  /**
-   * @return the schedule information string from the api at
-   *     https://write.corbpie.com/using-the-nba-schedule-api-with-php/
-   *     ***DEPRECATED***
-   */
-  public static String getScheduleInformation() {
-    try {
-      URL url = new URL("https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_9.json");
-      StringBuilder scheduleInformation;
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-      int responseCode = conn.getResponseCode();
-      if (responseCode != HttpURLConnection.HTTP_OK) {
-        throw new RuntimeException("Response Code: " + responseCode + url.toString());
-      } else {
-        scheduleInformation = new StringBuilder();
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-          scheduleInformation.append(inputLine);
-        }
-
-        in.close();
-        conn.disconnect();
-        return String.valueOf(scheduleInformation);
-      }
-    } catch (MalformedURLException e) {
-      System.out.println("Bad Url");
-    } catch (IOException e) {
-      System.out.println("IO exception");
-    }
-    return null;
-  }
-
-  /**
-   * @return a map with the key being a pro team and the value being a Map with keys being
-   *     matchupPeriods and values being boolean arrays. A value of true means that the pro team has
-   *     a game on that day, with an index of 0 being Monday and 6 being Sunday
-   */
-  public static Map<String, Map<Integer, boolean[]>> getTeamWeeklySchedules() {
-    String year = "2023";
-    if (year.equals("2023")) {
-      return get2023WeeklySchedules();
-    }
-    Map<String, Map<Integer, boolean[]>> weeklySchedules = new HashMap<>();
-    for (String team : MapConstants.proTeamNumMap.values()) {
-      Map<Integer, boolean[]> teamSchedule = new HashMap<>();
-      weeklySchedules.put(team, teamSchedule);
-    }
-    JSONObject jsonSchedule = Request.parseString(Request.getScheduleInformation());
-    JSONArray jsonGameDates =
-        (JSONArray) ((JSONObject) jsonSchedule.get("leagueSchedule")).get("gameDates");
-    for (Object jsonGameDate : jsonGameDates) {
-      JSONArray jsonGames = (JSONArray) ((JSONObject) jsonGameDate).get("games");
-      for (Object game : jsonGames) {
-        JSONObject jsonGame = (JSONObject) game;
-        if (isRegularSeason(jsonGame)) {
-          int day = MapConstants.dayOfWeekMap.get(String.valueOf(jsonGame.get("day")));
-          int week = Integer.parseInt(String.valueOf(jsonGame.get("weekNumber")));
-          String homeTeam =
-              String.valueOf(((JSONObject) jsonGame.get("homeTeam")).get("teamTricode"));
-          String awayTeam =
-              String.valueOf(((JSONObject) jsonGame.get("awayTeam")).get("teamTricode"));
-
-          addProTeamGame(day, week, homeTeam, awayTeam, weeklySchedules);
-        }
-      }
-    }
-    return weeklySchedules;
-  }
-
-  private static void addProTeamGame(int day, int week, String homeTeam, String awayTeam, Map<String, Map<Integer, boolean[]>> weeklySchedules) {
-    try {
-      weeklySchedules.get(homeTeam).computeIfAbsent(week, k -> new boolean[7]);
-      weeklySchedules.get(homeTeam).get(week)[day] = true;
-      weeklySchedules.get(awayTeam).computeIfAbsent(week, k -> new boolean[7]);
-      weeklySchedules.get(awayTeam).get(week)[day] = true;
-    } catch (Exception e) {
-      System.out.println(homeTeam + "\t" + awayTeam + "\t" + week + "\t" + day);
-    }
-  }
-  private static Map<String, Map<Integer, boolean[]>> get2023WeeklySchedules() {
-    Map<String, Map<Integer, boolean[]>> weeklySchedules = new HashMap<>();
-    LocalDate startWeek = LocalDate.of(2022, 10,16); // 2023 NBA start date
-    int weekNumber = 0;
-    for (String team : proTeamStringMap.values()) {
-      Map<Integer, boolean[]> teamSchedule = new HashMap<>();
-      weeklySchedules.put(team, teamSchedule);
-    }
-    try {
-      Scanner sc = new Scanner(new File("src/main/java/fba/utils/NBA2023Schedule.csv"));
-      sc.useDelimiter("\r\n");   //sets the delimiter pattern
-      while (sc.hasNextLine())  //returns a boolean value
-      {
-
-        String[] s = sc.next().split(",");
-        String[] dateArr = s[0].split("/");
-        String away = proTeamStringMap.get(s[1]);
-        String home = proTeamStringMap.get(s[2]);
-
-        LocalDate date = LocalDate.of(Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[0]), Integer.parseInt(dateArr[1]));
-        if (date.isAfter(startWeek)) {
-          weekNumber += 1;
-          startWeek = startWeek.plusWeeks(1);
-        }
-//        System.out.println(weekNumber + " " + date.getDayOfWeek().getValue() + home + away);
-        addProTeamGame(date.getDayOfWeek().getValue() - 1, weekNumber, home, away, weeklySchedules);
-      }
-      sc.close();  //closes the scanner
-      return weeklySchedules;
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
-  /**
-   * @param jsonGame JSON object that has individual game information
-   * @return true if the game is in the regular season
-   */
-  private static boolean isRegularSeason(JSONObject jsonGame) {
-    return String.valueOf(jsonGame.get("gameId")).charAt(2) == '2';
-  }
 }

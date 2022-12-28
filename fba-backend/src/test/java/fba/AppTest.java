@@ -2,6 +2,8 @@ package fba;
 
 import fba.model.*;
 import fba.model.player.Player;
+import fba.model.proteams.ProTeamGame;
+import fba.model.proteams.ProTeamSchedules;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
 import fba.utils.Factory;
@@ -171,59 +173,6 @@ public class AppTest {
     System.out.println();
   }
 
-  @Test
-  public void scheduleTest() {
-
-    JSONObject json = Request.parseString(Request.getScheduleInformation());
-    assertNotNull(json);
-    Map<String, Map<Integer, boolean[]>> map = Request.getTeamWeeklySchedules();
-    assertNotNull(map);
-  }
-
-  @Test
-  public void pointsGamesTest() {
-    String leagueInfo = Request.get("1213148421", "2022", "", "");
-    JSONObject jsonLeague = Request.parseString(leagueInfo);
-    League league = Factory.createLeague(jsonLeague);
-    String teamInfo = Request.get("1213148421", "2022", "?view=mTeam", "");
-    JSONObject jsonTeam = Request.parseString(teamInfo);
-    Factory.setTeams(league, jsonTeam);
-
-    String rostersInfo = Request.get("1213148421", "2022", "?view=mRoster", "");
-    JSONObject jsonRosters = Request.parseString(rostersInfo);
-    Factory.setRosters(league, jsonRosters);
-
-    String matchupInfo = Request.get("1213148421", "2022", "?view=mBoxscore", "");
-    JSONObject jsonMatchups = Request.parseString(matchupInfo);
-    Factory.setMatchups(league, jsonMatchups);
-
-    Set<Team> teams = league.getTeams();
-    int matchupPeriod = league.getCurrentMatchupPeriod();
-    Map<String, Map<Integer, boolean[]>> map = Request.getTeamWeeklySchedules();
-    for (Team team : teams) {
-      int points = (int) team.getPointsFor(matchupPeriod);
-      int totalGames = 0;
-      List<Player> players = team.getPlayers();
-      for (Player player : players) {
-        int count = 0;
-        boolean[] games = map.get(player.getProTeam()).get(matchupPeriod);
-        if (player.getInjuryStatus().equals("ACTIVE"))
-          for (int i = league.getCurrentScoringPeriod() % 7; i < 7; i++) if (games[i]) count++;
-        points += player.getStatsMap().get("Last 15  2022").getAvg().get("FPTS") * count;
-        totalGames += count;
-      }
-      System.out.println(
-          "Total number of points projected for "
-              + team.getName()
-              + " in week "
-              + matchupPeriod
-              + " is "
-              + points
-              + " in "
-              + totalGames
-              + " remaining games.");
-    }
-  }
 
   @Test
   public void matchupTest() {
@@ -489,7 +438,7 @@ public class AppTest {
   @Test
   public void getProjectedScoresTest() {
     Model model = Factory.createModel("1117484973");
-    List<JSONObject> list = model.getProjectedScores("Season_2023", 4, false);
+    List<JSONObject> list = model.getProjectedScores("Season_2023", 11, false);
     assertNotNull(list);
   }
 
@@ -504,12 +453,6 @@ public class AppTest {
   public void demoTest() {
     Model model = Factory.createDemo();
     assertNotNull(model);
-  }
-
-  @Test
-  public void proTeamsGamesTest() {
-    Map<String, Map<Integer, boolean[]>> result = Request.getTeamWeeklySchedules();
-    assertNotNull(result);
   }
 
   @Test
@@ -579,7 +522,7 @@ public class AppTest {
   @Test
   public void winPercentTest() {
     Model model = Factory.createModel("1117484973");
-    int period = model.getCurrentMatchupPeriod();
+    int period = model.getCurrentMatchupPeriod() + 5 ;
     for (Matchup m : model.getMatchups().get(period)) {
       int h = m.getAwayTeamId();
       int a = m.getHomeTeamId();

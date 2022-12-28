@@ -1,10 +1,6 @@
 package fba.model.team;
 
 import fba.model.player.Player;
-import fba.utils.Request;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +18,7 @@ public class TeamImpl implements Team {
   private int ties;
   private final double pointsFor; // Total points for
   private final double pointsAgainst; // Total points against
-  private double gamesBack; // Number of games back from 1st
+  private final double gamesBack; // Number of games back from 1st
   private Map<Integer, Integer>
       matchUpAcquisitionsPerWeek; // Keys are matchup weeks and values are number of acquisitions
   private final int moveToActive;

@@ -1,7 +1,6 @@
 package fba.model;
 
 import fba.model.team.Matchup;
-import fba.model.team.MatchupImpl;
 import fba.model.team.Team;
 
 import java.util.*;
@@ -12,7 +11,7 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   private List<Team> startingRankings;
   private final int currentMatchupPeriod;
   private final int finalMatchupPeriod;
-  private Map<Integer, Set<Matchup>> matchups;
+  private final Map<Integer, Set<Matchup>> matchups;
   private boolean isSorted;
 
   public PlayoffMachineImpl(League league) {
@@ -97,22 +96,21 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   @Override
   public void setWinner(Matchup matchup, int winnerTeamId) {
     if (winnerTeamId == matchup.getWinnerTeamId() && matchup.getIsPlayed()) return;
-    synchronized (rankings) {
-      for (Team team : rankings) {
-        if (team.getTeamId() == matchup.getHomeTeamId()
-                || team.getTeamId() == matchup.getAwayTeamId()) {
-          if (matchup.isTie()) team.setTies(team.getTies() - 1);
-          else if (matchup.getIsPlayed()) {
-            if (team.getTeamId() == matchup.getWinnerTeamId()) team.setWins(team.getWins() - 1);
-            else team.setLosses(team.getLosses() - 1);
-          }
-          if (team.getTeamId() == winnerTeamId) team.setWins(team.getWins() + 1);
-          else if (winnerTeamId > 0) team.setLosses(team.getLosses() + 1);
-          else team.setTies(team.getTies() + 1);
+    for (Team team : rankings) {
+      if (team.getTeamId() == matchup.getHomeTeamId()
+              || team.getTeamId() == matchup.getAwayTeamId()) {
+        if (matchup.isTie()) team.setTies(team.getTies() - 1);
+        else if (matchup.getIsPlayed()) {
+          if (team.getTeamId() == matchup.getWinnerTeamId()) team.setWins(team.getWins() - 1);
+          else team.setLosses(team.getLosses() - 1);
         }
+        if (team.getTeamId() == winnerTeamId) team.setWins(team.getWins() + 1);
+        else if (winnerTeamId > 0) team.setLosses(team.getLosses() + 1);
+        else team.setTies(team.getTies() + 1);
       }
-      matchup.setWinnerTeamId(winnerTeamId);
     }
+    matchup.setWinnerTeamId(winnerTeamId);
+
   }
 
 

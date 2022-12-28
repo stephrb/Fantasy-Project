@@ -1,6 +1,7 @@
 package fba.model;
 
 import fba.model.player.Player;
+import fba.model.proteams.ProTeamGame;
 import fba.model.team.DraftPick;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
@@ -11,8 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class ModelImpl implements Model {
-  private League league;
-  private PlayoffMachine playoffMachine;
+  private final League league;
+  private final PlayoffMachine playoffMachine;
 
   public ModelImpl(League league, PlayoffMachine playoffMachine) {
     this.league = league;
@@ -130,12 +131,12 @@ public class ModelImpl implements Model {
   }
 
   @Override
-  public Map<String, Map<Integer, boolean[]>> getProTeamMatchups() {
+  public Map<String, Map<Integer, ProTeamGame>> getProTeamMatchups() {
     return league.getProTeamMatchups();
   }
 
   @Override
-  public void setProTeamMatchups(Map<String, Map<Integer, boolean[]>> proTeamMatchups) {
+  public void setProTeamMatchups(Map<String, Map<Integer, ProTeamGame>> proTeamMatchups) {
     league.setProTeamMatchups(proTeamMatchups);
   }
 

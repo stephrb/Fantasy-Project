@@ -1,11 +1,12 @@
-package fba.model;
+package fba.model.proteams;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class ProTeamGameImpl implements ProTeamGame {
-    private int awayProTeamId, homeProTeamId, scoringPeriodId;
+    private final int awayProTeamId, homeProTeamId, scoringPeriodId;
     private boolean statsOfficial;
-    private Date date;
+    private final Date date;
 
     public ProTeamGameImpl(int awayProTeamId, int homeProTeamId, int scoringPeriodId, boolean statsOfficial, Date date) {
         this.awayProTeamId = awayProTeamId;
@@ -13,5 +14,10 @@ public class ProTeamGameImpl implements ProTeamGame {
         this.scoringPeriodId = scoringPeriodId;
         this.statsOfficial = statsOfficial;
         this.date = date;
+    }
+
+    @Override
+    public boolean hasHappened() {
+        return date.before(Date.from(Instant.now()));
     }
 }

@@ -5,8 +5,10 @@ import fba.model.team.Matchup;
 import fba.model.team.Team;
 import fba.utils.Factory;
 import org.json.simple.JSONObject;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,8 @@ public class ModelController {
   }
 
   @PostMapping("/create")
-  public void createModel(@RequestBody JSONObject leagueId) {
+  public void createModel(@RequestBody JSONObject leagueId, HttpServletRequest request) {
+    System.out.println(request.getRemoteAddr());
     model = Factory.createModel(String.valueOf(leagueId.get("leagueId")));
   }
 
@@ -74,7 +77,6 @@ public class ModelController {
 
   @PostMapping("setWinnerHome")
   public void setWinnerHome(@RequestBody JSONObject json) {
-    System.out.println(model.getIsSorted());
     model.setWinnerHome(
         Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
         Integer.parseInt(String.valueOf(json.get("matchupId"))));
@@ -82,7 +84,6 @@ public class ModelController {
 
   @PostMapping("setWinnerAway")
   public void setWinnerAway(@RequestBody JSONObject json) {
-    System.out.println(model.getIsSorted());
     model.setWinnerAway(
         Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
         Integer.parseInt(String.valueOf(json.get("matchupId"))));
@@ -110,7 +111,6 @@ public class ModelController {
       @RequestParam("timePeriod") String timePeriod,
       @RequestParam("matchupPeriod") int matchupPeriod,
       @RequestParam("assessInjuries") boolean assessInjuries) {
-    System.out.print(matchupPeriod);
     return model.getProjectedScores(timePeriod, matchupPeriod, assessInjuries);
   }
 
@@ -121,7 +121,6 @@ public class ModelController {
 
   @GetMapping("proTeamGames")
   public List<JSONObject> getProTeamGames(@RequestParam("matchupPeriod") int matchupPeriod) {
-    System.out.print(matchupPeriod);
     return model.getProTeamGames(matchupPeriod);
   }
 }

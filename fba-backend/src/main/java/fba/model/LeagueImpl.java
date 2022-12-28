@@ -1,6 +1,7 @@
 package fba.model;
 
 import fba.model.player.Player;
+import fba.model.proteams.ProTeamGame;
 import fba.model.team.DraftPick;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
@@ -20,7 +21,7 @@ public class LeagueImpl implements League {
   private final String name;
   private List<Player> freeAgents;
   private Map<String, Player> allPlayers;
-  private Map<String, Map<Integer, boolean[]>> proTeamMatchups;
+  private Map<String, Map<Integer, ProTeamGame>> proTeamMatchups;
   private Map<Integer, DraftPick> draftPicks;
 
   public LeagueImpl(String leagueId, String name) {
@@ -209,11 +210,11 @@ public class LeagueImpl implements League {
     return teams;
   }
 
-  public Map<String, Map<Integer, boolean[]>> getProTeamMatchups() {
+  public Map<String, Map<Integer, ProTeamGame>> getProTeamMatchups() {
     return proTeamMatchups;
   }
 
-  public void setProTeamMatchups(Map<String, Map<Integer, boolean[]>> proTeamMatchups) {
+  public void setProTeamMatchups(Map<String, Map<Integer, ProTeamGame>> proTeamMatchups) {
     this.proTeamMatchups = proTeamMatchups;
   }
 
@@ -282,13 +283,22 @@ public class LeagueImpl implements League {
   @Override
   public List<JSONObject> getProTeamGames(int matchupPeriod) {
     List<JSONObject> list = new ArrayList<>();
-    for (Map.Entry<String, Map<Integer, boolean[]>> entry : proTeamMatchups.entrySet()) {
+    for (Map.Entry<String, Map<Integer, ProTeamGame>> entry : proTeamMatchups.entrySet()) {
       JSONObject jsonGames = new JSONObject();
       String teamName = entry.getKey();
       if (teamName.equals("FA")) continue;
-      boolean[] games = entry.getValue().get(matchupPeriod);
+
+      boolean[] games = new boolean[7];
+      int start = (matchupPeriod - 1) * 7 + 1, end = matchupPeriod * 7;
       int count=0;
-      for (int i = 0; i < 7; i++) if (games[i]) count++;
+      for (int i = start; i <= end; i++) {
+        if (entry.getValue().get(i) != null) {
+          games[i - start] = true;
+          count++;
+        }
+      }
+
+
       jsonGames.put("teamName", teamName);
       jsonGames.put("games", games);
       jsonGames.put("count", count);
@@ -300,21 +310,16 @@ public class LeagueImpl implements League {
 
   @Override
   public Double getWinPercentage(int homeTeamId, int awayTeamId, int numGames, int matchupPeriod, boolean assessInjuries) {
-    double homeTeamMean = 0, awayTeamMean = 0, homeTeamVar = 0, awayTeamVar = 0;
     TreeSet<Pair<Pair<Double, Double>, Player>> hpq = new TreeSet<>(Collections.reverseOrder(Comparator.comparingDouble(pairPlayerPair -> pairPlayerPair.getKey().getValue())));
     TreeSet<Pair<Pair<Double, Double>, Player>> apq = new TreeSet<>(Collections.reverseOrder(Comparator.comparingDouble(pairPlayerPair -> pairPlayerPair.getKey().getValue())));
 
     for (Player p : getTeam(homeTeamId).getPlayers()) {
       Pair<Double, Double> varianceAndMean = p.calculateVarianceAndMean(numGames);
-      homeTeamVar += varianceAndMean.getKey();
-      homeTeamMean += varianceAndMean.getValue();
       hpq.add(new Pair<>(varianceAndMean, p));
     }
 
     for (Player p : getTeam(awayTeamId).getPlayers()) {
       Pair<Double, Double> varianceAndMean = p.calculateVarianceAndMean(numGames);
-      awayTeamVar += varianceAndMean.getKey();
-      awayTeamMean += varianceAndMean.getValue();
       apq.add(new Pair<>(varianceAndMean, p));
     }
 
@@ -339,14 +344,16 @@ public class LeagueImpl implements League {
     double points = team.getPointsFor(matchupPeriod);
     int totalGames = 0;
 
-    int start = 0;
-    if (matchupPeriod == currentMatchupPeriod) start = (currentScoringPeriod % 7 - 1) < 0 ? 6 : (currentScoringPeriod % 7 - 1);
-    else if (matchupPeriod < currentMatchupPeriod) start = 7;
+    int start;
+    int end = matchupPeriod * 7;
+    if (matchupPeriod == currentMatchupPeriod) start = currentScoringPeriod;
+    else if (matchupPeriod > currentMatchupPeriod) start = (matchupPeriod - 1) * 7 +1;
+    else start = end;
 
-    for (int i = start; i < 7; i++) {
+    for (int i = start; i <= end; i++) {
       PriorityQueue<Double> pq = new PriorityQueue<>();
       for (Player player : team.getPlayers()) {
-        if (proTeamMatchups.get(player.getProTeam()).get(matchupPeriod)[i]) {
+        if (proTeamMatchups.get(player.getProTeam()).get(i) != null && !proTeamMatchups.get(player.getProTeam()).get(i).hasHappened()) {
           double playerPoints = (player.getStatsMap().get(timePeriod) == null) ? 0 : player.getStatsMap().get(timePeriod).getAvg().get("FPTS");
           if (!assessInjuries || (player.getInjuryStatus().equals("ACTIVE") || player.getInjuryStatus().equals("DAY_TO_DAY"))) pq.add(playerPoints);
         }
@@ -370,15 +377,17 @@ public class LeagueImpl implements League {
   private Pair<Double, Double> totalVarianceAndMean(Team team, int matchupPeriod, TreeSet<Pair<Pair<Double, Double>, Player>> pq, boolean assessInjuries) {
     double mean = 0, variance = 0;
 
-    int start = 0;
-    if (matchupPeriod == currentMatchupPeriod) start = (currentScoringPeriod % 7 - 1) < 0 ? 6 : (currentScoringPeriod % 7 - 1);
-    else if (matchupPeriod < currentMatchupPeriod) start = 7;
+    int start;
+    int end = matchupPeriod * 7;
+    if (matchupPeriod == currentMatchupPeriod) start = currentScoringPeriod;
+    else if (matchupPeriod > currentMatchupPeriod) start = (matchupPeriod - 1) * 7 +1;
+    else start = end;
 
-    for (int i = start; i < 7; i++) {
+    for (int i = start; i <= end; i++) {
       int count = 0;
       for (Pair<Pair<Double, Double>, Player> p : pq) {
         if (count >= 10) break;
-        if (proTeamMatchups.get(p.getValue().getProTeam()).get(matchupPeriod)[i] && (!assessInjuries || (p.getValue().getInjuryStatus().equals("ACTIVE") || p.getValue().getInjuryStatus().equals("DAY_TO_DAY")))) {
+        if (proTeamMatchups.get(p.getValue().getProTeam()).get(i) != null && !proTeamMatchups.get(p.getValue().getProTeam()).get(i).hasHappened() && (!assessInjuries || (p.getValue().getInjuryStatus().equals("ACTIVE") || p.getValue().getInjuryStatus().equals("DAY_TO_DAY")))) {
           mean += p.getKey().getValue();
           variance += p.getKey().getKey();
           count++;
