@@ -1,15 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+fba-frontend/node_modules
+fba-frontend/.pnp
+fba-frontend/.pnp.js
 
 # testing
-/coverage
+fba-frontend/coverage
 
 # production
-/build
+fba-frontend/build
 
 # misc
 .DS_Store
@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+fba-backend/.classpath
+fba-backend/.project
+fba-backend/.settings/
+fba-backend/target/
