@@ -3,7 +3,7 @@ package fba.model.player;
 import java.util.Map;
 
 public interface PlayerStats {
-  Map<String, Double> getAvg();
+    Map<String, Double> getAvg();
 
-  Map<String, Double> getTotal();
+    Map<String, Double> getTotal();
 }

@@ -29,7 +29,6 @@ function MatchupPeriodButtons(props) {
              {
                     allMatchups.map(
                         (week, index) => {
-                        console.log(week, curMatchupPeriod)
                         if (Number(week) === Number(curMatchupPeriod)) {
                             return <button key={index + 1000} className={classes.activeMatchupButton} onClick={() => changeMatchupWeekHandler(week)} >
                                         {week}

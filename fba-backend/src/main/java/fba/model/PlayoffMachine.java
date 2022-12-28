@@ -8,30 +8,30 @@ import java.util.Map;
 import java.util.Set;
 
 public interface PlayoffMachine {
-  void sortRankings();
+    void sortRankings();
 
-  List<Team> getRankings();
+    List<Team> getRankings();
 
-  List<Team> getStartingRankings();
+    List<Team> getStartingRankings();
 
-  Map<Integer, Set<Matchup>> getMatchups();
+    Map<Integer, Set<Matchup>> getMatchups();
 
-  Map<String, Set<Matchup>> getMatchupsJson();
+    Map<String, Set<Matchup>> getMatchupsJson();
 
-  void setWinner(Matchup matchup, int winnerTeamId);
+    void setWinner(Matchup matchup, int winnerTeamId);
 
-  void setWinnerHome(int matchupPeriod, int matchupId);
+    void setWinnerHome(int matchupPeriod, int matchupId);
 
-  void setWinnerAway(int matchupPeriod, int matchupId);
+    void setWinnerAway(int matchupPeriod, int matchupId);
 
-  void setWinnerTie(int matchupPeriod, int matchupId);
+    void setWinnerTie(int matchupPeriod, int matchupId);
 
-  void printRankings();
+    void printRankings();
 
-  List<String> getRemainingMatchupPeriods();
+    List<String> getRemainingMatchupPeriods();
 
-  boolean getIsSorted();
+    boolean getIsSorted();
 
-  void resetPlayoffMachine();
+    void resetPlayoffMachine();
 
 }

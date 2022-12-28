@@ -14,9 +14,6 @@ function PowerRankingsTable(props) {
        });
     }, []);
 
-
-    console.log(teams);
-
     if (typeof teams === 'undefined') {
         return (
             <p>

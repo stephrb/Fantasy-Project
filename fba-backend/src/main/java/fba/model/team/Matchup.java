@@ -1,43 +1,43 @@
 package fba.model.team;
 
 public interface Matchup {
-  int getHomeTeamId();
+    int getHomeTeamId();
 
-  int getAwayTeamId();
+    int getAwayTeamId();
 
-  double getAwayPoints();
+    double getAwayPoints();
 
-  double getHomePoints();
+    double getHomePoints();
 
-  boolean isBye();
+    boolean isBye();
 
-  int getWinnerTeamId();
+    int getWinnerTeamId();
 
-  void setWinnerTeamId(int winnerTeamId);
+    void setWinnerTeamId(int winnerTeamId);
 
-  boolean getIsPlayed();
+    boolean getIsPlayed();
 
-  void setIsPlayed(boolean isPlayed);
+    void setIsPlayed(boolean isPlayed);
 
-  boolean isTie();
+    boolean isTie();
 
-  String getWinnerTeamName();
+    String getWinnerTeamName();
 
-  String getHomeTeamName();
+    String getHomeTeamName();
 
-  void setHomeTeamName(String homeTeamName);
+    void setHomeTeamName(String homeTeamName);
 
-  String getAwayTeamName();
+    String getAwayTeamName();
 
-  void setAwayTeamName(String awayTeamName);
+    void setAwayTeamName(String awayTeamName);
 
-  void setWinnerHome();
+    void setWinnerHome();
 
-  void setWinnerAway();
+    void setWinnerAway();
 
-  int getMatchupId();
+    int getMatchupId();
 
-  int getMatchupPeriod();
+    int getMatchupPeriod();
 
-  Matchup copy();
+    Matchup copy();
 }

@@ -27,7 +27,7 @@ public final class ProTeamSchedules {
         for (Object proTeam : jsonProTeams) {
             JSONObject jsonProTeam = (JSONObject) proTeam;
             String name = jsonProTeam.get("name").toString();
-            String location = jsonProTeam.get("location").toString(), abbrev =jsonProTeam.get("abbrev").toString();
+            String location = jsonProTeam.get("location").toString(), abbrev = jsonProTeam.get("abbrev").toString();
             int id = ((Long) jsonProTeam.get("id")).intValue();
 
             MapConstants.set(abbrev, location, name, id);
@@ -47,6 +47,8 @@ public final class ProTeamSchedules {
         }
     }
 
-    public static Map<String, Map<Integer, ProTeamGame>> getProTeamMatchups() {return proTeamMatchups;}
+    public static Map<String, Map<Integer, ProTeamGame>> getProTeamMatchups() {
+        return proTeamMatchups;
+    }
 
 }

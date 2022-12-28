@@ -6,21 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 public interface Player {
-  String getFullName();
+    String getFullName();
 
-  String getInjuryStatus();
+    String getInjuryStatus();
 
-  void setAcquisitionDate(String acquisitionDate);
+    void setAcquisitionDate(String acquisitionDate);
 
-  void setLineUpSlotId(int lineUpSlotId);
+    void setLineUpSlotId(int lineUpSlotId);
 
-  String getProTeam();
+    String getProTeam();
 
-  Map<String, PlayerStats> getStatsMap();
+    Map<String, PlayerStats> getStatsMap();
 
-  String getPlayerId();
+    String getPlayerId();
 
-  void setPreviousGameScores(List<Double> previousGameScores);
+    void setPreviousGameScores(List<Double> previousGameScores);
 
-  Pair<Double, Double> calculateVarianceAndMean(int numGames);
+    Pair<Double, Double> calculateVarianceAndMean(int numGames);
 }

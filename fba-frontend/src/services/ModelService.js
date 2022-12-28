@@ -1,78 +1,86 @@
-import axios from 'axios'
+
+import AxiosInstance from "./AxiosInstance";
 
 const MODEL_API_BASE_URL = "http://localhost:8080/api/v1/";
 
 class ModelService {
+z
     getPowerRankings() {
-        return axios.get(MODEL_API_BASE_URL + "rankings");
+        console.log(localStorage.getItem('leagueId'))
+        return AxiosInstance.get(MODEL_API_BASE_URL + "rankings");
     }
 
     createModel(leagueId) {
-        return axios.post(MODEL_API_BASE_URL + "create", leagueId);
+        localStorage.setItem('leagueId', leagueId['leagueId']);
+        return AxiosInstance.post(MODEL_API_BASE_URL + "create", leagueId);
     }
 
     createDemo() {
-        return axios.post(MODEL_API_BASE_URL + "demo");
+        localStorage.setItem('leagueId', "DEMO###1117484973");
+        return AxiosInstance.post(MODEL_API_BASE_URL + "demo");
     }
 
     modelGenerated() {
-        return axios.post(MODEL_API_BASE_URL + "request");
+        return AxiosInstance.post(MODEL_API_BASE_URL + "request");
     }
 
     getScheduleComparison() {
-        return axios.get(MODEL_API_BASE_URL + "compareSchedules");
+        console.log(localStorage.getItem('leagueId'))
+        return AxiosInstance.get(MODEL_API_BASE_URL + "compareSchedules");
     }
 
     getWeeklyComparison() {
-        return axios.get(MODEL_API_BASE_URL + "compareWeekly");
+        return AxiosInstance.get(MODEL_API_BASE_URL + "compareWeekly");
     }
 
     getPlayoffRankings() {
-        return axios.get(MODEL_API_BASE_URL + "playoffRankings");
+        return AxiosInstance.get(MODEL_API_BASE_URL + "playoffRankings");
     }
 
     getRemainingMatchupPeriods() {
-        return axios.get(MODEL_API_BASE_URL + "remainingMatchupPeriods");
+        return AxiosInstance.get(MODEL_API_BASE_URL + "remainingMatchupPeriods");
     }
 
     getAllMatchups() {
-        return axios.get(MODEL_API_BASE_URL + "allMatchups");
+        return AxiosInstance.get(MODEL_API_BASE_URL + "allMatchups");
     }
 
     getPlayoffMachineMatchups() {
-        return axios.get(MODEL_API_BASE_URL + "playoffMachineMatchups");
+        return AxiosInstance.get(MODEL_API_BASE_URL + "playoffMachineMatchups");
     }
 
     setWinnerHome(matchup) {
-        return axios.post(MODEL_API_BASE_URL + "setWinnerHome", matchup);
+        return AxiosInstance.post(MODEL_API_BASE_URL + "setWinnerHome", matchup);
     }
 
     setWinnerAway(matchup) {
-        return axios.post(MODEL_API_BASE_URL + "setWinnerAway", matchup);
+        return AxiosInstance.post(MODEL_API_BASE_URL + "setWinnerAway", matchup);
     }
 
     setWinnerTie(matchup) {
-        return axios.post(MODEL_API_BASE_URL + "setWinnerTie", matchup)
+        return AxiosInstance.post(MODEL_API_BASE_URL + "setWinnerTie", matchup)
     }
     getIsSorted() {
-        return axios.get(MODEL_API_BASE_URL + "isSorted");
+        return AxiosInstance.get(MODEL_API_BASE_URL + "isSorted");
     }
 
     resetPlayoffMachine() {
-        return axios.post(MODEL_API_BASE_URL + "resetPlayoffMachine");
+        return AxiosInstance.post(MODEL_API_BASE_URL + "resetPlayoffMachine");
     }
 
     getProjectedScores(timePeriod, matchupPeriod, assessInjuries) {
-        return axios.get(MODEL_API_BASE_URL + "scoreProjections?timePeriod=" + timePeriod + "&matchupPeriod=" + matchupPeriod + "&assessInjuries=" + assessInjuries);
+        return AxiosInstance.get(MODEL_API_BASE_URL + "scoreProjections?timePeriod=" + timePeriod + "&matchupPeriod=" + matchupPeriod + "&assessInjuries=" + assessInjuries);
     }
 
     getCurrentMatchupPeriod() {
-        return axios.get(MODEL_API_BASE_URL + "currentMatchupPeriod");
+        return AxiosInstance.get(MODEL_API_BASE_URL + "currentMatchupPeriod");
     }
 
     getProTeamGames(matchupPeriod) {
-        return axios.get(MODEL_API_BASE_URL + "proTeamGames?matchupPeriod=" + matchupPeriod);
+        return AxiosInstance.get(MODEL_API_BASE_URL + "proTeamGames?matchupPeriod=" + matchupPeriod);
     }
 }
+AxiosInstance.defaults.headers.common['leagueId'] = localStorage.getItem('leagueId')
+
 
 export default new ModelService()

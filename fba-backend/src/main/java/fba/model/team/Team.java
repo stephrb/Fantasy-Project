@@ -7,88 +7,100 @@ import java.util.Map;
 
 public interface Team {
 
-  /** @return list of players */
-  List<Player> getPlayers();
+    /**
+     * @return list of players
+     */
+    List<Player> getPlayers();
 
-  /** @param player the player to add to the team */
-  void addPlayer(Player player);
+    void setPlayers(List<Player> players);
 
-  /** @return the id of the team */
-  int getTeamId();
+    /**
+     * @param player the player to add to the team
+     */
+    void addPlayer(Player player);
 
-  /** @return the team name */
-  String getName();
+    /**
+     * @return the id of the team
+     */
+    int getTeamId();
 
-  /**
-   * @param matchupPeriod the integer of the matchup period for the match
-   * @param matchup the matchup object that encapsulates data about the match
-   */
-  void addMatchup(int matchupPeriod, Matchup matchup);
+    /**
+     * @return the team name
+     */
+    String getName();
 
-  /** @return the matchups map for a the team */
-  Map<Integer, Matchup> getMatchups();
+    void setName(String name);
 
-  /**
-   * @param matchupPeriod the matchup period
-   * @return the points for in a given matchup period
-   */
-  double getPointsFor(int matchupPeriod);
+    /**
+     * @param matchupPeriod the integer of the matchup period for the match
+     * @param matchup       the matchup object that encapsulates data about the match
+     */
+    void addMatchup(int matchupPeriod, Matchup matchup);
 
-  /**
-   * @param matchupPeriod the matchup period
-   * @return the points against in a given matchup period
-   */
-  double getPointsAgainst(int matchupPeriod);
+    /**
+     * @return the matchups map for a the team
+     */
+    Map<Integer, Matchup> getMatchups();
 
-  /**
-   * @param currentMatchupPeriod the matchup period the league is currently in
-   * @return a map where the keys are matchup periods up to the current matchup and the values are
-   *     the number of points that a team scored in that week
-   */
-  Map<Integer, Double> getPointsForPerWeek(int currentMatchupPeriod);
+    void setMatchups(Map<Integer, Matchup> matchups);
 
-  /**
-   * @param currentMatchupPeriod the matchup period the league is currently in
-   * @return a map where the keys are matchup periods up to the current matchup and the values are
-   *     the number of points that a team's opponent scored in that week
-   */
-  Map<Integer, Double> getPointsAgainstPerWeek(int currentMatchupPeriod);
+    /**
+     * @param matchupPeriod the matchup period
+     * @return the points for in a given matchup period
+     */
+    double getPointsFor(int matchupPeriod);
 
-  /** @return returns a new instance of the team object */
-  Team copy();
+    /**
+     * @param matchupPeriod the matchup period
+     * @return the points against in a given matchup period
+     */
+    double getPointsAgainst(int matchupPeriod);
 
-  void setPlayers(List<Player> players);
+    /**
+     * @param currentMatchupPeriod the matchup period the league is currently in
+     * @return a map where the keys are matchup periods up to the current matchup and the values are
+     * the number of points that a team scored in that week
+     */
+    Map<Integer, Double> getPointsForPerWeek(int currentMatchupPeriod);
 
-  void setMatchups(Map<Integer, Matchup> matchups);
+    /**
+     * @param currentMatchupPeriod the matchup period the league is currently in
+     * @return a map where the keys are matchup periods up to the current matchup and the values are
+     * the number of points that a team's opponent scored in that week
+     */
+    Map<Integer, Double> getPointsAgainstPerWeek(int currentMatchupPeriod);
 
-  int getWins();
+    /**
+     * @return returns a new instance of the team object
+     */
+    Team copy();
 
-  void setWins(int wins);
+    int getWins();
 
-  int getLosses();
+    void setWins(int wins);
 
-  void setLosses(int losses);
+    int getLosses();
 
-  int getTies();
+    void setLosses(int losses);
 
-  void setTies(int ties);
+    int getTies();
 
-  double getWinPercentage();
+    void setTies(int ties);
 
-  int getPlayoffSeed();
+    double getWinPercentage();
 
-  int getDivisionId();
+    int getPlayoffSeed();
 
-  int[] getHeadToHeadRecord(int teamId);
+    int getDivisionId();
 
-  double getPointsFor();
+    int[] getHeadToHeadRecord(int teamId);
 
-  double getPowerRankingScore();
+    double getPointsFor();
 
-  void setPowerRankingScore(double powerRankingScore);
+    double getPowerRankingScore();
 
-  String getRecord();
+    void setPowerRankingScore(double powerRankingScore);
 
-  void setName(String name);
+    String getRecord();
 
 }
