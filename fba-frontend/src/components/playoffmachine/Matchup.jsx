@@ -10,7 +10,7 @@ function Matchup(props) {
         setHomeTeamWinner(props.matchup.winnerTeamId === props.matchup.homeTeamId);
         setAwayTeamWinner(props.matchup.winnerTeamId === props.matchup.awayTeamId);
         setTieWinner(props.isTie);
-    }, [props.reset])
+    }, [props.reset, props.isTie, props.matchup.awayTeamId, props.matchup.homeTeamId, props.matchup.winnerTeamId])
 
     function setWinnerHomeHandler() {
         setHomeTeamWinner(true);
