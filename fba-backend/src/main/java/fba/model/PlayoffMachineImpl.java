@@ -5,6 +5,7 @@ import fba.model.team.MatchupImpl;
 import fba.model.team.Team;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PlayoffMachineImpl implements PlayoffMachine {
   private List<Team> rankings;
@@ -15,7 +16,7 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   private boolean isSorted;
 
   public PlayoffMachineImpl(League league) {
-    rankings = new ArrayList<>();
+    rankings = new CopyOnWriteArrayList<>();
     for (Team team : league.getTeams()) {
       rankings.add(team.copy());
     }
@@ -53,13 +54,17 @@ public class PlayoffMachineImpl implements PlayoffMachine {
           return (int) (Math.random() * 2 - 1);
         });
     Set<Integer> divisions = new HashSet<>();
-    for (int i = 0; i < rankings.size(); i++) {
-      Team team = rankings.get(i);
+    List<Team> temp = new CopyOnWriteArrayList<>();
+    List<Team> extra = new CopyOnWriteArrayList<>();
+    for (Team team : rankings) {
       if (divisions.add(team.getDivisionId())) {
-        rankings.remove(team);
-        rankings.add(divisions.size() - 1, team);
+        temp.add(team);
+      } else {
+        extra.add(team);
       }
     }
+    temp.addAll(extra);
+    rankings = temp;
     isSorted = true;
   }
 
@@ -92,21 +97,24 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   @Override
   public void setWinner(Matchup matchup, int winnerTeamId) {
     if (winnerTeamId == matchup.getWinnerTeamId() && matchup.getIsPlayed()) return;
-    for (Team team : rankings) {
-      if (team.getTeamId() == matchup.getHomeTeamId()
-          || team.getTeamId() == matchup.getAwayTeamId()) {
-        if (matchup.isTie()) team.setTies(team.getTies() - 1);
-        else if (matchup.getIsPlayed()) {
-          if (team.getTeamId() == matchup.getWinnerTeamId()) team.setWins(team.getWins() - 1);
-          else team.setLosses(team.getLosses() - 1);
+    synchronized (rankings) {
+      for (Team team : rankings) {
+        if (team.getTeamId() == matchup.getHomeTeamId()
+                || team.getTeamId() == matchup.getAwayTeamId()) {
+          if (matchup.isTie()) team.setTies(team.getTies() - 1);
+          else if (matchup.getIsPlayed()) {
+            if (team.getTeamId() == matchup.getWinnerTeamId()) team.setWins(team.getWins() - 1);
+            else team.setLosses(team.getLosses() - 1);
+          }
+          if (team.getTeamId() == winnerTeamId) team.setWins(team.getWins() + 1);
+          else if (winnerTeamId > 0) team.setLosses(team.getLosses() + 1);
+          else team.setTies(team.getTies() + 1);
         }
-        if (team.getTeamId() == winnerTeamId) team.setWins(team.getWins() + 1);
-        else if (winnerTeamId > 0) team.setLosses(team.getLosses() + 1);
-        else team.setTies(team.getTies() + 1);
       }
+      matchup.setWinnerTeamId(winnerTeamId);
     }
-    matchup.setWinnerTeamId(winnerTeamId);
   }
+
 
   @Override
   public void setWinnerHome(int matchupPeriod, int matchupId) {
@@ -190,7 +198,7 @@ public class PlayoffMachineImpl implements PlayoffMachine {
   }
 
   private List<Team> cloneRankings(List<Team> rankings) {
-    List<Team> clonedRankings = new ArrayList<>();
+    List<Team> clonedRankings = new CopyOnWriteArrayList<>();
     for (Team team : rankings) clonedRankings.add(team.copy());
     return clonedRankings;
   }

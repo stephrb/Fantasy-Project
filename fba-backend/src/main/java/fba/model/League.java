@@ -1,6 +1,7 @@
 package fba.model;
 
 import fba.model.player.Player;
+import fba.model.team.DraftPick;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
 import org.json.simple.JSONObject;
@@ -97,9 +98,7 @@ public interface League {
   Map<String, Map<Integer, boolean[]>> getProTeamMatchups();
 
   void setProTeamMatchups(Map<String, Map<Integer, boolean[]>> proTeamMatchups);
-
   List<Map<String, List<String>>> getScheduleComparison();
-
   List<Map<String, List<String>>> getWeeklyComparison();
 
   /**
@@ -107,10 +106,15 @@ public interface League {
    *     values are: "Last_15_2022", "Last_30_2022", "Projected_2022", "Season_2022", "Projected_2021", "Season_2021",
    *     "Last_7_2022"
    * @param matchupPeriod the matchupPeriod that the scores are requested for
-   * @param assessInjuries whether or not injuries should be taken into account
+   * @param assessInjuries whether injuries should be taken into account
    * @return a list of JSON objects for each team that holds data about the projected scores
    */
   List<JSONObject> getProjectedScores(String timePeriod, int matchupPeriod, boolean assessInjuries);
-
   List<JSONObject> getProTeamGames(int matchupPeriod);
-}
+  Double getWinPercentage(int homeTeam, int awayTeam, int numGames, int matchupPeriod, boolean assessInjuries);
+  List<String> getRosteredPlayerIds();
+  void setAllPlayers(Map<String, Player> allPlayers);
+  Map<String, Player> getAllPlayers();
+  void setDraftPicks(Map<Integer, DraftPick> draftPicks);
+  public Map<Integer, DraftPick> getDraftPicks();
+ }

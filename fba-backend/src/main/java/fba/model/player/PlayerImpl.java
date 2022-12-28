@@ -1,7 +1,10 @@
 package fba.model.player;
 
 import fba.utils.MapConstants;
+import fba.utils.VarianceCalculator;
+import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,8 @@ public class PlayerImpl implements Player {
   private final int position;
   private final Map<String, PlayerStats> statsMap;
   private final List<Integer> eligibleSLots;
+  private List<Double> previousGameScores;
+
 
   public PlayerImpl(
       String firstName,
@@ -50,6 +55,7 @@ public class PlayerImpl implements Player {
     this.eligibleSLots = eligibleSLots;
     this.playerId = playerId;
     this.acquisitionDate = "n/a";
+    this.previousGameScores = new ArrayList<>();
   }
 
   @Override
@@ -78,5 +84,22 @@ public class PlayerImpl implements Player {
 
   public Map<String, PlayerStats> getStatsMap() {
     return statsMap;
+  }
+
+  @Override
+  public String getPlayerId() {
+    return String.valueOf(playerId);
+  }
+
+  @Override
+  public void setPreviousGameScores(List<Double> previousGameScores) {
+    this.previousGameScores = previousGameScores;
+  }
+
+  @Override
+  public Pair<Double,Double> calculateVarianceAndMean(int numGames) {
+    numGames = Math.min(numGames, previousGameScores.size());
+    if (previousGameScores.isEmpty()) return new Pair<>(0.0,0.0);
+    return VarianceCalculator.calculateVarianceAndMean(previousGameScores.subList(0,numGames));
   }
 }

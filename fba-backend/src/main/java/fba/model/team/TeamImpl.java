@@ -1,6 +1,9 @@
 package fba.model.team;
 
 import fba.model.player.Player;
+import fba.utils.Request;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +32,7 @@ public class TeamImpl implements Team {
   private int divisionId;
   private Map<Integer, Matchup> matchups;
   private double powerRankingScore;
+
 
   public TeamImpl(
       String nickname,

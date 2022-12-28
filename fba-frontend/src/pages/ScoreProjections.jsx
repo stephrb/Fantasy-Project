@@ -5,7 +5,7 @@ import MatchupPeriodButtons from '../components/projections/MatchupPeriodButtons
 import ScoreProjectionsBody from '../components/projections/ProjectionsBody';
 function ScoreProjections(props) {
     const [assessInjuries, setAssessInjuries] = useState(true);
-    const [timePeriod, setTimePeriod] = useState("Season_2022");
+    const [timePeriod, setTimePeriod] = useState("Season_2023");
     const [matchupPeriod, setMatchupPeriod] = useState();
 
     useEffect(() => {

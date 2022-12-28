@@ -1,6 +1,7 @@
 package fba.model;
 
 import fba.model.player.Player;
+import fba.model.team.DraftPick;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
 import org.json.simple.JSONObject;
@@ -206,6 +207,36 @@ public class ModelImpl implements Model {
   @Override
   public List<JSONObject> getProTeamGames(int matchupPeriod) {
     return league.getProTeamGames(matchupPeriod);
+  }
+
+  @Override
+  public Double getWinPercentage(int homeTeam, int awayTeam, int numGames, int matchupPeriod, boolean assessInjuries) {
+    return league.getWinPercentage(homeTeam, awayTeam, numGames, matchupPeriod, assessInjuries);
+  }
+
+  @Override
+  public List<String> getRosteredPlayerIds() {
+    return league.getRosteredPlayerIds();
+  }
+
+  @Override
+  public void setAllPlayers(Map<String, Player> allPlayers) {
+    league.setAllPlayers(allPlayers);
+  }
+
+  @Override
+  public Map<String, Player> getAllPlayers() {
+    return league.getAllPlayers();
+  }
+
+  @Override
+  public void setDraftPicks(Map<Integer, DraftPick> draftPicks) {
+    league.setDraftPicks(draftPicks);
+  }
+
+  @Override
+  public Map<Integer, DraftPick> getDraftPicks() {
+    return league.getDraftPicks();
   }
 
   @Override

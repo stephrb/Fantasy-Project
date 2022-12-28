@@ -1,9 +1,12 @@
 package fba.model;
 
 import fba.model.player.Player;
+import fba.model.team.DraftPick;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
+import javafx.util.Pair;
 import org.json.simple.JSONObject;
+import org.apache.commons.math3.distribution.NormalDistribution;
 
 import java.util.*;
 
@@ -16,7 +19,9 @@ public class LeagueImpl implements League {
   private int finalScoringPeriod;
   private final String name;
   private List<Player> freeAgents;
+  private Map<String, Player> allPlayers;
   private Map<String, Map<Integer, boolean[]>> proTeamMatchups;
+  private Map<Integer, DraftPick> draftPicks;
 
   public LeagueImpl(String leagueId, String name) {
     teams = new HashMap<>();
@@ -92,6 +97,23 @@ public class LeagueImpl implements League {
 
   public void setFreeAgents(List<Player> freeAgents) {
     this.freeAgents = freeAgents;
+  }
+
+  public void setAllPlayers(Map<String, Player> allPlayers) {this.allPlayers = allPlayers;}
+
+  @Override
+  public Map<String, Player> getAllPlayers() {
+    return allPlayers;
+  }
+
+  @Override
+  public void setDraftPicks(Map<Integer, DraftPick> draftPicks) {
+    this.draftPicks = draftPicks;
+  }
+
+  @Override
+  public Map<Integer, DraftPick> getDraftPicks() {
+    return draftPicks;
   }
 
   @Override
@@ -276,18 +298,68 @@ public class LeagueImpl implements League {
     return list;
   }
 
+  @Override
+  public Double getWinPercentage(int homeTeamId, int awayTeamId, int numGames, int matchupPeriod, boolean assessInjuries) {
+    double homeTeamMean = 0, awayTeamMean = 0, homeTeamVar = 0, awayTeamVar = 0;
+    TreeSet<Pair<Pair<Double, Double>, Player>> hpq = new TreeSet<>(Collections.reverseOrder(Comparator.comparingDouble(pairPlayerPair -> pairPlayerPair.getKey().getValue())));
+    TreeSet<Pair<Pair<Double, Double>, Player>> apq = new TreeSet<>(Collections.reverseOrder(Comparator.comparingDouble(pairPlayerPair -> pairPlayerPair.getKey().getValue())));
+
+    for (Player p : getTeam(homeTeamId).getPlayers()) {
+      Pair<Double, Double> varianceAndMean = p.calculateVarianceAndMean(numGames);
+      homeTeamVar += varianceAndMean.getKey();
+      homeTeamMean += varianceAndMean.getValue();
+      hpq.add(new Pair<>(varianceAndMean, p));
+    }
+
+    for (Player p : getTeam(awayTeamId).getPlayers()) {
+      Pair<Double, Double> varianceAndMean = p.calculateVarianceAndMean(numGames);
+      awayTeamVar += varianceAndMean.getKey();
+      awayTeamMean += varianceAndMean.getValue();
+      apq.add(new Pair<>(varianceAndMean, p));
+    }
+
+     Pair<Double, Double> htvm = totalVarianceAndMean(getTeam(homeTeamId), matchupPeriod, hpq, assessInjuries);
+    Pair<Double, Double> atvm = totalVarianceAndMean(getTeam(awayTeamId), matchupPeriod, apq, assessInjuries);
+    double mean = htvm.getValue() - atvm.getValue();
+    double var = htvm.getKey() + atvm.getKey();
+    System.out.println(htvm.getValue() + " vs " + atvm.getValue() + " ----- " + Math.sqrt(htvm.getKey()) + " vs " + Math.sqrt(atvm.getKey()));
+    NormalDistribution distribution = new NormalDistribution(mean, Math.sqrt(var));
+    return 1 - distribution.cumulativeProbability(getTeam(awayTeamId).getPointsFor(matchupPeriod) - getTeam(homeTeamId).getPointsFor(matchupPeriod));
+  }
+
+  @Override
+  public List<String> getRosteredPlayerIds() {
+    List<String> rosteredPlayerIds = new ArrayList<>();
+    for (Team team : teams.values())
+      for (Player player : team.getPlayers()) rosteredPlayerIds.add(player.getPlayerId());
+    return rosteredPlayerIds;
+  }
+
   private JSONObject getTeamProjectedScore(Team team, String timePeriod, int matchupPeriod, boolean assessInjuries) {
     double points = team.getPointsFor(matchupPeriod);
     int totalGames = 0;
-    for (Player player : team.getPlayers()) {
-      int count = 0;
-      boolean[] games = proTeamMatchups.get(player.getProTeam()).get(matchupPeriod);
-      if (assessInjuries && player.getInjuryStatus().equals("ACTIVE")) {
-        count = getGamesCount(games, matchupPeriod);
-      } else if (!assessInjuries) count = getGamesCount(games, matchupPeriod);
-      points += (player.getStatsMap().get(timePeriod) == null) ? 0 : player.getStatsMap().get(timePeriod).getAvg().get("FPTS") * count;
-      totalGames += count;
+
+    int start = 0;
+    if (matchupPeriod == currentMatchupPeriod) start = (currentScoringPeriod % 7 - 1) < 0 ? 6 : (currentScoringPeriod % 7 - 1);
+    else if (matchupPeriod < currentMatchupPeriod) start = 7;
+
+    for (int i = start; i < 7; i++) {
+      PriorityQueue<Double> pq = new PriorityQueue<>();
+      for (Player player : team.getPlayers()) {
+        if (proTeamMatchups.get(player.getProTeam()).get(matchupPeriod)[i]) {
+          double playerPoints = (player.getStatsMap().get(timePeriod) == null) ? 0 : player.getStatsMap().get(timePeriod).getAvg().get("FPTS");
+          if (!assessInjuries || (player.getInjuryStatus().equals("ACTIVE") || player.getInjuryStatus().equals("DAY_TO_DAY"))) pq.add(playerPoints);
+        }
+      }
+      while (pq.size() > 10) {
+        pq.poll();
+      }
+      totalGames += pq.size();
+
+      while (!pq.isEmpty()) points += pq.poll();
+
     }
+
     JSONObject jsonProjected = new JSONObject();
     jsonProjected.put("teamName", team.getName());
     jsonProjected.put("totalGames", totalGames);
@@ -295,14 +367,24 @@ public class LeagueImpl implements League {
     return jsonProjected;
   }
 
-  private int getGamesCount(boolean[] playerGames, int matchupPeriod) {
-    int count = 0;
+  private Pair<Double, Double> totalVarianceAndMean(Team team, int matchupPeriod, TreeSet<Pair<Pair<Double, Double>, Player>> pq, boolean assessInjuries) {
+    double mean = 0, variance = 0;
+
     int start = 0;
-    if (matchupPeriod == currentMatchupPeriod) start = currentScoringPeriod % 7;
+    if (matchupPeriod == currentMatchupPeriod) start = (currentScoringPeriod % 7 - 1) < 0 ? 6 : (currentScoringPeriod % 7 - 1);
     else if (matchupPeriod < currentMatchupPeriod) start = 7;
+
     for (int i = start; i < 7; i++) {
-      if (playerGames[i]) count++;
+      int count = 0;
+      for (Pair<Pair<Double, Double>, Player> p : pq) {
+        if (count >= 10) break;
+        if (proTeamMatchups.get(p.getValue().getProTeam()).get(matchupPeriod)[i] && (!assessInjuries || (p.getValue().getInjuryStatus().equals("ACTIVE") || p.getValue().getInjuryStatus().equals("DAY_TO_DAY")))) {
+          mean += p.getKey().getValue();
+          variance += p.getKey().getKey();
+          count++;
+        }
+      }
     }
-    return count;
+    return new Pair<>(variance, mean);
   }
 }

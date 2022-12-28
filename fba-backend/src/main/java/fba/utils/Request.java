@@ -22,7 +22,7 @@ public class Request {
    * @param header header to add to the URL
    * @return the json string gathered from the inputs
    */
-  public static String getESPNInformation(
+  public static String get(
       String leagueId, String year, String endpoint, String header) {
 
     URL url = null;
@@ -38,7 +38,7 @@ public class Request {
                     + "/segments/0/leagues/"
                     + leagueId
                     + endpoint);
-      else url = new URL("https://fantasy.espn.com/apis/v3/games/fba/seasons/" + year);
+      else url = new URL("https://fantasy.espn.com/apis/v3/games/fba/seasons/" + year + endpoint);
     } catch (Exception e) {
       System.out.print("Bad URL: ");
     }
@@ -103,6 +103,7 @@ public class Request {
   /**
    * @return the schedule information string from the api at
    *     https://write.corbpie.com/using-the-nba-schedule-api-with-php/
+   *     ***DEPRECATED***
    */
   public static String getScheduleInformation() {
     try {
