@@ -101,23 +101,6 @@ public class AppTest {
         assertNotNull(jsonStat);
     }
 
-
-    @Test
-    public void freeAgentTest() {
-        String leagueInfo = Request.get("1213148421", "2022", "", "");
-        JSONObject json = Request.parseString(leagueInfo);
-        League league = Factory.createLeague(json);
-        String header =
-                "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
-        String freeAgentInfo =
-                Request.get("1213148421", "2022", "?view=kona_player_info", header);
-        JSONObject jsonFreeAgents = Request.parseString(freeAgentInfo);
-        JSONArray jsonFreeAgentsArr = (JSONArray) jsonFreeAgents.get("players");
-        league.setFreeAgents(Factory.createPlayers(league, jsonFreeAgentsArr).getKey());
-
-        assertNotNull(league.getFreeAgents());
-    }
-
     @Test
     public void connectionTest() {
         JSONObject json = null;
@@ -458,21 +441,6 @@ public class AppTest {
     }
 
     @Test
-    public void fileReadTest() {
-        try {
-            Scanner sc = new Scanner(new File("src/main/java/fba/utils/NBA2023Schedule.csv"));
-            sc.useDelimiter(","); // sets the delimiter pattern
-            while (sc.hasNext()) // returns a boolean value
-            {
-                System.out.print(sc.next());
-            }
-            sc.close(); // closes the scanner
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
     public void projectionTest() {
         Model model = Factory.createModel("1117484973");
         model.getProjectedScores("Last_30_2023", 1, true);
@@ -553,7 +521,7 @@ public class AppTest {
 
     @Test
     public void modelSamePlayerTest() {
-        Model model = Factory.createModel("1870103442");
+        Model model = Factory.createModel("1117484973");
         Player p1 = model.getTeams().iterator().next().getPlayers().iterator().next();
         Player p2 = model.getAllPlayers().get(p1.getPlayerId());
         assertSame(p1, p2);
