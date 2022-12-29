@@ -20,14 +20,14 @@ public class ModelController {
 
     @Bean
     public Filter requestLoggingFilter() {
-        return new RequestLoggingFilter();
-    }
-    @PostMapping("/create")
-    public void createModel(@RequestBody JSONObject body, HttpServletRequest request) {
         for (String m : models.keySet()) {
             System.out.println(m);
         }
         System.out.println("______________");
+        return new RequestLoggingFilter();
+    }
+    @PostMapping("/create")
+    public void createModel(@RequestBody JSONObject body, HttpServletRequest request) {
 
         String leagueId = body.get("leagueId").toString();
         if (leagueId.matches("\\d+")) {
