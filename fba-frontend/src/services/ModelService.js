@@ -1,7 +1,7 @@
 
 import AxiosInstance from "./AxiosInstance";
 
-const MODEL_API_BASE_URL = process.env.BASE_URL || "fba-backend-production.up.railway.app/api/v1/";
+const MODEL_API_BASE_URL = "http://fba-backend-production.up.railway.app/api/v1/";
 
 class ModelService {
 
