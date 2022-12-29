@@ -1,37 +1,35 @@
-
-
 .styledtable {
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 1000px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    width:auto; 
-    margin-left:auto; 
-    margin-right:auto;
-    margin-top: auto;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 1000px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
 }
 
 .styledtable thead tr {
-    background-color: rgb(44, 42, 41);
-    color: #ffffff;
-    text-align: left;
+  background-color: rgb(44, 42, 41);
+  color: #ffffff;
+  text-align: left;
 }
 
 .styledtable th,
 .styledtable td {
-    padding: 10px 15px;
-    white-space: nowrap
+  padding: 10px 15px;
+  white-space: nowrap;
 }
 
 .styledtable tbody tr {
-    border-bottom: thin solid #dddddd;
+  border-bottom: thin solid #dddddd;
 }
 
 .styledtable tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+  background-color: #f3f3f3;
 }
 
 .styledtable tbody tr:last-of-type {
-    border-bottom: 2px solid rgb(44, 42, 41);
+  border-bottom: 2px solid rgb(44, 42, 41);
 }

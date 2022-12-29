@@ -1,93 +1,93 @@
 .container {
-    display: flex;
+  display: flex;
 }
 
 .default {
-    background-color:#8D9092;
-    font: inherit;
-    cursor: pointer;
-    color: white;
-    padding: 0.5rem 1.75rem;
-    border: 1px solid #8D9092;
-    border-radius: 4px;
-    font-weight: bold;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-    margin: 5px;
-    margin-top: 1%;
-    width: 300px;
-    min-width: 300px;
-    max-width: 300px;
+  background-color: #8d9092;
+  font: inherit;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.75rem;
+  border: 1px solid #8d9092;
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+  margin: 5px;
+  margin-top: 1%;
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
 }
 
 .winner {
-    background-color:#4aaf5d;
-    font: inherit;
-    cursor: pointer;
-    color: white;
-    padding: 0.5rem 1.75rem;
-    border: 1px solid #4aaf5d;
-    border-radius: 4px;
-    font-weight: bold;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-    margin: 5px;
-    margin-top: 1%;
-    width: 300px;
-    min-width: 300px;
-    max-width: 300px;
+  background-color: #4aaf5d;
+  font: inherit;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.75rem;
+  border: 1px solid #4aaf5d;
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+  margin: 5px;
+  margin-top: 1%;
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
 }
 
 .loser {
-    background-color: rgb(189, 84, 84);
-    font: inherit;
-    cursor: pointer;
-    color: white;
-    padding: 0.5rem 1.75rem;
-    border: 1px solid rgb(189, 84, 84);
-    border-radius: 4px;
-    font-weight: bold;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-    margin: 5px;
-    margin-top: 1%;
-    width: 300px;
-    min-width: 300px;
-    max-width: 300px;
+  background-color: rgb(189, 84, 84);
+  font: inherit;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.75rem;
+  border: 1px solid rgb(189, 84, 84);
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+  margin: 5px;
+  margin-top: 1%;
+  width: 300px;
+  min-width: 300px;
+  max-width: 300px;
 }
 
 .defaultTie {
-    background-color:#8D9092;
-    font: inherit;
-    cursor: pointer;
-    color: white;
-    padding: 0.5rem 1.75rem;
-    border: 1px solid #8D9092;
-    border-radius: 4px;
-    font-weight: bold;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-    margin: 5px;
-    margin-top: 1%;
-    width: 100px;
-    min-width: 100px;
-    max-width: 100px;
+  background-color: #8d9092;
+  font: inherit;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.75rem;
+  border: 1px solid #8d9092;
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+  margin: 5px;
+  margin-top: 1%;
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
 }
 
 .tie {
-    background-color: rgb(221, 195, 44);
-    font: inherit;
-    cursor: pointer;
-    color: white;
-    padding: 0.5rem 1.75rem;
-    border: 1px solid rgb(221, 195, 44);
-    border-radius: 4px;
-    font-weight: bold;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-    margin: 5px;
-    margin-top: 1%;
-    width: 100px;
-    min-width: 100px;
-    max-width: 100px;
+  background-color: rgb(221, 195, 44);
+  font: inherit;
+  cursor: pointer;
+  color: white;
+  padding: 0.5rem 1.75rem;
+  border: 1px solid rgb(221, 195, 44);
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+  margin: 5px;
+  margin-top: 1%;
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
 }
 
 .vs {
-    padding-left: 10px;
-    padding-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }

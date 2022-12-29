@@ -1,36 +1,35 @@
 .item {
-    margin:1rem;
-  }
+  margin: 1rem;
+}
 
-  .content {
-    padding: .5rem 10px .5rem 10px;
-    
-  }
+.content {
+  padding: 0.5rem 10px 0.5rem 10px;
+}
 
-  .header {
-    text-align: center;
-    font-weight:lighter;
-    text-shadow: 0 -1px rgba(160, 100, 100, 0.6);
-    background: rgb(44, 42, 41);
-    border: thin solid #fff;
-    color: white;
-    border-radius: 10px;  
-    padding: 10px 5.5rem 10px 5rem;
-    white-space: nowrap;
-  }
+.header {
+  text-align: center;
+  font-weight: lighter;
+  text-shadow: 0 -1px rgba(160, 100, 100, 0.6);
+  background: rgb(44, 42, 41);
+  border: thin solid #fff;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 5.5rem 10px 5rem;
+  white-space: nowrap;
+}
 
-  .content a {
-    text-decoration: none;
-    color: white
-  }
-  
-  .header:hover,
-  .header:active,
-  .header:active {
-    color: #A2AAAD;
-  }
-  
-  .content p {
-      text-align: center;
-      font-size: 1rem;
-  }
+.content a {
+  text-decoration: none;
+  color: white;
+}
+
+.header:hover,
+.header:active,
+.header:active {
+  color: #a2aaad;
+}
+
+.content p {
+  text-align: center;
+  font-size: 1rem;
+}

@@ -1,42 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import ModelService from '../services/ModelService';
-import MatchupOutcomes from '../components/playoffmachine/MatchupOutcomes';
-import PlayoffRankings from '../components/playoffmachine/PlayoffRankings';
-import Header from '../components/ui/Header';
+import React, { useEffect, useState } from "react";
+import ModelService from "../services/ModelService";
+import MatchupOutcomes from "../components/playoffmachine/MatchupOutcomes";
+import PlayoffRankings from "../components/playoffmachine/PlayoffRankings";
+import Header from "../components/ui/Header";
 function PlayoffMachine(props) {
-    const [playoffRankings, setPlayoffRankings] = useState([]);
-    const [isSorted, setIsSorted] = useState(true);
+  const [playoffRankings, setPlayoffRankings] = useState([]);
+  const [isSorted, setIsSorted] = useState(true);
 
-    useEffect(() => {
-        ModelService.getIsSorted().then((res) => {
-            setIsSorted(res.data);
-        }).catch();
-        ModelService.getPlayoffRankings().then((res) => {
-            setPlayoffRankings(res.data);
-        }).catch();
-        ModelService.getIsSorted().then((res) => {
-            setIsSorted(res.data);
-        }).catch();
-     }, [isSorted]);
+  useEffect(() => {
+    ModelService.getIsSorted()
+      .then((res) => {
+        setIsSorted(res.data);
+      })
+      .catch();
+    ModelService.getPlayoffRankings()
+      .then((res) => {
+        setPlayoffRankings(res.data);
+      })
+      .catch();
+    ModelService.getIsSorted()
+      .then((res) => {
+        setIsSorted(res.data);
+      })
+      .catch();
+  }, [isSorted]);
 
-     function handleOutcomeChange() {
-        setIsSorted(!isSorted);
-     }
+  function handleOutcomeChange() {
+    setIsSorted(!isSorted);
+  }
 
-     if (typeof playoffRankings === 'undefined') {
-        return (
-            <p>
-                loading...
-            </p>
-        )
-    }
-    return (
-        <div>
-            <Header text="Playoff Machine" />
-            <PlayoffRankings playoffRankings={playoffRankings} isSorted={isSorted}/>
-            <MatchupOutcomes handleOutcomeChange={handleOutcomeChange}/>
-        </div>
-    );
+  if (typeof playoffRankings === "undefined") {
+    return <p>loading...</p>;
+  }
+  return (
+    <div>
+      <Header text="Playoff Machine" />
+      <PlayoffRankings playoffRankings={playoffRankings} isSorted={isSorted} />
+      <MatchupOutcomes handleOutcomeChange={handleOutcomeChange} />
+    </div>
+  );
 }
 
 export default PlayoffMachine;

@@ -1,15 +1,15 @@
 .container {
-    list-style-type: none;
-    display:flex;
-    margin: 0;
-    padding: 0;
+  list-style-type: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
 }
 
 .container li {
-    margin:0;
+  margin: 0;
 }
 
 .table {
-    margin:0;
-    width: 2000px;
+  margin: 0;
+  width: 2000px;
 }

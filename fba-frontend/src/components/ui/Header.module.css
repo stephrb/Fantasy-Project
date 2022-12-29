@@ -1,13 +1,13 @@
 .header {
-    font-weight: normal;
-    position: relative;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-    font: inherit;
-    font-size: 28px;
-    line-height: 40px;
-    background: #7BAFD4;
-    border: thin solid #fff;
-    padding: 5px 15px;
-    color: white;
-    border-radius: 10px;  
-  }
+  font-weight: normal;
+  position: relative;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+  font: inherit;
+  font-size: 28px;
+  line-height: 40px;
+  background: #7bafd4;
+  border: thin solid #fff;
+  padding: 5px 15px;
+  color: white;
+  border-radius: 10px;
+}

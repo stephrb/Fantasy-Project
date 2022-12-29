@@ -1,85 +1,87 @@
-  .control {
-    margin-bottom: 0.5rem;
-    font: inherit;  
-    padding: 0.25rem;
-  }
-  
-  .actions {
-    margin-top: 1rem;
-    text-align: right;
-  }
-  
-  .actionsbutton {
-    font: inherit;
-    cursor: pointer;
-    background-color: #7BAFD4;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border: 1px solid #7BAFD4;
-    border-radius: 4px;
-    font-weight: bold;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-  }
+.control {
+  margin-bottom: 0.5rem;
+  font: inherit;
+  padding: 0.25rem;
+}
 
-  .demo {
-    margin-left: 2.5%;
-    font: inherit;
-    cursor: pointer;
-    background-color: #13294B;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border: 1px solid #13294B;
-    border-radius: 4px;
-    font-weight: bold;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-  }
+.actions {
+  margin-top: 1rem;
+  text-align: right;
+}
 
-  .textbox {
-    width: 98%;
-  }
-  
+.actionsbutton {
+  font: inherit;
+  cursor: pointer;
+  background-color: #7bafd4;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #7bafd4;
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+}
 
-  .demo:hover,
-  .demo:active {
-    background-color: #26426b;
-    border-color: #26426b;
-  }
-  .actionsbutton:hover,
-  .actionsbutton:active {
-    background-color: #69c7ec;
-    border-color: #69c7ec;
-  }
+.demo {
+  margin-left: 2.5%;
+  font: inherit;
+  cursor: pointer;
+  background-color: #13294b;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #13294b;
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+}
 
+.textbox {
+  width: 98%;
+}
 
-  .loader {
-    border: 6px solid #f3f3f3; /* Light grey */
-    border-top: 6px solid #7BAFD4; /* Blue */
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+.demo:hover,
+.demo:active {
+  background-color: #26426b;
+  border-color: #26426b;
+}
+.actionsbutton:hover,
+.actionsbutton:active {
+  background-color: #69c7ec;
+  border-color: #69c7ec;
+}
 
-  .inline {
-    margin-left: 5%;
-    display: inline-flex;
-    font: inherit;
-    background-color: #ca5850;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border: 1px solid #ca5850;
-    border-radius: 4px;
-    font-weight: bold;
-    text-shadow: 0 -1px rgba(0,0,0,0.6);
-  }
+.loader {
+  border: 6px solid #f3f3f3; /* Light grey */
+  border-top: 6px solid #7bafd4; /* Blue */
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
 
-  .center {
-    margin-top: 12%;
-    margin-left: 32.5%;
-    width: 35%;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.inline {
+  margin-left: 5%;
+  display: inline-flex;
+  font: inherit;
+  background-color: #ca5850;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #ca5850;
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+}
+
+.center {
+  margin-top: 12%;
+  margin-left: 32.5%;
+  width: 35%;
+}

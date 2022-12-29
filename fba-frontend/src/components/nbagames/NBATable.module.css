@@ -1,43 +1,42 @@
 .styledtable {
-    border-collapse: collapse;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    width:70%; 
-    margin-left:15%; 
-    margin-right:15%;
-    margin-top: 6px;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 6px;
 }
 
 .styledtable thead tr {
-    background-color: rgb(44, 42, 41);
-    color: #ffffff;
-    text-align: left;
+  background-color: rgb(44, 42, 41);
+  color: #ffffff;
+  text-align: left;
 }
 
 .styledtable th,
 .styledtable td {
-    padding: 2PX 15px;
+  padding: 2px 15px;
 }
 
 .styledtable tbody tr {
-    border-bottom: thin solid #dddddd;
+  border-bottom: thin solid #dddddd;
 }
 
 .styledtable tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+  background-color: #f3f3f3;
 }
 
 .styledtable tbody tr:last-of-type {
-    border-bottom: 2px solid rgb(44, 42, 41);
+  border-bottom: 2px solid rgb(44, 42, 41);
 }
 
-
 .hasGame {
-    background-color: #27d845;
+  background-color: #27d845;
 }
 
 .noGame {
-    background-color: #d11c16;
+  background-color: #d11c16;
 }
