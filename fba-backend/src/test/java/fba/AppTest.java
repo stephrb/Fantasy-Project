@@ -492,7 +492,7 @@ public class AppTest {
     @Test
     public void winPercentTest() {
         Model model = Factory.createModel("1117484973");
-        int period = model.getCurrentMatchupPeriod() + 5;
+        int period = model.getCurrentMatchupPeriod();
         for (Matchup m : model.getMatchups().get(period)) {
             int h = m.getAwayTeamId();
             int a = m.getHomeTeamId();

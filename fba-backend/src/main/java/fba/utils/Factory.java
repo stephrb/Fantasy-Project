@@ -307,7 +307,7 @@ public final class Factory {
       team.setPowerRankingScore(league.getPowerRankingScore(team.getTeamId()));
 
     String header =
-        "{\"players\":{\"limit\":250,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
+        "{\"players\":{\"limit\":350,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
     String playersInfo =
         Request.get(leagueId, year, "?view=kona_player_info", header);
     JSONObject jsonPlayers = Request.parseString(playersInfo);
