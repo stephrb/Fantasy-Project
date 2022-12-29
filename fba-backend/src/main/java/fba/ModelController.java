@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "fba-frontend-production.up.railway.app")
 @RestController
 @RequestMapping("/api/v1/")
 public class ModelController {
