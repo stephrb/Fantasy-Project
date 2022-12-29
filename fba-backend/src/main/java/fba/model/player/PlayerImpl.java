@@ -25,6 +25,8 @@ public class PlayerImpl implements Player {
     private String acquisitionDate;
     private int lineupSlotId;
     private List<Double> previousGameScores;
+    private int totalRank;
+    private int avgRank;
 
 
     public PlayerImpl(
@@ -101,5 +103,21 @@ public class PlayerImpl implements Player {
         numGames = Math.min(numGames, previousGameScores.size());
         if (previousGameScores.isEmpty()) return new Pair<>(0.0, 0.0);
         return VarianceCalculator.calculateVarianceAndMean(previousGameScores.subList(0, numGames));
+    }
+
+    public int getTotalRank() {
+        return totalRank;
+    }
+
+    public void setTotalRank(int totalRank) {
+        this.totalRank = totalRank;
+    }
+
+    public int getAvgRank() {
+        return avgRank;
+    }
+
+    public void setAvgRank(int avgRank) {
+        this.avgRank = avgRank;
     }
 }

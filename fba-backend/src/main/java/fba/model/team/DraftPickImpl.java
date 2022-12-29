@@ -15,4 +15,12 @@ public class DraftPickImpl implements DraftPick {
         this.roundPickNumber = roundPickNumber;
         this.pickNumber = pickNumber;
     }
+
+    public String getPlayerId() {
+        return playerId;
+    }
+
+    public int getTeamId() {
+        return teamId;
+    }
 }

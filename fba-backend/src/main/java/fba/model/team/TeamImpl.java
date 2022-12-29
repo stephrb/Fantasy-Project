@@ -250,4 +250,13 @@ public class TeamImpl implements Team {
     public String getRecord() {
         return wins + "-" + losses + "-" + ties;
     }
+
+    @Override
+    public double getAvgPointsForTeam(String timePeriod) {
+        double res = 0;
+        for (Player p : players) {
+            res +=  p.getStatsMap().get(timePeriod).getAvg().get("FPTS");
+        }
+        return res;
+    }
 }

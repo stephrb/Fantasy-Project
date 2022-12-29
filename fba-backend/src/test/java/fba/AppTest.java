@@ -7,6 +7,7 @@ import fba.model.PlayoffMachineImpl;
 import fba.model.player.Player;
 import fba.model.proteams.ProTeamGame;
 import fba.model.proteams.ProTeamSchedules;
+import fba.model.team.DraftPick;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
 import fba.utils.Factory;
@@ -16,7 +17,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -90,8 +93,7 @@ public class AppTest {
         JSONObject jsonTeam = (JSONObject) jsonRostersArr.get(0);
         JSONArray jsonPlayersArr = ((JSONArray) ((JSONObject) jsonTeam.get("roster")).get("entries"));
         JSONObject jsonEntry = (JSONObject) jsonPlayersArr.get(0);
-        JSONObject jsonPlayer =
-                ((JSONObject) ((JSONObject) jsonEntry.get("playerPoolEntry")).get("player"));
+        JSONObject jsonPlayer = ((JSONObject) ((JSONObject) jsonEntry.get("playerPoolEntry")).get("player"));
         JSONArray jsonStatsArr = ((JSONArray) jsonPlayer.get("stats"));
         JSONObject jsonStat = ((JSONObject) jsonStatsArr.get(0));
         JSONObject avgStat = ((JSONObject) jsonStat.get("averageStats"));
@@ -105,15 +107,12 @@ public class AppTest {
     public void connectionTest() {
         JSONObject json = null;
         try {
-            URL url =
-                    new URL(
-                            "https://fantasy.espn.com/apis/v3/games/fba/seasons/2022/segments/0/leagues/1213148421?view=kona_player_info");
+            URL url = new URL("https://fantasy.espn.com/apis/v3/games/fba/seasons/2022/segments/0/leagues/1213148421?view=kona_player_info");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             // conn.setRequestProperty("content-type", "application/json");
-            String filter =
-                    "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
+            String filter = "{\"players\":{\"limit\":1500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
             JSONObject jsonFilter = Request.parseString(filter);
             conn.setRequestProperty("x-fantasy-filter", String.valueOf(jsonFilter));
             int responseCode = conn.getResponseCode();
@@ -145,13 +144,7 @@ public class AppTest {
         TemporalAdjuster adjuster = TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY);
         LocalDate date = LocalDate.now().with(adjuster);
         for (int i = 0; i < 7; i++) {
-            String s =
-                    (date.getDayOfMonth() > 10)
-                            ? String.valueOf(date.getYear()) + date.getMonth().getValue() + date.getDayOfMonth()
-                            : String.valueOf(date.getYear())
-                            + date.getMonth().getValue()
-                            + "0"
-                            + date.getDayOfMonth();
+            String s = (date.getDayOfMonth() > 10) ? String.valueOf(date.getYear()) + date.getMonth().getValue() + date.getDayOfMonth() : String.valueOf(date.getYear()) + date.getMonth().getValue() + "0" + date.getDayOfMonth();
             System.out.println(s);
             date = LocalDate.now().with(adjuster).plusDays(i);
         }
@@ -180,8 +173,7 @@ public class AppTest {
 
         Team team = league.getTeam(7);
         Map<Integer, Double> pointsFor = team.getPointsForPerWeek(league.getCurrentMatchupPeriod());
-        Map<Integer, Double> pointsAgainst =
-                team.getPointsAgainstPerWeek(league.getCurrentMatchupPeriod());
+        Map<Integer, Double> pointsAgainst = team.getPointsAgainstPerWeek(league.getCurrentMatchupPeriod());
         assertNotNull(pointsFor);
     }
 
@@ -207,8 +199,7 @@ public class AppTest {
             System.out.print(compareTeam.getName() + ":\t");
             for (Team scheduleTeam : league.getTeams()) {
                 int[] record = league.compareSchedules(compareTeam.getTeamId(), scheduleTeam.getTeamId());
-                System.out.print(
-                        scheduleTeam.getName() + ": " + record[0] + "-" + record[1] + "-" + record[2] + "\t");
+                System.out.print(scheduleTeam.getName() + ": " + record[0] + "-" + record[1] + "-" + record[2] + "\t");
             }
             System.out.println("\n");
         }
@@ -302,17 +293,7 @@ public class AppTest {
             for (Matchup matchup : entry.getValue()) {
                 Team homeTeam = league.getTeam(matchup.getHomeTeamId());
                 Team awayTeam = league.getTeam(matchup.getAwayTeamId());
-                System.out.println(
-                        "Outcome of match? "
-                                + homeTeam.getName()
-                                + " ("
-                                + homeTeam.getTeamId()
-                                + ") "
-                                + " vs "
-                                + awayTeam.getName()
-                                + " ("
-                                + awayTeam.getTeamId()
-                                + ") or tie (-1)");
+                System.out.println("Outcome of match? " + homeTeam.getName() + " (" + homeTeam.getTeamId() + ") " + " vs " + awayTeam.getName() + " (" + awayTeam.getTeamId() + ") or tie (-1)");
 
                 playoffMachine.setWinner(matchup, -1);
             }
@@ -320,16 +301,7 @@ public class AppTest {
         playoffMachine.sortRankings();
         int rank = 1;
         for (Team team : playoffMachine.getRankings())
-            System.out.println(
-                    rank++
-                            + "\t"
-                            + team.getName()
-                            + "\t"
-                            + team.getWins()
-                            + "-"
-                            + team.getLosses()
-                            + "-"
-                            + team.getTies());
+            System.out.println(rank++ + "\t" + team.getName() + "\t" + team.getWins() + "-" + team.getLosses() + "-" + team.getTies());
     }
 
     @Test
@@ -380,16 +352,7 @@ public class AppTest {
         }
         teams.sort((o1, o2) -> (int) (o2.getPowerRankingScore() - o1.getPowerRankingScore()));
         for (Team team : teams)
-            System.out.println(
-                    team.getName()
-                            + "\t"
-                            + team.getPowerRankingScore()
-                            + " "
-                            + team.getWins()
-                            + "-"
-                            + team.getLosses()
-                            + "-"
-                            + team.getTies());
+            System.out.println(team.getName() + "\t" + team.getPowerRankingScore() + " " + team.getWins() + "-" + team.getLosses() + "-" + team.getTies());
     }
 
     @Test
@@ -453,8 +416,7 @@ public class AppTest {
         playerIds.add("4065648");
         String playerIdsString = String.join(", ", playerIds);
         int numPrevGames = 10;
-        String header =
-                "{\"players\":{\"filterIds\":{\"value\":[" + playerIdsString + "]},\"filterStatsForTopScoringPeriodIds\":{\"value\":10,\"additionalValue\":[\"002023\",\"102023\",\"002022\",\"012023\",\"022023\",\"032023\",\"042023\"]}}}";
+        String header = "{\"players\":{\"filterIds\":{\"value\":[" + playerIdsString + "]},\"filterStatsForTopScoringPeriodIds\":{\"value\":10,\"additionalValue\":[\"002023\",\"102023\",\"002022\",\"012023\",\"022023\",\"032023\",\"042023\"]}}}";
         String recentGames = Request.get("1117484973", "2023", "?view=kona_playercard", header);
         JSONObject jsonRecentGames = Request.parseString(recentGames);
 
@@ -527,10 +489,26 @@ public class AppTest {
         assertSame(p1, p2);
     }
 
+    /* Some interesting stuff here, not sure what is best to use for DraftComparison Analysis*/
     @Test
     public void draftPickTest() {
         Model model = Factory.createModel("1117484973");
-        assertNotNull(model.getDraftPicks());
+        Map<Integer, Double> res = new HashMap<>();
+        Map<Integer, DraftPick> draftpickMap = model.getDraftPicks();
+        for (Map.Entry<Integer, DraftPick> entry : draftpickMap.entrySet()) {
+            int pickNum = entry.getKey();
+            int teamId = entry.getValue().getTeamId();
+            String playerId = entry.getValue().getPlayerId();
+            res.putIfAbsent(teamId, 0.0);
+            if (model.getAllPlayers().get(playerId) != null)
+                res.put(teamId, res.get(teamId) + model.getAllPlayers().get(playerId).getStatsMap().get("Season_" + model.getYear()).getAvg().get("FPTS"));
+            else System.out.println(playerId);
+        }
+        assertNotNull(res);
+        for (Map.Entry<Integer, Double> e : res.entrySet()) {
+            System.out.println(model.getTeam(e.getKey()).getName() + ": " + e.getValue() + " vs " + model.getTeam(e.getKey()).getAvgPointsForTeam("Season_" + model.getYear()));
+        }
+
     }
 
     @Test

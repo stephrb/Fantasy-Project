@@ -12,6 +12,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class Factory {
   /**
@@ -307,7 +308,7 @@ public final class Factory {
       team.setPowerRankingScore(league.getPowerRankingScore(team.getTeamId()));
 
     String header =
-        "{\"players\":{\"limit\":350,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
+        "{\"players\":{\"limit\":500,\"sortDraftRanks\":{\"sortPriority\":100,\"sortAsc\":true,\"value\":\"STANDARD\"}}}";
     String playersInfo =
         Request.get(leagueId, year, "?view=kona_player_info", header);
     JSONObject jsonPlayers = Request.parseString(playersInfo);
@@ -316,6 +317,8 @@ public final class Factory {
     Pair<List<Player>, Map<String, Player>> players = createPlayers(league, jsonPlayersArr);
     league.setFreeAgents(players.getKey());
     league.setAllPlayers(players.getValue());
+
+    setRanks(league.getAllPlayers().values(), league);
 
     setPreviousPlayerScores(league);
 
@@ -399,6 +402,33 @@ public final class Factory {
       draftPicks.put(pickNumber, new DraftPickImpl(playerId, roundId, teamId, roundPickNumber, pickNumber));
     }
     return draftPicks;
+  }
+
+  private static void setRanks(Collection<Player> allPlayers, League league) {
+    List<Player> sortedPlayers = allPlayers.stream()
+            .sorted((p1, p2) -> (int) (p1.getStatsMap().get("Season_" + league.getYear())
+                                .getTotal().get("FPTS") - p2.getStatsMap().get("Season_" + league.getYear())
+                                .getTotal().get("FPTS")))
+            .collect(Collectors.toList());
+    Collections.reverse(sortedPlayers);
+
+    for (int i = 0; i < sortedPlayers.size(); i ++) {
+      Player p = sortedPlayers.get(i);
+      p.setTotalRank(i + 1);
+    }
+
+    sortedPlayers = allPlayers.stream()
+            .sorted((p1, p2) -> (int) (p1.getStatsMap().get("Season_" + league.getYear())
+                    .getAvg().get("FPTS") - p2.getStatsMap().get("Season_" + league.getYear())
+                    .getAvg().get("FPTS")))
+            .collect(Collectors.toList());
+    Collections.reverse(sortedPlayers);
+
+    for (int i = 0; i < sortedPlayers.size(); i ++) {
+      Player p = sortedPlayers.get(i);
+      p.setAvgRank(i + 1);
+    }
+
   }
 
 }

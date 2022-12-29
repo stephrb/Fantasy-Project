@@ -12,19 +12,21 @@ class ModelService {
 
   createModel(leagueId) {
     localStorage.setItem("leagueId", leagueId["leagueId"]);
-    localStorage.setItem(
-      "userId",
-      Math.floor(100000 + Math.random() * 900000).toString()
-    );
+    if (!localStorage.getItem('userId'))
+      localStorage.setItem(
+        "userId",
+        Math.floor(100000 + Math.random() * 900000).toString()
+      );
     return AxiosInstance.post(MODEL_API_BASE_URL + "create", leagueId);
   }
 
   createDemo() {
     localStorage.setItem("leagueId", "DEMO###1117484973");
-    localStorage.setItem(
-      "userId",
-      Math.floor(100000 + Math.random() * 900000).toString()
-    );
+    if (!localStorage.getItem('userId'))
+      localStorage.setItem(
+        "userId",
+        Math.floor(100000 + Math.random() * 900000).toString()
+      );
     return AxiosInstance.post(MODEL_API_BASE_URL + "demo");
   }
 

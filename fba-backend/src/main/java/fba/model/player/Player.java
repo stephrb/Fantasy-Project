@@ -23,4 +23,12 @@ public interface Player {
     void setPreviousGameScores(List<Double> previousGameScores);
 
     Pair<Double, Double> calculateVarianceAndMean(int numGames);
+
+    int getTotalRank();
+
+    int getAvgRank();
+
+    void setTotalRank(int rank);
+
+    void setAvgRank(int rank);
 }

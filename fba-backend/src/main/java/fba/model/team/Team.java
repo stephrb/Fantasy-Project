@@ -103,4 +103,6 @@ public interface Team {
 
     String getRecord();
 
+    double getAvgPointsForTeam(String timePeriod);
+
 }
