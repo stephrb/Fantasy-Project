@@ -1,5 +1,5 @@
 
-import axios from "axios";
+// import axios from "axios";
 import AxiosInstance from "./AxiosInstance";
 
 const MODEL_API_BASE_URL = "http://fba-backend-production.up.railway.app/api/v1/";
