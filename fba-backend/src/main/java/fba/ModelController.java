@@ -26,13 +26,14 @@ public class ModelController {
         System.out.println("______________");
         return new RequestLoggingFilter();
     }
+
     @PostMapping("/create")
-    public void createModel(@RequestBody JSONObject body, HttpServletRequest request) {
+    public void createModel(@RequestBody JSONObject body, @RequestHeader("userId") String userId) {
 
         String leagueId = body.get("leagueId").toString();
         if (leagueId.matches("\\d+")) {
-            String remoteAddr = request.getRemoteAddr();
-            String key = leagueId + "###" + remoteAddr;
+            ;
+            String key = leagueId + "###" + userId;
             models.put(key, Factory.createModel(leagueId));
         } else throw new IllegalArgumentException();
 
@@ -40,56 +41,56 @@ public class ModelController {
 
     @GetMapping("/rankings")
     public List<Team> getPowerRankings(@RequestHeader("leagueId") String leagueId,
-                                       HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                       @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         if (model == null) return null;
         return model.getPowerRankings();
     }
 
     @PostMapping("/demo")
-    public void createDemo(HttpServletRequest request) {
-        models.put("DEMO###1117484973###" + request.getRemoteAddr(), Factory.createDemo());
+    public void createDemo(@RequestHeader("userId") String userId) {
+        models.put("DEMO###1117484973###" + userId, Factory.createDemo());
     }
 
     @GetMapping("/request")
     public Boolean modelGenerated(@RequestHeader("leagueId") String leagueId,
-                                  HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                  @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model != null;
     }
 
     @GetMapping("/compareSchedules")
     public List<Map<String, List<String>>> getScheduleComparison(@RequestHeader("leagueId") String leagueId,
-                                                                 HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                                                 @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getScheduleComparison();
     }
 
     @GetMapping("/compareWeekly")
     public List<Map<String, List<String>>> getWeeklyComparison(@RequestHeader("leagueId") String leagueId,
-                                                               HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                                               @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getWeeklyComparison();
     }
 
     @GetMapping("/playoffRankings")
     public List<Team> getPlayoffRankings(@RequestHeader("leagueId") String leagueId,
-                                         HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                         @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getRankings();
     }
 
     @GetMapping("remainingMatchupPeriods")
     public List<String> getRemainingMatchupPeriods(@RequestHeader("leagueId") String leagueId,
-                                                   HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                                   @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getRemainingMatchupPeriods();
     }
 
     @GetMapping("allMatchups")
     public List<String> getAllMatchups(@RequestHeader("leagueId") String leagueId,
-                                       HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                       @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         List<String> allMatchups = new ArrayList<>();
         for (int i = 1; i < (int) Math.ceil(model.getFinalScoringPeriod() / 7) + 1; i++) {
             allMatchups.add(String.valueOf(i));
@@ -99,16 +100,16 @@ public class ModelController {
 
     @GetMapping("playoffMachineMatchups")
     public Map<String, Set<Matchup>> getPlayoffMachineMatchups(@RequestHeader("leagueId") String leagueId,
-                                                               HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                                               @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getMatchupsJson();
     }
 
     @PostMapping("setWinnerHome")
     public void setWinnerHome(@RequestBody JSONObject json,
                               @RequestHeader("leagueId") String leagueId,
-                              HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                              @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         model.setWinnerHome(
                 Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
                 Integer.parseInt(String.valueOf(json.get("matchupId"))));
@@ -117,8 +118,8 @@ public class ModelController {
     @PostMapping("setWinnerAway")
     public void setWinnerAway(@RequestBody JSONObject json,
                               @RequestHeader("leagueId") String leagueId,
-                              HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                              @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         model.setWinnerAway(
                 Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
                 Integer.parseInt(String.valueOf(json.get("matchupId"))));
@@ -127,8 +128,8 @@ public class ModelController {
     @PostMapping("setWinnerTie")
     public void setWinnerTie(@RequestBody JSONObject json,
                              @RequestHeader("leagueId") String leagueId,
-                             HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                             @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         model.setWinnerTie(
                 Integer.parseInt(String.valueOf(json.get("matchupPeriod"))),
                 Integer.parseInt(String.valueOf(json.get("matchupId"))));
@@ -136,15 +137,15 @@ public class ModelController {
 
     @PostMapping("resetPlayoffMachine")
     public void resetPlayoffMachine(@RequestHeader("leagueId") String leagueId,
-                                    HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                    @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         model.resetPlayoffMachine();
     }
 
     @GetMapping("isSorted")
     public boolean isSorted(@RequestHeader("leagueId") String leagueId,
-                            HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                            @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getIsSorted();
     }
 
@@ -154,23 +155,23 @@ public class ModelController {
             @RequestParam("matchupPeriod") int matchupPeriod,
             @RequestParam("assessInjuries") boolean assessInjuries,
             @RequestHeader("leagueId") String leagueId,
-            HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+            @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getProjectedScores(timePeriod, matchupPeriod, assessInjuries);
     }
 
     @GetMapping("currentMatchupPeriod")
     public int getMatchupPeriod(@RequestHeader("leagueId") String leagueId,
-                                HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getCurrentMatchupPeriod();
     }
 
     @GetMapping("proTeamGames")
     public List<JSONObject> getProTeamGames(@RequestParam("matchupPeriod") int matchupPeriod,
                                             @RequestHeader("leagueId") String leagueId,
-                                            HttpServletRequest request) {
-        Model model = getModel(leagueId, request);
+                                            @RequestHeader("userId") String userId) {
+        Model model = getModel(leagueId, userId);
         return model.getProTeamGames(matchupPeriod);
     }
 
@@ -179,10 +180,10 @@ public class ModelController {
         return "error";
     }
 
-    private Model getModel(String leagueId, HttpServletRequest request) {
-        String key = leagueId + "###" + request.getRemoteAddr();
+    private Model getModel(String leagueId, String userId) {
+        String key = leagueId + "###" + userId;
         System.out.println(Arrays.toString(models.keySet().toArray()));
         if (leagueId.matches("(DEMO###)?\\d+") && models.containsKey(key)) return models.get(key);
-        throw new IllegalArgumentException("Bad id or ip" + leagueId + " " + request.getRemoteAddr());
+        throw new IllegalArgumentException("Bad id or ip" + leagueId + " " + userId);
     }
 }

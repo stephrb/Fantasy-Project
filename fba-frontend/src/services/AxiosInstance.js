@@ -6,6 +6,7 @@ axiosInstance.defaults.headers.common['leagueId'] = localStorage.getItem('league
 
 axiosInstance.interceptors.request.use((config) => {
   config.headers['leagueId'] = localStorage.getItem('leagueId');
+  config.headers['userId'] = localStorage.getItem('userId')
   return config;
 });
 
