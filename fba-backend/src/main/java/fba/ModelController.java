@@ -5,19 +5,23 @@ import fba.model.team.Matchup;
 import fba.model.team.Team;
 import fba.utils.Factory;
 import org.json.simple.JSONObject;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-//@CrossOrigin(origins = "http://localhost:3000")
-//@CrossOrigin(origins = "fba-frontend-production.up.railway.app")
-@CrossOrigin(origins = "https://fba-frontend-production.up.railway.app")
+@CrossOrigin(origins = {"http://localhost:3000", "fba-frontend-production.up.railway.app", "https://fba-frontend-production.up.railway.app"})
 @RestController
 @RequestMapping("/api/v1/")
 public class ModelController {
     private final Map<String, Model> models = new HashMap<>();
 
+    @Bean
+    public Filter requestLoggingFilter() {
+        return new RequestLoggingFilter();
+    }
     @PostMapping("/create")
     public void createModel(@RequestBody JSONObject body, HttpServletRequest request) {
         for (String m : models.keySet()) {

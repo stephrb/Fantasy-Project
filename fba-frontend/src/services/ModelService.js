@@ -2,7 +2,8 @@
 import axios from "axios";
 import AxiosInstance from "./AxiosInstance";
 
-const MODEL_API_BASE_URL = "http://fba-backend-production.up.railway.app/api/v1/";
+// const MODEL_API_BASE_URL = "http://fba-backend-production.up.railway.app/api/v1/";
+const MODEL_API_BASE_URL = "http://localhost:8080/api/v1/"
 
 class ModelService {
 
@@ -13,8 +14,8 @@ class ModelService {
 
     createModel(leagueId) {
         localStorage.setItem('leagueId', leagueId['leagueId']);
-        return axios.get("https://api.publicapis.org/entries")
-        // return AxiosInstance.post(MODEL_API_BASE_URL + "create", leagueId);
+        // return axios.get("https://api.publicapis.org/entries")
+        return AxiosInstance.post(MODEL_API_BASE_URL + "create", leagueId);
     }
 
     createDemo() {
