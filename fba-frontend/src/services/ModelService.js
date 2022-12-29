@@ -13,7 +13,7 @@ class ModelService {
 
     createModel(leagueId) {
         localStorage.setItem('leagueId', leagueId['leagueId']);
-        axios.get("https://api.publicapis.org/entries")
+        return axios.get("https://api.publicapis.org/entries")
         return AxiosInstance.post(MODEL_API_BASE_URL + "create", leagueId);
     }
 
