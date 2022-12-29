@@ -3,15 +3,29 @@ import Header from "../components/ui/Header";
 import ModelService from "../services/ModelService";
 import MatchupPeriodButtons from "../components/projections/MatchupPeriodButtons";
 import ScoreProjectionsBody from "../components/projections/ProjectionsBody";
+import axios from 'axios'
+
 function ScoreProjections(props) {
   const [assessInjuries, setAssessInjuries] = useState(true);
   const [timePeriod, setTimePeriod] = useState("Season_2023");
   const [matchupPeriod, setMatchupPeriod] = useState();
 
   useEffect(() => {
-    ModelService.getCurrentMatchupPeriod().then((res) =>
+    const controller = new AbortController();
+
+    ModelService.getCurrentMatchupPeriod({ signal: controller.signal }).then((res) =>
       setMatchupPeriod(res.data)
-    );
+    ).catch((error) => {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.log(error);
+      }
+    });
+
+  return () => {
+    controller.abort();
+  };
   }, []);
 
   function setTimePeriodHandler(tp) {

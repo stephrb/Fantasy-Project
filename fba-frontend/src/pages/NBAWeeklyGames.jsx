@@ -3,13 +3,27 @@ import Header from "../components/ui/Header";
 import WeekSelector from "../components/nbagames/WeekSelector";
 import NBATable from "../components/nbagames/NBATable";
 import ModelService from "../services/ModelService";
+import axios from 'axios'
+
 function NBAWeeklyGames(props) {
   const [matchupPeriod, setMatchupPeriod] = useState();
 
   useEffect(() => {
-    ModelService.getCurrentMatchupPeriod().then((res) =>
+    const controller = new AbortController();
+    
+    ModelService.getCurrentMatchupPeriod({ signal: controller.signal }).then((res) =>
       setMatchupPeriod(res.data)
-    );
+    ).catch((error) => {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.log(error);
+      }
+    });
+
+  return () => {
+    controller.abort();
+  };
   }, []);
 
   function changeMatchupWeekHandler(matchupPeriod) {

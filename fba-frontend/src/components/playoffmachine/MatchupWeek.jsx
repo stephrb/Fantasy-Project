@@ -3,14 +3,28 @@ import ModelService from "../../services/ModelService";
 import Matchup from "./Matchup";
 import Card from "../ui/Card";
 import classes from "./MatchupWeek.module.css";
+import axios from 'axios'
+
 function MatchupWeek(props) {
   const [matchups, setMatchups] = useState([]);
   const week = props.week;
 
   useEffect(() => {
-    ModelService.getPlayoffMachineMatchups().then((res) => {
+    const controller = new AbortController();
+
+    ModelService.getPlayoffMachineMatchups({ signal: controller.signal }).then((res) => {
       setMatchups(res.data[week]);
+    }).catch((error) => {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.log(error);
+      }
     });
+
+  return () => {
+    controller.abort();
+  };
   }, [week]);
 
   function setWinnerHomeHandler(matchup) {

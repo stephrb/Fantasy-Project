@@ -2,13 +2,26 @@ import React, { useState, useEffect } from "react";
 import ModelService from "../../services/ModelService";
 import Card from "../ui/Card";
 import classes from "./ComparisonTable.module.css";
+import axios from 'axios'
 function ScheduleComparison(props) {
   const [teamRecords, setTeamRecords] = useState();
 
   useEffect(() => {
-    ModelService.getScheduleComparison().then((res) => {
+    const controller = new AbortController();
+
+    ModelService.getScheduleComparison({ signal: controller.signal }).then((res) => {
       setTeamRecords(res.data);
+    })
+    .catch((error) => {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.log(error);
+      }
     });
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   if (typeof teamRecords === "undefined") {

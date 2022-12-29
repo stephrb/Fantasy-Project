@@ -2,15 +2,29 @@ import React, { useEffect, useState } from "react";
 import ModelService from "../../services/ModelService";
 import classes from "./MatchupOutcomes.module.css";
 import MatchupWeek from "./MatchupWeek";
+import axios from 'axios'
+
 function MatchupOutcomes(props) {
   const [remMatchupList, setRemMatchupList] = useState();
   const [curMatchupPeriod, setCurMatchupPeriod] = useState();
   const [isReset, setIsReset] = useState(false);
   useEffect(() => {
-    ModelService.getRemainingMatchupPeriods().then((res) => {
+    const controller = new AbortController();
+
+    ModelService.getRemainingMatchupPeriods({ signal: controller.signal }).then((res) => {
       setRemMatchupList(res.data);
       setCurMatchupPeriod(res.data[0]);
+    }).catch((error) => {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.log(error);
+      }
     });
+
+  return () => {
+    controller.abort();
+  };
   }, []);
 
   function changeMatchupWeekHandler(week) {

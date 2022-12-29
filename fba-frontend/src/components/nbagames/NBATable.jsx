@@ -2,13 +2,27 @@ import React, { useEffect, useState } from "react";
 import ModelService from "../../services/ModelService";
 import Card from "../ui/Card";
 import classes from "./NBATable.module.css";
+import axios from 'axios'
+
 function NBATable(props) {
   const [proTeams, setProTeams] = useState([]);
 
   useEffect(() => {
-    ModelService.getProTeamGames(props.matchupPeriod).then((res) => {
+    const controller = new AbortController();
+
+    ModelService.getProTeamGames(props.matchupPeriod, { signal: controller.signal }).then((res) => {
       setProTeams(res.data);
+    }).catch((error) => {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.log(error);
+      }
     });
+
+  return () => {
+    controller.abort();
+  };
   }, [props.matchupPeriod]);
 
   if (typeof proTeams === "undefined") {

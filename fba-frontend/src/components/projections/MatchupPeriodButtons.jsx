@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
 import ModelService from "../../services/ModelService";
 import classes from "./MatchupPeriodButtons.module.css";
+import axios from 'axios'
 
 function MatchupPeriodButtons(props) {
   const [allMatchups, setAllMatchups] = useState();
   const [curMatchupPeriod, setCurMatchupPeriod] = useState(props.matchupPeriod);
 
   useEffect(() => {
-    ModelService.getAllMatchups().then((res) => {
+    const controller = new AbortController();
+
+    ModelService.getAllMatchups({ signal: controller.signal }).then((res) => {
       setAllMatchups(res.data);
+    }).catch((error) => {
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.log(error);
+      }
     });
+
+  return () => {
+    controller.abort();
+  };
   }, []);
 
   function changeMatchupWeekHandler(week) {

@@ -32,29 +32,29 @@ class ModelService {
     return AxiosInstance.post(MODEL_API_BASE_URL + "request");
   }
 
-  getScheduleComparison() {
+  getScheduleComparison(signal) {
     console.log(localStorage.getItem("leagueId"));
-    return AxiosInstance.get(MODEL_API_BASE_URL + "compareSchedules");
+    return AxiosInstance.get(MODEL_API_BASE_URL + "compareSchedules", signal);
   }
 
-  getWeeklyComparison() {
-    return AxiosInstance.get(MODEL_API_BASE_URL + "compareWeekly");
+  getWeeklyComparison(signal) {
+    return AxiosInstance.get(MODEL_API_BASE_URL + "compareWeekly", signal);
   }
 
-  getPlayoffRankings() {
-    return AxiosInstance.get(MODEL_API_BASE_URL + "playoffRankings");
+  getPlayoffRankings(signal) {
+    return AxiosInstance.get(MODEL_API_BASE_URL + "playoffRankings", signal);
   }
 
-  getRemainingMatchupPeriods() {
-    return AxiosInstance.get(MODEL_API_BASE_URL + "remainingMatchupPeriods");
+  getRemainingMatchupPeriods(signal) {
+    return AxiosInstance.get(MODEL_API_BASE_URL + "remainingMatchupPeriods", signal);
   }
 
-  getAllMatchups() {
-    return AxiosInstance.get(MODEL_API_BASE_URL + "allMatchups");
+  getAllMatchups(signal) {
+    return AxiosInstance.get(MODEL_API_BASE_URL + "allMatchups", signal);
   }
 
-  getPlayoffMachineMatchups() {
-    return AxiosInstance.get(MODEL_API_BASE_URL + "playoffMachineMatchups");
+  getPlayoffMachineMatchups(signal) {
+    return AxiosInstance.get(MODEL_API_BASE_URL + "playoffMachineMatchups", signal);
   }
 
   setWinnerHome(matchup) {
@@ -68,15 +68,15 @@ class ModelService {
   setWinnerTie(matchup) {
     return AxiosInstance.post(MODEL_API_BASE_URL + "setWinnerTie", matchup);
   }
-  getIsSorted() {
-    return AxiosInstance.get(MODEL_API_BASE_URL + "isSorted");
+  getIsSorted(signal) {
+    return AxiosInstance.get(MODEL_API_BASE_URL + "isSorted", signal);
   }
 
   resetPlayoffMachine() {
     return AxiosInstance.post(MODEL_API_BASE_URL + "resetPlayoffMachine");
   }
 
-  getProjectedScores(timePeriod, matchupPeriod, assessInjuries) {
+  getProjectedScores(timePeriod, matchupPeriod, assessInjuries, signal) {
     return AxiosInstance.get(
       MODEL_API_BASE_URL +
         "scoreProjections?timePeriod=" +
@@ -84,17 +84,17 @@ class ModelService {
         "&matchupPeriod=" +
         matchupPeriod +
         "&assessInjuries=" +
-        assessInjuries
+        assessInjuries, signal
     );
   }
 
-  getCurrentMatchupPeriod() {
-    return AxiosInstance.get(MODEL_API_BASE_URL + "currentMatchupPeriod");
+  getCurrentMatchupPeriod(signal) {
+    return AxiosInstance.get(MODEL_API_BASE_URL + "currentMatchupPeriod", signal);
   }
 
-  getProTeamGames(matchupPeriod) {
+  getProTeamGames(matchupPeriod, signal) {
     return AxiosInstance.get(
-      MODEL_API_BASE_URL + "proTeamGames?matchupPeriod=" + matchupPeriod
+      MODEL_API_BASE_URL + "proTeamGames?matchupPeriod=" + matchupPeriod, signal
     );
   }
 }
