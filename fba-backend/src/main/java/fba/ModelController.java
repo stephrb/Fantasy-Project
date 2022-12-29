@@ -169,6 +169,11 @@ public class ModelController {
         return model.getProTeamGames(matchupPeriod);
     }
 
+    @GetMapping("/error")
+    public String error() {
+        return "error";
+    }
+
     private Model getModel(String leagueId, HttpServletRequest request) {
         String key = leagueId + "###" + request.getRemoteAddr();
         if (leagueId.matches("(DEMO###)?\\d+") && models.containsKey(key)) return models.get(key);
