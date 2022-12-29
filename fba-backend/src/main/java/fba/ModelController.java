@@ -181,6 +181,7 @@ public class ModelController {
 
     private Model getModel(String leagueId, HttpServletRequest request) {
         String key = leagueId + "###" + request.getRemoteAddr();
+        System.out.println(models.containsKey(key));
         if (leagueId.matches("(DEMO###)?\\d+") && models.containsKey(key)) return models.get(key);
         throw new IllegalArgumentException("Bad id or ip" + leagueId + " " + request.getRemoteAddr());
     }
