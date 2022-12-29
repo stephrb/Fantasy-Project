@@ -12,6 +12,7 @@ import java.util.*;
 
 //@CrossOrigin(origins = "http://localhost:3000")
 //@CrossOrigin(origins = "fba-frontend-production.up.railway.app")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/")
 public class ModelController {
