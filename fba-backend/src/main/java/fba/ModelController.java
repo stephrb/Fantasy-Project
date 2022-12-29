@@ -32,7 +32,6 @@ public class ModelController {
 
         String leagueId = body.get("leagueId").toString();
         if (leagueId.matches("\\d+")) {
-            ;
             String key = leagueId + "###" + userId;
             models.put(key, Factory.createModel(leagueId));
         } else throw new IllegalArgumentException();
