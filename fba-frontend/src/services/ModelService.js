@@ -8,19 +8,18 @@ const MODEL_API_BASE_URL = "https://fba-backend-production.up.railway.app/api/v1
 class ModelService {
 
     getPowerRankings() {
-        console.log(localStorage.getItem('leagueId'))
         return AxiosInstance.get(MODEL_API_BASE_URL + "rankings");
     }
 
     createModel(leagueId) {
         localStorage.setItem('leagueId', leagueId['leagueId']);
         localStorage.setItem('userId', Math.floor(100000 + Math.random() * 900000).toString())
-        // return axios.get("https://api.publicapis.org/entries")
         return AxiosInstance.post(MODEL_API_BASE_URL + "create", leagueId);
     }
 
     createDemo() {
         localStorage.setItem('leagueId', "DEMO###1117484973");
+        localStorage.setItem('userId', Math.floor(100000 + Math.random() * 900000).toString())
         return AxiosInstance.post(MODEL_API_BASE_URL + "demo");
     }
 
@@ -84,7 +83,6 @@ class ModelService {
         return AxiosInstance.get(MODEL_API_BASE_URL + "proTeamGames?matchupPeriod=" + matchupPeriod);
     }
 }
-AxiosInstance.defaults.headers.common['leagueId'] = localStorage.getItem('leagueId')
 
 
 export default new ModelService()
