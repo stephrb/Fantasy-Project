@@ -3,7 +3,6 @@ import DailyLineups from './DailyLineups';
 import Card from '../ui/Card';
 import './Matchup.css'
 import Backdrop from '../ui/Backdrop';
-import Header from '../ui/Header';
 
 function Matchup(props) {
   const [showDailyLineups, setShowDailyLineups] = useState(false);
