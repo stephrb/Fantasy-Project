@@ -1,11 +1,12 @@
 package fba.model.team;
 
 import fba.model.player.Player;
+import fba.model.proteams.ProTeamSchedules;
+import javafx.util.Pair;
+import org.apache.commons.math3.distribution.NormalDistribution;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.DayOfWeek;
+import java.util.*;
 
 public class TeamImpl implements Team {
 
@@ -255,8 +256,48 @@ public class TeamImpl implements Team {
     public double getAvgPointsForTeam(String timePeriod) {
         double res = 0;
         for (Player p : players) {
-            res +=  p.getStatsMap().get(timePeriod).getAvg().get("FPTS");
+            res += p.getStatsMap().get(timePeriod).getAvg().get("FPTS");
         }
         return res;
+    }
+
+    @Override
+    public Map<Player, Map<DayOfWeek, Boolean>> getDailyLineups(int matchupPeriod, boolean assessInjuries, int numRecentGames, int currentMatchupPeriod, int currentScoringPeriod) {
+        if (matchups.get(matchupPeriod).getHomeTeamId() == teamId && matchups.get(matchupPeriod).getHomeTeamDailyLineups() != null && assessInjuries == matchups.get(matchupPeriod).getAssessInjuries() && matchups.get(matchupPeriod).getNumGames() == numRecentGames)
+            return matchups.get(matchupPeriod).getHomeTeamDailyLineups();
+        if (matchups.get(matchupPeriod).getAwayTeamId() == teamId && matchups.get(matchupPeriod).getAwayTeamDailyLineups() != null && assessInjuries == matchups.get(matchupPeriod).getAssessInjuries() && matchups.get(matchupPeriod).getNumGames() == numRecentGames)
+            return matchups.get(matchupPeriod).getAwayTeamDailyLineups();
+
+        Map<Player, Map<DayOfWeek, Boolean>> dailyLineups = new TreeMap<>(Collections.reverseOrder(Comparator.comparingDouble(p -> p.calculateMean(numRecentGames))));
+
+        int start;
+        int end = matchupPeriod * 7;
+        if (matchupPeriod == currentMatchupPeriod) start = currentScoringPeriod;
+        else if (matchupPeriod > currentMatchupPeriod) start = (matchupPeriod - 1) * 7 + 1;
+        else start = end;
+        int dayOfWeek = (matchupPeriod == currentMatchupPeriod) ? currentScoringPeriod % 7 : 1;
+        for (int i = start; i <= end; i++) {
+            for (Player p : players) {
+                DayOfWeek day = DayOfWeek.of(dayOfWeek);
+                dailyLineups.putIfAbsent(p, new HashMap<>());
+                if (ProTeamSchedules.getProTeamMatchups().get(p.getProTeam()).get(i) != null) {
+                    Boolean playing = !ProTeamSchedules.getProTeamMatchups().get(p.getProTeam()).get(i).hasHappened() && (!assessInjuries || (p.getInjuryStatus().equals("ACTIVE") || p.getInjuryStatus().equals("DAY_TO_DAY")));
+                    dailyLineups.get(p).put(day, playing);
+                }
+            }
+            dayOfWeek++;
+        }
+        for (DayOfWeek d : DayOfWeek.values()) {
+            int count = 0;
+            for (Map.Entry<Player, Map<DayOfWeek, Boolean>> e : dailyLineups.entrySet()) {
+                if (e.getValue().containsKey(d) && e.getValue().get(d)) {
+                    count++;
+                    if (count > 10) dailyLineups.get(e.getKey()).put(d, false);
+                }
+
+            }
+        }
+
+        return dailyLineups;
     }
 }

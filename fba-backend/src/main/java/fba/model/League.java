@@ -7,6 +7,7 @@ import fba.model.team.Matchup;
 import fba.model.team.Team;
 import org.json.simple.JSONObject;
 
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -140,6 +141,9 @@ public interface League {
 
     Double getWinPercentage(int homeTeam, int awayTeam, int numGames, int matchupPeriod, boolean assessInjuries);
 
+    Double getWinPercentage(Matchup matchup, int numGames, boolean assessInjuries);
+
+    void setDailyLineUps(int teamId, int numGames, int matchupPeriod, Map<Player, Map<DayOfWeek, Boolean>> dailyLineUps);
     List<String> getRosteredPlayerIds();
 
     Map<String, Player> getAllPlayers();
@@ -149,4 +153,9 @@ public interface League {
     Map<Integer, DraftPick> getDraftPicks();
 
     void setDraftPicks(Map<Integer, DraftPick> draftPicks);
+
+    Map<Integer, Set<Matchup>> getMatchups();
+
+
+
 }

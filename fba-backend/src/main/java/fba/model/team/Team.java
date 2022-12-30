@@ -2,6 +2,7 @@ package fba.model.team;
 
 import fba.model.player.Player;
 
+import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Map;
 
@@ -105,4 +106,5 @@ public interface Team {
 
     double getAvgPointsForTeam(String timePeriod);
 
+    Map<Player, Map<DayOfWeek, Boolean>> getDailyLineups(int matchupPeriod, boolean assessInjuries, int numRecentGames, int currentMatchupPeriod, int currentScoringPeriod);
 }

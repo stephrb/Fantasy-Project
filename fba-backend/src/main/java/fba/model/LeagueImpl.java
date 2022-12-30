@@ -9,6 +9,7 @@ import javafx.util.Pair;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.json.simple.JSONObject;
 
+import java.time.DayOfWeek;
 import java.util.*;
 
 public class LeagueImpl implements League {
@@ -113,6 +114,11 @@ public class LeagueImpl implements League {
     @Override
     public void setDraftPicks(Map<Integer, DraftPick> draftPicks) {
         this.draftPicks = draftPicks;
+    }
+
+    @Override
+    public Map<Integer, Set<Matchup>> getMatchups() {
+        return null;
     }
 
     @Override
@@ -312,6 +318,53 @@ public class LeagueImpl implements League {
 
     @Override
     public Double getWinPercentage(int homeTeamId, int awayTeamId, int numGames, int matchupPeriod, boolean assessInjuries) {
+        Matchup matchup = getTeam(homeTeamId).getMatchups().get(matchupPeriod);
+        if (matchup.getHomeTeamDailyLineups() == null || matchup.getAssessInjuries() != assessInjuries || matchup.getNumGames() != numGames) {
+            Map<Player, Map<DayOfWeek, Boolean>> homeTeamDailyLineups = getTeam(homeTeamId).getDailyLineups(matchupPeriod, assessInjuries, numGames, currentMatchupPeriod, currentScoringPeriod);
+            NormalDistribution homeTeamNormal = getMatchupNormalDistribution(homeTeamDailyLineups, numGames);
+            matchup.setHomeTeamNormal(homeTeamNormal);
+            matchup.setHomeTeamDailyLineups(homeTeamDailyLineups);
+        }
+
+        if (matchup.getAwayTeamDailyLineups() == null || matchup.getAssessInjuries() != assessInjuries || matchup.getNumGames() != numGames) {
+            Map<Player, Map<DayOfWeek, Boolean>> awayTeamDailyLineups = getTeam(awayTeamId).getDailyLineups(matchupPeriod, assessInjuries, numGames, currentMatchupPeriod, currentScoringPeriod);
+            NormalDistribution awayTeamNormal = getMatchupNormalDistribution(awayTeamDailyLineups, numGames);
+            matchup.setAwayTeamNormal(awayTeamNormal);
+            matchup.setAwayTeamDailyLineups(awayTeamDailyLineups);
+        }
+
+        matchup.setNumGames(numGames);
+        matchup.setAssessInjuries(assessInjuries);
+
+        if (matchup.getHomeTeamNormal() == null || matchup.getAwayTeamNormal() == null)
+            return (matchup.getHomePoints() > matchup.getAwayPoints()) ? 0.0 : 1.0;
+        return matchup.getHomeTeamWinPercentage(matchup.getAwayPoints() - matchup.getHomePoints());
+    }
+
+    @Override
+    public Double getWinPercentage(Matchup matchup, int numGames, boolean assessInjuries) {
+        return getWinPercentage(matchup.getHomeTeamId(), matchup.getAwayTeamId(), numGames, matchup.getMatchupPeriod(), assessInjuries);
+    }
+
+
+    @Override
+    public void setDailyLineUps(int teamId, int numGames, int matchupPeriod, Map<Player, Map<DayOfWeek, Boolean>> dailyLineUps) {
+        Matchup matchup = getTeam(teamId).getMatchups().get(matchupPeriod);
+        NormalDistribution normal = getMatchupNormalDistribution(dailyLineUps, numGames);
+        if (teamId == matchup.getHomeTeamId()) {
+            matchup.setHomeTeamNormal(normal);
+            matchup.setHomeTeamDailyLineups(dailyLineUps);
+        } else if (teamId == matchup.getAwayTeamId()) {
+            matchup.setAwayTeamNormal(normal);
+            matchup.setAwayTeamDailyLineups(dailyLineUps);
+        }
+
+    }
+
+
+    //    @Override
+    @Deprecated
+    public Double getWinPercentage1(int homeTeamId, int awayTeamId, int numGames, int matchupPeriod, boolean assessInjuries) {
         TreeSet<Pair<Pair<Double, Double>, Player>> hpq = new TreeSet<>(Collections.reverseOrder(Comparator.comparingDouble(pairPlayerPair -> pairPlayerPair.getKey().getValue())));
         TreeSet<Pair<Pair<Double, Double>, Player>> apq = new TreeSet<>(Collections.reverseOrder(Comparator.comparingDouble(pairPlayerPair -> pairPlayerPair.getKey().getValue())));
 
@@ -398,5 +451,18 @@ public class LeagueImpl implements League {
             }
         }
         return new Pair<>(variance, mean);
+    }
+
+    private NormalDistribution getMatchupNormalDistribution(Map<Player, Map<DayOfWeek, Boolean>> gamesPerPlayer, int numRecentGames) {
+        double mean = 0;
+        double var = 0;
+        for (Map.Entry<Player, Map<DayOfWeek, Boolean>> e : gamesPerPlayer.entrySet()) {
+            int games = Collections.frequency(e.getValue().values(), true);
+            Pair<Double, Double> varianceAndMean = e.getKey().calculateVarianceAndMean(numRecentGames);
+            mean += varianceAndMean.getValue() * games;
+            var += varianceAndMean.getKey() * games;
+        }
+        if (var == 0) return null;
+        return new NormalDistribution(mean, Math.sqrt(var));
     }
 }

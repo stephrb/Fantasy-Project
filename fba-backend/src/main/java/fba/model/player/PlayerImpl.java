@@ -3,8 +3,10 @@ package fba.model.player;
 import fba.utils.MapConstants;
 import fba.utils.VarianceCalculator;
 import javafx.util.Pair;
+import org.apache.commons.math3.stat.descriptive.moment.Mean;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -103,6 +105,11 @@ public class PlayerImpl implements Player {
         numGames = Math.min(numGames, previousGameScores.size());
         if (previousGameScores.isEmpty()) return new Pair<>(0.0, 0.0);
         return VarianceCalculator.calculateVarianceAndMean(previousGameScores.subList(0, numGames));
+    }
+
+    public Double calculateMean(int numGames) {
+        numGames = Math.min(numGames, previousGameScores.size());
+        return VarianceCalculator.calculateMean(previousGameScores.subList(0, numGames));
     }
 
     public int getTotalRank() {

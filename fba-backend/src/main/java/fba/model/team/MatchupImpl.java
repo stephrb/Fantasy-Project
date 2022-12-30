@@ -1,5 +1,11 @@
 package fba.model.team;
 
+import fba.model.player.Player;
+import org.apache.commons.math3.distribution.NormalDistribution;
+
+import java.time.DayOfWeek;
+import java.util.Map;
+
 public class MatchupImpl implements Matchup {
     private final double homePoints;
     private final double awayPoints;
@@ -11,6 +17,18 @@ public class MatchupImpl implements Matchup {
     private boolean isPlayed;
     private String homeTeamName;
     private String awayTeamName;
+
+    private NormalDistribution homeTeamNormal;
+
+    private NormalDistribution awayTeamNormal;
+
+    private Map<Player, Map<DayOfWeek, Boolean>> homeTeamDailyLineups;
+
+    private Map<Player, Map<DayOfWeek, Boolean>> awayTeamDailyLineups;
+
+    private boolean assessInjuries;
+
+    private int numGames;
 
     public MatchupImpl(
             int homeTeamId, double homePoints, int awayTeamId, double awayPoints, boolean isPlayed, String homeTeamName, String awayTeamName, int matchupId, int matchupPeriod) {
@@ -26,6 +44,8 @@ public class MatchupImpl implements Matchup {
         this.awayTeamName = awayTeamName;
         this.matchupId = matchupId;
         this.matchupPeriod = matchupPeriod;
+        assessInjuries = true;
+        numGames = 82;
     }
 
     @Override
@@ -133,5 +153,59 @@ public class MatchupImpl implements Matchup {
         return new MatchupImpl(homeTeamId, homePoints, awayTeamId, awayPoints, isPlayed, homeTeamName, awayTeamName, matchupId, matchupPeriod);
     }
 
+    @Override
+    public double getHomeTeamWinPercentage(double x) {
+        NormalDistribution normalDistribution = new NormalDistribution(homeTeamNormal.getMean() - awayTeamNormal.getMean(), Math.sqrt(homeTeamNormal.getNumericalVariance() + awayTeamNormal.getNumericalVariance()));
+        return 1 - normalDistribution.cumulativeProbability(x);
+    }
 
+
+    public NormalDistribution getHomeTeamNormal() {
+        return homeTeamNormal;
+    }
+
+    public void setHomeTeamNormal(NormalDistribution homeTeamNormal) {
+        this.homeTeamNormal = homeTeamNormal;
+    }
+
+    public NormalDistribution getAwayTeamNormal() {
+        return awayTeamNormal;
+    }
+
+    public void setAwayTeamNormal(NormalDistribution awayTeamNormal) {
+        this.awayTeamNormal = awayTeamNormal;
+    }
+
+    public Map<Player, Map<DayOfWeek, Boolean>> getHomeTeamDailyLineups() {
+        return homeTeamDailyLineups;
+    }
+
+    public void setHomeTeamDailyLineups(Map<Player, Map<DayOfWeek, Boolean>> homeTeamDailyLineups) {
+        this.homeTeamDailyLineups = homeTeamDailyLineups;
+    }
+
+    public Map<Player, Map<DayOfWeek, Boolean>> getAwayTeamDailyLineups() {
+        return awayTeamDailyLineups;
+    }
+
+    public void setAwayTeamDailyLineups(Map<Player, Map<DayOfWeek, Boolean>> awayTeamDailyLineups) {
+        this.awayTeamDailyLineups = awayTeamDailyLineups;
+    }
+
+    public int getNumGames() {
+        return numGames;
+    }
+
+    public void setNumGames(int numGames) {
+        this.numGames = numGames;
+    }
+
+    @Override
+    public boolean getAssessInjuries() {
+        return assessInjuries;
+    }
+
+    public void setAssessInjuries(boolean assessInjuries) {
+        this.assessInjuries = assessInjuries;
+    }
 }

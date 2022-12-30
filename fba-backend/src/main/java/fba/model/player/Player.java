@@ -31,4 +31,6 @@ public interface Player {
     void setTotalRank(int rank);
 
     void setAvgRank(int rank);
+
+    Double calculateMean(int numGames);
 }

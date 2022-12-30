@@ -288,7 +288,7 @@ public class AppTest {
         Factory.setMatchups(league, jsonMatchups);
 
         PlayoffMachine playoffMachine = new PlayoffMachineImpl(league);
-        for (Map.Entry<Integer, Set<Matchup>> entry : playoffMachine.getMatchups().entrySet()) {
+        for (Map.Entry<Integer, Set<Matchup>> entry : playoffMachine.getPlayoffMachineMatchups().entrySet()) {
             int matchupPeriod = entry.getKey();
             for (Matchup matchup : entry.getValue()) {
                 Team homeTeam = league.getTeam(matchup.getHomeTeamId());
@@ -455,12 +455,51 @@ public class AppTest {
     public void winPercentTest() {
         Model model = Factory.createModel("1117484973");
         int period = model.getCurrentMatchupPeriod();
-        for (Matchup m : model.getMatchups().get(period)) {
+        for (Matchup m : model.getPlayoffMachineMatchups().get(period)) {
             int h = m.getAwayTeamId();
             int a = m.getHomeTeamId();
             double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true);
             System.out.println(model.getTeam(h).getName() + " " + wp + " " + model.getTeam(a).getName() + " " + (1 - wp));
         }
+        assertNotNull(model);
+    }
+
+    @Test
+    public void betterWinPercentTest() {
+        Model model = Factory.createModel("1117484973");
+        int period = model.getCurrentMatchupPeriod();
+        Set<Integer> hTeamIds = new HashSet<>();
+        for (Team t : model.getTeams()) {
+            Matchup m = t.getMatchups().get(period);
+            int a = m.getAwayTeamId();
+            if (!hTeamIds.add(a)) continue;
+            int h = m.getHomeTeamId();
+            double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true);
+            System.out.println(model.getTeam(h).getName() + " " + wp + " " + model.getTeam(a).getName() + " " + (1 - wp));
+        }
+    }
+
+    @Test
+    public void winPercentWithAdjustedSchedulesTest() {
+        Model model = Factory.createModel("1117484973");
+        int period = model.getCurrentMatchupPeriod();
+        Set<Integer> hTeamIds = new HashSet<>();
+        for (Team t : model.getTeams()) {
+            Matchup m = t.getMatchups().get(period);
+            int a = m.getAwayTeamId();
+            if (!hTeamIds.add(a)) continue;
+            int h = m.getHomeTeamId();
+            double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true);
+            System.out.println(model.getTeam(h).getName() + " " + wp + " " + model.getTeam(a).getName() + " " + (1 - wp));
+        }
+        Team t1 = model.getTeams().iterator().next();
+        Matchup m = t1.getMatchups().get(period);
+        Map<Player, Map<DayOfWeek, Boolean>> map = t1.getDailyLineups(period, true, Integer.MAX_VALUE, model.getCurrentMatchupPeriod(), model.getCurrentScoringPeriod());
+        map.get(map.keySet().iterator().next()).put(DayOfWeek.SUNDAY, false);
+        model.setDailyLineUps(t1.getTeamId(), Integer.MAX_VALUE, m.getMatchupPeriod(), map);
+        double wp = model.getWinPercentage(m, Integer.MAX_VALUE, true);
+        System.out.println(wp);
+        assertNotNull(map);
     }
 
     @Test
@@ -508,7 +547,6 @@ public class AppTest {
         for (Map.Entry<Integer, Double> e : res.entrySet()) {
             System.out.println(model.getTeam(e.getKey()).getName() + ": " + e.getValue() + " vs " + model.getTeam(e.getKey()).getAvgPointsForTeam("Season_" + model.getYear()));
         }
-
     }
 
     @Test
@@ -521,5 +559,67 @@ public class AppTest {
     public void PMTest() {
         Model model = Factory.createModel("1117484973");
         model.sortRankings();
+    }
+
+    @Test
+    public void playerGamesTest() {
+        Model model = Factory.createModel("1117484973");
+        Map<Player, Map<DayOfWeek, Boolean>> m = model.getTeams().iterator().next().getDailyLineups(12, false, Integer.MAX_VALUE, model.getCurrentMatchupPeriod(), model.getCurrentScoringPeriod());
+        assertNotNull(m);
+    }
+
+    @Test
+    public void matchupTeamsTest() {
+        Model model = Factory.createModel("1117484973");
+        for (int i = model.getCurrentMatchupPeriod(); i <= 20; i++) {
+            for (Team t : model.getTeams()) {
+                Matchup m = t.getMatchups().get(i);
+                System.out.println(m == model.getTeam(m.getHomeTeamId()).getMatchups().get(i) && m == model.getTeam(m.getAwayTeamId()).getMatchups().get(i));
+            }
+            System.out.println("_____________");
+        }
+    }
+
+    @Test
+    public void getMatchupWinPercentagesTest() {
+        Model model = Factory.createModel("1117484973");
+        List<Map<String, String>> l = model.getMatchupsWinPercentages(model.getCurrentMatchupPeriod()+1, true, Integer.MAX_VALUE);
+        assertNotNull(l);
+    }
+
+    @Test
+    public void sampleWinPercentageAPITest() {
+        Model model = Factory.createModel("1117484973");
+        int period = model.getCurrentMatchupPeriod();
+        List<Map<String, String>> res1 = model.getMatchupsWinPercentages(period, true, Integer.MAX_VALUE);
+        Matchup m = model.getTeams().iterator().next().getMatchups().get(period);
+        Map<Player, Map<DayOfWeek, Boolean>> map = m.getHomeTeamDailyLineups();
+        map.get(map.keySet().iterator().next()).put(DayOfWeek.FRIDAY, false);
+        model.setDailyLineUps(m.getHomeTeamId(), Integer.MAX_VALUE, period, map);
+        List<Map<String, String>> res2 = model.getMatchupsWinPercentages(period, true, Integer.MAX_VALUE);
+        assertNotNull(res2);
+    }
+
+    @Test
+    public void dailyLineupSettingTest() {
+        Model model = Factory.createModel("1117484973");
+        int period = model.getCurrentMatchupPeriod();
+        Team team = model.getTeams().iterator().next();
+        Map<String, Map<DayOfWeek, Boolean>> map = model.getDailyLineups(period, false, Integer.MAX_VALUE, team.getTeamId());
+        map.get(map.keySet().iterator().next()).put(map.get(map.keySet().iterator().next()).keySet().iterator().next(), false);
+//        model.setDailyLineUps(team.getTeamId(), Integer.MAX_VALUE, period, map);
+    }
+
+    @Test
+    public void matchupsLeftTest() {
+        Model model = Factory.createModel("1117484973");
+        System.out.println(model.getMatchupPeriodsLeftWithPlayoffs());
+    }
+
+    @Test
+    public void assessInjuriesFalseTest() {
+        Model model = Factory.createModel("1117484973");
+        List test = model.getMatchupsWinPercentages(11, true, 82);
+        List test2 = model.getMatchupsWinPercentages(11, false, 82);
     }
 }

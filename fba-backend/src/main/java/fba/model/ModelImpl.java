@@ -7,9 +7,8 @@ import fba.model.team.Matchup;
 import fba.model.team.Team;
 import org.json.simple.JSONObject;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.DayOfWeek;
+import java.util.*;
 
 public class ModelImpl implements Model {
     private final League league;
@@ -156,8 +155,8 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Map<Integer, Set<Matchup>> getMatchups() {
-        return playoffMachine.getMatchups();
+    public Map<Integer, Set<Matchup>> getPlayoffMachineMatchups() {
+        return playoffMachine.getPlayoffMachineMatchups();
     }
 
     @Override
@@ -216,6 +215,16 @@ public class ModelImpl implements Model {
     }
 
     @Override
+    public Double getWinPercentage(Matchup matchup, int numGames, boolean assessInjuries) {
+        return league.getWinPercentage(matchup, numGames, assessInjuries);
+    }
+
+    @Override
+    public void setDailyLineUps(int teamId, int numGames, int matchupPeriod, Map<Player, Map<DayOfWeek, Boolean>> dailyLineUps) {
+        league.setDailyLineUps(teamId, numGames, matchupPeriod, dailyLineUps);
+    }
+
+    @Override
     public List<String> getRosteredPlayerIds() {
         return league.getRosteredPlayerIds();
     }
@@ -241,6 +250,12 @@ public class ModelImpl implements Model {
     }
 
     @Override
+    public Map<Integer, Set<Matchup>> getMatchups() {
+        return league.getMatchups();
+    }
+
+
+    @Override
     public List<String> getRemainingMatchupPeriods() {
         return playoffMachine.getRemainingMatchupPeriods();
     }
@@ -248,7 +263,7 @@ public class ModelImpl implements Model {
     @Override
     public void updateMatchupNames() {
 
-        for (Set<Matchup> set : playoffMachine.getMatchups().values()) {
+        for (Set<Matchup> set : playoffMachine.getPlayoffMachineMatchups().values()) {
             for (Matchup matchup : set) {
                 matchup.setHomeTeamName(league.getTeam(matchup.getHomeTeamId()).getName());
                 matchup.setAwayTeamName(league.getTeam(matchup.getAwayTeamId()).getName());
@@ -258,6 +273,93 @@ public class ModelImpl implements Model {
         for (Team team : playoffMachine.getStartingRankings()) {
             team.setName(league.getTeam(team.getTeamId()).getName());
         }
+    }
+
+    @Override
+    public Map<String, Map<DayOfWeek, Boolean>> getDailyLineups(int matchupPeriod, boolean assessInjuries, int numRecentGames, int teamId) {
+        Map<Player, Map<DayOfWeek, Boolean>> map = league.getTeam(teamId).getDailyLineups(matchupPeriod, assessInjuries, numRecentGames, league.getCurrentMatchupPeriod(), league.getCurrentScoringPeriod());
+        Map<String, Map<DayOfWeek, Boolean>> res = new LinkedHashMap<>();
+        for (Map.Entry<Player, Map<DayOfWeek, Boolean>> e : map.entrySet()) {
+            String key = e.getKey().getPlayerId() + ":" + e.getKey().getFullName();
+            res.put(key, e.getValue());
+        }
+        return res;
+    }
+
+    @Override
+    public List<Map<String, String>> getMatchupsWinPercentages(int matchupPeriod, boolean assessInjuries, int numRecentGames) {
+        List<Map<String, String>> matchupWinPercentagesJson = new ArrayList<>();
+        Set<Matchup> seen = new HashSet<>();
+        for (Team t : getTeams()) {
+            Matchup matchup = t.getMatchups().get(matchupPeriod);
+            if (seen.add(matchup)) {
+                Map<String, String> matchupsJson = new HashMap<>();
+                double homeTeamWinPercentage = getWinPercentage(matchup, numRecentGames, assessInjuries);
+                double awayTeamWinPercentage = 1 - homeTeamWinPercentage;
+                String homeTeamId = String.valueOf(matchup.getHomeTeamId());
+                String awayTeamId = String.valueOf(matchup.getAwayTeamId());
+                String homeTeamName = matchup.getHomeTeamName();
+                String awayTeamName = matchup.getAwayTeamName();
+                String matchupId = String.valueOf(matchup.getMatchupId());
+
+                matchupsJson.put("homeTeamWinPercentage", String.valueOf(homeTeamWinPercentage));
+                matchupsJson.put("awayTeamWinPercentage", String.valueOf(awayTeamWinPercentage));
+                matchupsJson.put("homeTeamId", homeTeamId);
+                matchupsJson.put("awayTeamId", awayTeamId);
+                matchupsJson.put("homeTeamName", homeTeamName);
+                matchupsJson.put("awayTeamName", awayTeamName);
+                matchupsJson.put("matchupId", matchupId);
+
+
+                matchupWinPercentagesJson.add(matchupsJson);
+            }
+        }
+        return matchupWinPercentagesJson;
+    }
+
+    @Override
+    public void setDailyLineUps(JSONObject jsonObject) {
+        /*
+        teamId: 1,
+        numGames: 10,
+        matchupPeriod: 11,
+        dailyLineups:
+        {"3112335:Nikola Jokic":{"FRIDAY":true,"SUNDAY":true},
+        "3149673:Pascal Siakam":{"FRIDAY":true,"THURSDAY":false},
+        "2490149:CJ McCollum":{"FRIDAY":true,"SATURDAY":true}}
+         */
+        int teamId = Integer.parseInt(jsonObject.get("teamId").toString()), numGames = Integer.parseInt(jsonObject.get("numGames").toString()),  matchupPeriod = Integer.parseInt(jsonObject.get("matchupPeriod").toString());
+        Map<Player, Map<DayOfWeek, Boolean>> dailyLineUps = new TreeMap<>(Collections.reverseOrder(Comparator.comparingDouble(p -> p.calculateMean(numGames))));
+        Map<String, Map<String, Boolean>> dailyLineupsJson = (Map<String, Map<String, Boolean>>) jsonObject.get("dailyLineups");
+        for (String key : dailyLineupsJson.keySet()) {
+            Player p = getAllPlayers().get(key.split(":")[0]);
+            Map<String, Boolean> playerGames = dailyLineupsJson.get(key);
+            Map<DayOfWeek, Boolean> dayOfWeekBooleanMap = new HashMap<>();
+            for (String d : playerGames.keySet()) {
+                DayOfWeek day = DayOfWeek.valueOf(d);
+                Boolean playing = playerGames.get(d);
+                dayOfWeekBooleanMap.put(day, playing);
+            }
+            dailyLineUps.put(p, dayOfWeekBooleanMap);
+
+        }
+        setDailyLineUps(teamId, numGames, matchupPeriod, dailyLineUps);
+    }
+
+    @Override
+    public List<String> getMatchupPeriodsLeftWithPlayoffs() {
+        int start = getCurrentMatchupPeriod();
+        int end = 0;
+        for (Team t : getTeams()) {
+            for (Integer i : t.getMatchups().keySet()) {
+                end = Math.max(end, i);
+            }
+        }
+        List<String> matchupPeriodsLeftWithPlayoffs = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            matchupPeriodsLeftWithPlayoffs.add(String.valueOf(i));
+        }
+        return matchupPeriodsLeftWithPlayoffs;
     }
 
     @Override

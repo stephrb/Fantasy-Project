@@ -80,7 +80,7 @@ public class PlayoffMachineImpl implements PlayoffMachine {
     }
 
     @Override
-    public Map<Integer, Set<Matchup>> getMatchups() {
+    public Map<Integer, Set<Matchup>> getPlayoffMachineMatchups() {
         return matchups;
     }
 
