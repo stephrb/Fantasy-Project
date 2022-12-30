@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import HomePopup from "../components/home/HomePopup";
 import ModelService from "../services/ModelService";
-import Backdrop from "../components/home/Backdrop";
+import Backdrop from "../components/ui/Backdrop";
 import { ModelContext } from "../store/model-context";
 import HomeScreen from "../components/home/HomeScreen";
 function Home(props) {

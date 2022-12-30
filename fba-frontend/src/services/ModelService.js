@@ -3,7 +3,7 @@ import AxiosInstance from "./AxiosInstance";
 
 const MODEL_API_BASE_URL =
   "https://fba-backend-production.up.railway.app/api/v1/";
-// const MODEL_API_BASE_URL = "http://localhost:8080/api/v1/"
+  // "http://localhost:8080/api/v1/"
 
 class ModelService {
   getPowerRankings(signal) {
@@ -99,6 +99,35 @@ class ModelService {
       MODEL_API_BASE_URL + "proTeamGames?matchupPeriod=" + matchupPeriod, signal
     );
   }
-}
 
+  getDailyLineups(body, signal) {
+      return AxiosInstance.post(MODEL_API_BASE_URL + "getDailyLineups", body, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    }, signal);
+  }
+
+  setDailyLineups(body, signal) {
+    return AxiosInstance.post(MODEL_API_BASE_URL + "setDailyLineups", body, {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+  }, signal);
+  }
+
+  getMatchupsWinPercentages(matchupPeriod, assessInjuries, numGames, signal) {
+    const params = {
+      matchupPeriod,
+      assessInjuries,
+      numGames,
+    };
+  
+    return AxiosInstance.get(MODEL_API_BASE_URL + "matchupsWinPercentages", { params }, signal);
+  }
+
+  getMatchupsLeftWithPlayoffs(signal) {
+    return AxiosInstance.get(MODEL_API_BASE_URL + "matchupsLeftWithPlayoffs", signal)
+  }
+}
 export default new ModelService();

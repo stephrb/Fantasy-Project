@@ -10,12 +10,14 @@
   text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
   margin: 5px;
   margin-top: 1%;
+  position: relative;
 }
 
 .matchupButton:hover,
 .matchupButton:active,
 .matchupButton:active {
   color: #8d9092;
+  top:-1px;
 }
 
 .activeMatchupButton {

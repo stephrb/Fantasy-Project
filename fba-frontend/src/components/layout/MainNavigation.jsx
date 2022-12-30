@@ -25,6 +25,9 @@ function MainNavigation() {
           <li>
             <Link to="/nbagames">NBA Weekly Games</Link>
           </li>
+          <li>
+            <Link to="/winpercentage">Win Probabilities</Link>
+          </li>
         </ul>
       </nav>
     </header>

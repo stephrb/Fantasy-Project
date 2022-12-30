@@ -51,6 +51,14 @@ function HomeScreen(props) {
                                                                                 each week"
           />
         </li>
+        <li>
+          <HomePreview
+            link="winpercentage"
+            title="Win Probability"
+            text="Displays the matchups for each week and the win probability of each team, calculated by treating each player's game as a random variable wapplying the Central Limit Theorm to get a result. The games played for each player on each 
+                                                                              team can be set to get a more accurate measurement that accounts for injuries."
+          />
+        </li>
       </ul>
       <footer>
         <button className={classes.actionsbutton} onClick={props.handlePopup}>

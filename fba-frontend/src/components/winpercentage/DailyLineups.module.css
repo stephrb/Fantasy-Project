@@ -1,0 +1,82 @@
+.styledtable {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+  
+  .styledtable thead tr {
+    background-color: rgb(44, 42, 41);
+    color: #ffffff;
+    text-align: left;
+  }
+  
+  .styledtable th,
+  .styledtable td {
+    padding: 2px 15px;
+  }
+  
+  .styledtable tbody tr {
+    border-bottom: thin solid #dddddd;
+  }
+  
+  .styledtable tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+  
+  .styledtable tbody tr:last-of-type {
+    border-bottom: 2px solid rgb(44, 42, 41);
+  }
+  
+  .hasGame {
+    background-color: #27d845;
+  }
+  
+  .noGame {
+    background-color: #d11c16;
+  }
+  
+  .cell {
+    appearance: none;
+    background-color: red;
+    min-width: 2.5rem;
+    min-height: 2rem;
+    outline: none;
+    border-radius: 50%;
+  }
+  
+  .cell:checked {
+    background-color: green;
+  }
+
+  .cell:hover {
+    cursor: pointer;
+    background-color: rgb(223, 75, 75);
+  }
+  
+
+  .cell:checked:hover {
+    cursor: pointer;
+    background-color: rgb(92, 160, 92);
+  }
+
+  .actionsbutton {
+    font: inherit;
+    cursor: pointer;
+    background-color: #7bafd4;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #7bafd4;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+    margin-top: .8rem;
+  }
+
+.actionsbutton:hover,
+.actionsbutton:active {
+  background-color: #69c7ec;
+  border-color: #69c7ec;
+}
+  

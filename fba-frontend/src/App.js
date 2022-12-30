@@ -7,6 +7,7 @@ import PlayoffMachine from "./pages/PlayoffMachine";
 import Comparison from "./pages/Comparison";
 import MatchupProjections from "./pages/ScoreProjections";
 import NBAWeeklyGames from "./pages/NBAWeeklyGames";
+import WinPercentage from "./pages/WinPercentage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/playoff" element={<PlayoffMachine />} />
           <Route path="/projections" element={<MatchupProjections />} />
           <Route path="/nbagames" element={<NBAWeeklyGames />} />
+          <Route path="/winpercentage" element={<WinPercentage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
