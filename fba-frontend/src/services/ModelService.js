@@ -3,7 +3,7 @@ import AxiosInstance from "./AxiosInstance";
 
 const MODEL_API_BASE_URL = process.env.BASE_URL || "http://localhost:8080/api/v1/"
   // "https://fba-backend-production.up.railway.app/api/v1/";
-  "http://localhost:8080/api/v1/"
+  // "http://localhost:8080/api/v1/"
 class ModelService {
   getPowerRankings(signal) {
     return AxiosInstance.get(MODEL_API_BASE_URL + "rankings", signal);
