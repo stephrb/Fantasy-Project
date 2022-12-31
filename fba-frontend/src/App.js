@@ -17,7 +17,7 @@ function App() {
     if (!isLoaded) {
       navigate('/');
     }
-  }, [isLoaded]);
+  }, [isLoaded, navigate]);
   
 
   return (
