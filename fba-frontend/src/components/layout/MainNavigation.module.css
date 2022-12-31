@@ -48,6 +48,7 @@ body {
 
 .container a:hover,
 .container a:active,
-.container a.active {
+.container a.active,
+.active {
   color: white;
 }
