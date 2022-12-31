@@ -35,14 +35,16 @@ function PowerRankingsTable(props) {
       <table className={classes.styledtable}>
         <thead>
           <tr>
+            <th scope="col">#</th>
             <th scope="col">Team Name</th>
             <th scope="col">Record</th>
             <th scope="col">Power Score</th>
           </tr>
         </thead>
         <tbody>
-          {teams.map((team) => (
-            <tr key={team.powerRankingScore}>
+          {teams.map((team, index) => (
+            <tr key={index}>
+              <td>{index +  1}</td>
               <td>
                 <b>{team.name}</b>
               </td>
