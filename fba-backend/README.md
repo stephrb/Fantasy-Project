@@ -1,1 +1,1 @@
-Backend that contains Spring Boot RESTful API
+Backend that contains Spring Boot API
