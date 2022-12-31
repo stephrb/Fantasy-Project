@@ -54,7 +54,7 @@ function PowerRankingsTable(props) {
       </table>
       <p className={classes.footer}>
         Calulated by (Points Scored + (Points Scored * Winning %) + (Points
-        Scored vs the median score of the week)
+        Scored vs the median score of the week)) / (number of weeks) + (total team average in last 30 days)
       </p>
     </Card>
   );
