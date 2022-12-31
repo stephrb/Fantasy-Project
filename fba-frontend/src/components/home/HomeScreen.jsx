@@ -48,15 +48,14 @@ function HomeScreen(props) {
             title="NBA Weekly Games"
             text="Displays the number of games each NBA team has each week and which days each team has
                                                                                 each game so that it is easy to identify optimal players to pick up off the waiver wire
-                                                                                each week"
+                                                                                each week."
           />
         </li>
         <li>
           <HomePreview
             link="winpercentage"
             title="Win Probability"
-            text="Displays the matchups for each week and the win probability of each team, calculated by treating each player's game as a random variable wapplying the Central Limit Theorm to get a result. The games played for each player on each 
-                                                                              team can be set to get a more accurate measurement that accounts for injuries."
+            text="Displays the matchups for each week and the win probability of each team, calculated by treating each player's game as a random variable and applying CLT to get a result. The games played for each player can be set to get a more accurate measurement that accounts for injuries."
           />
         </li>
       </ul>
