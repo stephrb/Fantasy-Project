@@ -49,7 +49,9 @@ function WeeklyComparison(props) {
                 <b>{teamRecord.teamName[0]}</b>
               </td>
               {teamRecord.records.map((record, index) => (
-                <td key={index}>{record}</td>
+                <td key={index}>
+                  {record.split("-")[2] === "0" ? record.split("-").slice(0, 2).join("-") : record}
+                </td>
               ))}
             </tr>
           ))}
