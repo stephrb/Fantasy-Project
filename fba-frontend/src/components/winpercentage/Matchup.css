@@ -38,12 +38,11 @@
     font-size: 14px;
     padding: 10px;
     margin: 2%;
-    background-color: #A2AAAD;
-    border-color: #A2AAAD;
+    background-color: #13294b;
     font: inherit;
     cursor: pointer;
     color: white;
-    border: 1px solid #A2AAAD;
+    border: 1px solid #13294b;
     border-radius: 4px;
     text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
   }

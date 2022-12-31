@@ -11,6 +11,7 @@ function Home(props) {
 
   function createModelHandler(leagueIdData) {
     setIsLoading(true);
+    const prev = localStorage.getItem("leagueId")
     ModelService.createModel(leagueIdData)
       .then((res) => {
         setIsLoading(false);
@@ -18,6 +19,7 @@ function Home(props) {
         setWasError(false);
       })
       .catch(function (error) {
+        localStorage.setItem("leagueId", prev)
         setWasError(true);
         setIsLoading(false);
       });

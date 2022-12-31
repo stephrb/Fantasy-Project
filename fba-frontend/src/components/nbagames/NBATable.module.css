@@ -2,12 +2,11 @@
   border-collapse: collapse;
   font-size: 0.9em;
   font-family: sans-serif;
-  min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  width: 70%;
-  margin-left: 15%;
-  margin-right: 15%;
+  width: 60%;
+  margin: auto;
   margin-top: 6px;
+  zoom: 90%
 }
 
 .styledtable thead tr {
@@ -32,6 +31,14 @@
 .styledtable tbody tr:last-of-type {
   border-bottom: 2px solid rgb(44, 42, 41);
   border-top: 2px solid rgb(44, 42, 41);
+}
+
+.styledtable td:first-of-type{
+  width: 6rem;
+}
+.styledtable td:last-of-type {
+  font-weight: bold;
+  width: 1rem;
 }
 
 .styledtable tr:last-of-type td {

@@ -20,10 +20,14 @@ function HomePopup(props) {
     props.createDemo();
   }
 
+  const leagueIdLocal = localStorage.getItem("leagueId");
+  const userId = localStorage.getItem("userId");
+
+
   return (
     <section className={classes.center}>
       <Card>
-        <Header text="Enter your ESPN League ID to get started!" />
+        <Header text="Enter ESPN Points League ID" />
         <div className={classes.control}>
           {!isLoading ? (
             <input
@@ -46,9 +50,15 @@ function HomePopup(props) {
             Demo
           </button>
         )}
+        {!isLoading && leagueIdLocal && userId && (
+          <button className={classes.demo} onClick={() => {props.createModel({leagueId: leagueIdLocal})
+          console.log(leagueIdLocal)}}>
+            Previous
+          </button>
+        )}
         {!isLoading && wasError && (
           <p className={classes.inline}>
-            The entered League ID could not be found.
+            League ID Not Found
           </p>
         )}
       </Card>
