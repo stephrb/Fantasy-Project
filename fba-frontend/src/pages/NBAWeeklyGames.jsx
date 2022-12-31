@@ -24,7 +24,7 @@ function NBAWeeklyGames(props) {
   return () => {
     controller.abort();
   };
-  }, [matchupPeriod]);
+  }, []);
 
   function changeMatchupWeekHandler(matchupPeriod) {
     setMatchupPeriod(matchupPeriod);

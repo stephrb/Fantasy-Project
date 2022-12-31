@@ -33,7 +33,7 @@ function WeekSelector(props) {
   return () => {
     controller.abort();
   };
-  }, [curMatchupPeriod, props.matchupPeriod]);
+  }, []);
 
   function changeMatchupWeekHandler(week) {
     setCurMatchupPeriod(week);
