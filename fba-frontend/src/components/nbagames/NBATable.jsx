@@ -28,6 +28,16 @@ function NBATable(props) {
   if (typeof proTeams === "undefined") {
     return <p>loading...</p>;
   }
+
+  const totalGamesByDay = proTeams.reduce((total, team) => {
+    team.games.forEach((game, index) => {
+      total[index] = (total[index] || 0) + (game ? 1 : 0);
+    });
+    return total;
+  }, []);
+
+  const totalGames = totalGamesByDay.reduce((total, games) => total + games, 0);
+
   return (
     <Card>
       <table className={classes.styledtable}>
@@ -59,6 +69,13 @@ function NBATable(props) {
               <td>{team.count}</td>
             </tr>
           ))}
+          <tr>
+          <td>Total Games</td>
+          {totalGamesByDay.map((total, index) => (
+            <td key={index}>{total}</td>
+          ))}
+          <td>{totalGames}</td>
+        </tr>
         </tbody>
       </table>
     </Card>

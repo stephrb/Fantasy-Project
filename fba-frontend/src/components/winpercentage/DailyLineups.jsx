@@ -86,11 +86,17 @@ function DailyLineups(props) {
                     <td key={weekday}>
                     {weekday in availability && availability[weekday] ? (
                     <td >
-                        <input className={classes.cell} type="checkbox" checked={availability[weekday]} onChange={handleChange(playerId, weekday)} />
+                      <label>
+                      <input style={{display:'none'}}className={classes.cell} type="checkbox" checked={availability[weekday]} onChange={handleChange(playerId, weekday)} />
+                      <div className={classes.toggle}></div>
+                      </label>
                     </td>
                     ) : weekday in availability ? (
                     <td >
-                        <input className={classes.cell} type="checkbox" checked={availability[weekday]} onClick={handleChange(playerId, weekday)} />
+                      <label>
+                      <input style={{display:'none'}}className={classes.cell} type="checkbox" checked={availability[weekday]} onChange={handleChange(playerId, weekday)} />
+                      <div className={classes.toggle}></div>
+                      </label>
                     </td>
                     ) : (
                     <td>

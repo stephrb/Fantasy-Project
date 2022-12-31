@@ -17,6 +17,49 @@
  top: -1px;
 }
 
-.actionsbutton:hover {
-    
+
+/* Style the toggle switch */
+.toggle {
+  position: relative; /* Required for the toggle switch to work */
+  display: inline-block;
+  width: 60px; /* Adjust the width of the toggle switch */
+  height: 34px; /* Adjust the height of the toggle switch */
+  background-color: #ddd; /* Color of the toggle switch when it is off */
+  border-radius: 34px; /* Round the corners of the toggle switch */
+  cursor: pointer; /* Make the toggle switch clickable */
+}
+
+/* Style the toggle switch thumb (the part that moves) */
+.toggle::before {
+  content: "";
+  position: absolute;
+  top: 2px; /* Adjust the position of the thumb */
+  left: 2px; /* Adjust the position of the thumb */
+  width: 30px; /* Adjust the width of the thumb */
+  height: 30px; /* Adjust the height of the thumb */
+  background-color: #fff; /* Color of the thumb */
+  border-radius: 30px; /* Round the corners of the thumb */
+  transition: all 0.3s; /* Smooth transition when the toggle switch is turned on or off */
+}
+
+/* Style the toggle switch when it is turned on */
+input[type="checkbox"]:checked + .toggle {
+  background-color: #66bb6a; /* Color of the toggle switch when it is on */
+}
+
+input[type="checkbox"]:checked + .toggle::before {
+  transform: translateX(26px); /* Move the thumb to the right when the toggle switch is turned on */
+}
+
+.default {
+  font: inherit;
+  background-color: rgb(44, 42, 41);
+  color: white;
+  padding: 0.5rem 1.75rem;
+  border: 1px solid rgb(44, 42, 41);
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+  margin: 2px;
+  font-size: small;
 }

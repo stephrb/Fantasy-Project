@@ -31,6 +31,13 @@
 
 .styledtable tbody tr:last-of-type {
   border-bottom: 2px solid rgb(44, 42, 41);
+  border-top: 2px solid rgb(44, 42, 41);
+}
+
+.styledtable tr:last-of-type td {
+  font-weight: bold;
+  border-left: 1px solid rgb(44, 42, 41);
+  border-right: 1px solid rgb(44, 42, 41);
 }
 
 .hasGame {
@@ -39,4 +46,12 @@
 
 .noGame {
   background-color: #d11c16;
+}
+
+.styledtable tr:last-of-type td:first-of-type{
+  border-left: none;
+}
+
+.styledtable tr:last-of-type td:last-of-type {
+  border-right: none;
 }

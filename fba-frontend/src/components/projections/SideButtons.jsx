@@ -60,7 +60,7 @@ function SideButtons(props) {
         </button>
       </li>
       <li>
-        <button
+        <button style={{fontSize:'13px'}}
           className={
             props.assessInjuries === true
               ? classes.activeInjuries
@@ -68,7 +68,7 @@ function SideButtons(props) {
           }
           onClick={toggleAssessInjuriesHandler}
         >
-          Affected by Injuries
+          Exclude Injured Players
         </button>
       </li>
     </ul>

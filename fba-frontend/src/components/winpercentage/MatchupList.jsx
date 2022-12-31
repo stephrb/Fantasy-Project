@@ -5,7 +5,7 @@ import Matchup from './Matchup';
 
 function MatchupList(props) {
     const [matchups, setMatchups] = useState();
-    const [reset, setReset] = useState(true)
+    const [refresh, setRefresh] = useState(true)
     useEffect(() => {
         const controller = new AbortController();
         ModelService.getMatchupsWinPercentages(props.matchupPeriod, props.assessInjuries, props.numGames, { signal: controller.signal })
@@ -22,10 +22,10 @@ function MatchupList(props) {
         return () => {
           controller.abort();
         };
-      }, [props.matchupPeriod, props.assessInjuries, props.numGames, reset]);
+      }, [props.matchupPeriod, props.assessInjuries, props.numGames, refresh]);
 
       const handleClose = () => {
-        setReset(!reset)
+        setRefresh(!refresh)
       }
     return (
       <div>

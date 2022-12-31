@@ -11,15 +11,23 @@ function SideButtons(props) {
   return (
     <div style={{marginRight:'5rem', marginTop:'2rem'}}>
         <Card size='10'>
-            <label>
-            <input
-            type="checkbox"
-            checked={assessInjuries}
-            onChange={(event) => setAssessInjuries(event.target.checked)}
-            />
-            Assess injuries
-            </label>
+          <div style={{display:"flex", alignItems:'center'}}>
+            <p className={classes.default}>Exclude Injured Players</p>
+              <label style={{alignItems:'center', justifyPositon:'center'}}>
+                <input 
+                type="checkbox"
+                checked={assessInjuries}
+                onChange={(event) => setAssessInjuries(event.target.checked)}
+                style={{display:'none'}}
+                />
+                <div className={classes.toggle}></div>
+                </label>
+          </div>
+          
             <div style={{width: '17rem'}}>
+              <div style={{width:'10rem', fontSize:'11px'}} className={classes.default}>Calculate From Last <b style={{color:'#69c7ec'}}>{numGames}</b> {numGames === 1 ? 'game' : 'games'}
+              </div>
+              
                 <input 
                     type="range"
                     min={1}
@@ -30,7 +38,7 @@ function SideButtons(props) {
                     }}
                     style={{width: '13rem'}}
                     />
-                    <label>{numGames}</label>
+  
             </div>
             <button className={classes.actionsbutton} onClick={() => refreshButtonhandler(assessInjuries, numGames)}>
                 Refresh Projections

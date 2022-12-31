@@ -79,4 +79,35 @@
   background-color: #69c7ec;
   border-color: #69c7ec;
 }
-  
+
+.toggle {
+  position: relative; /* Required for the toggle switch to work */
+  display: inline-block;
+  width: 2.5rem; /* Adjust the width of the toggle switch */
+  height: 1.438rem; /* Adjust the height of the toggle switch */
+  background-color: #ddd; /* Color of the toggle switch when it is off */
+  border-radius: 1.438rem; /* Round the corners of the toggle switch */
+  cursor: pointer; /* Make the toggle switch clickable */
+}
+
+/* Style the toggle switch thumb (the part that moves) */
+.toggle::before {
+  content: "";
+  position: absolute;
+  top: 2px; /* Adjust the position of the thumb */
+  left: 2px; /* Adjust the position of the thumb */
+  width: 1.25rem; /* Adjust the width of the thumb */
+  height: 1.25rem; /* Adjust the height of the thumb */
+  background-color: #fff; /* Color of the thumb */
+  border-radius: 1.25rem; /* Round the corners of the thumb */
+  transition: all 0.3s; /* Smooth transition when the toggle switch is turned on or off */
+}
+
+/* Style the toggle switch when it is turned on */
+input[type="checkbox"]:checked + .toggle {
+  background-color: #66bb6a; /* Color of the toggle switch when it is on */
+}
+
+input[type="checkbox"]:checked + .toggle::before {
+  transform: translateX(1.083rem); /* Move the thumb to the right when the toggle switch is turned on */
+}
