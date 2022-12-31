@@ -1,3 +1,10 @@
+@media (max-width: 2504) {
+  body {
+    zoom: 125%;
+  }
+}
+
+
 @media (max-width: 1920px) {
   body {
     zoom: 100%;
@@ -21,13 +28,19 @@
   }
 }
 
-@media (max-width: 1000px) {
+/* @media (max-width: 1100px) {
   body {
-    zoom: 55%;
+    zoom: 59%;
+  }
+} */
+
+@media (max-width: 1025px) {
+  body {
+    zoom: 57%;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 935px) {
   body {
     zoom: 50%;
   }
@@ -42,6 +55,12 @@
 @media (max-width: 775px) {
   body {
     zoom: 42%;
+  }
+}
+
+@media (max-width: 700px) {
+  body {
+    zoom: 39%;
   }
 }
 
