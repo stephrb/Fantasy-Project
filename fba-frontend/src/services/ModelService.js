@@ -6,7 +6,7 @@ const MODEL_API_BASE_URL = process.env.BASE_URL || "https://fba-backend-producti
   // "http://localhost:8080/api/v1/"
 class ModelService {
   getPowerRankings(signal) {
-    console/log(process.env)
+    console.log(process.env)
     return AxiosInstance.get(MODEL_API_BASE_URL + "rankings", signal);
   }
 
