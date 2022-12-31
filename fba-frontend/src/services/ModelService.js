@@ -2,8 +2,8 @@
 import AxiosInstance from "./AxiosInstance";
 
 const MODEL_API_BASE_URL =
-  // "https://fba-backend-production.up.railway.app/api/v1/";
-  "http://localhost:8080/api/v1/"
+  "https://fba-backend-production.up.railway.app/api/v1/";
+  // "http://localhost:8080/api/v1/"
 
 class ModelService {
   getPowerRankings(signal) {
