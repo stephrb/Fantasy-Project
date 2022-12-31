@@ -48,7 +48,7 @@ function PowerRankingsTable(props) {
               <td>
                 <b>{team.name}</b>
               </td>
-              <td> {team.record}</td>
+              <td> {team.record.split("-")[2] === "0" ? team.record.split("-").slice(0, 2).join("-") : team.record}</td>
               <td> {team.powerRankingScore}</td>
             </tr>
           ))}
