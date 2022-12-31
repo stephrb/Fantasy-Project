@@ -49,7 +49,7 @@ function MatchupPeriods(props) {
   return (
     <div>
       {allMatchups.map((week, index) => {
-        if (week === curMatchupPeriod) {
+        if (String(week) === String(curMatchupPeriod)) {
           return (
             <button
               key={index + 2000}

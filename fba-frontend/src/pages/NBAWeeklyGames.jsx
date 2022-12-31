@@ -24,7 +24,7 @@ function NBAWeeklyGames(props) {
   return () => {
     controller.abort();
   };
-  }, []);
+  }, [matchupPeriod]);
 
   function changeMatchupWeekHandler(matchupPeriod) {
     setMatchupPeriod(matchupPeriod);
@@ -35,7 +35,7 @@ function NBAWeeklyGames(props) {
   return (
     <div>
       <Header text="NBA Weekly Games" />
-      <WeekSelector changeMatchupWeekHandler={changeMatchupWeekHandler} />
+      <WeekSelector matchupPeriod={matchupPeriod} changeMatchupWeekHandler={changeMatchupWeekHandler} />
       <NBATable matchupPeriod={matchupPeriod} />
     </div>
   );

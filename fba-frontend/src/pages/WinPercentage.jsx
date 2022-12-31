@@ -36,7 +36,7 @@ function WinPercentage(props) {
 
   return (
     <div>
-      <Header text="Weekly Matchups"></Header>
+      <Header text="Matchup Win Probabilities"></Header>
       <MatchupPeriods changeMatchupWeekHandler={changeMatchupWeekHandler}/>
       <WinPercentageBody matchupPeriod={matchupPeriod}/>
     </div>

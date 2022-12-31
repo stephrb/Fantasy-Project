@@ -33,7 +33,7 @@ function WeekSelector(props) {
   return () => {
     controller.abort();
   };
-  }, []);
+  }, [curMatchupPeriod, props.matchupPeriod]);
 
   function changeMatchupWeekHandler(week) {
     setCurMatchupPeriod(week);
@@ -49,9 +49,9 @@ function WeekSelector(props) {
   return (
     <div>
       {allMatchups.map((week, index) => {
-        if (week === curMatchupPeriod) {
+        if (String(week) === String(curMatchupPeriod)) {
           return (
-            <button
+            <button 
               key={index + 2000}
               className={classes.activeMatchupButton}
               onClick={() => changeMatchupWeekHandler(week)}
@@ -60,7 +60,7 @@ function WeekSelector(props) {
             </button>
           );
         }
-        return (
+          return (
           <button
             key={index + 2000}
             className={classes.matchupButton}
