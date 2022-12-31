@@ -18,7 +18,7 @@ function PlayoffRankings(props) {
             <tr key={index + 2000}>
               <td> {index + 1}</td>
               <td> {team.name}</td>
-              <td> {team.record}</td>
+              <td> {team.record.split("-")[2] === "0" ? team.record.split("-").slice(0, 2).join("-") : team.record}</td>
             </tr>
           ))}
         </tbody>
