@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/ui/Header';
 import ModelService from '../services/ModelService';
 import axios from 'axios';
-
-// import MatchupWeek from '../components/playoffmachine/MatchupWeek';
 import MatchupPeriods from '../components/winpercentage/MatchupPeriods';
 import WinPercentageBody from '../components/winpercentage/WinPercentageBody';
 function WinPercentage(props) {

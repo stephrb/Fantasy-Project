@@ -21,6 +21,8 @@ function Matchup(props) {
   function getGreenToRed(percent){
       let r = percent<50 ? 255 : Math.floor(255-(percent*2-100)*255/100);
       let g = percent>50 ? 255 : Math.floor((percent*2)*255/100);
+      r /= 1.5
+      g /= 1.5
       return 'rgb('+r+','+g+',0)';
   }
 
