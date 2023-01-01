@@ -2,8 +2,6 @@ package fba.model.team;
 
 import fba.model.player.Player;
 import fba.model.proteams.ProTeamSchedules;
-import javafx.util.Pair;
-import org.apache.commons.math3.distribution.NormalDistribution;
 
 import java.time.DayOfWeek;
 import java.util.*;
@@ -24,10 +22,10 @@ public class TeamImpl implements Team {
     private int wins; // Number of wins
     private int losses; // Number of losses
     private int ties;
-    private Map<Integer, Integer>
+    private final Map<Integer, Integer>
             matchUpAcquisitionsPerWeek; // Keys are matchup weeks and values are number of acquisitions
-    private int playoffSeed;
-    private int divisionId;
+    private final int playoffSeed;
+    private final int divisionId;
     private Map<Integer, Matchup> matchups;
     private double powerRankingScore;
 
