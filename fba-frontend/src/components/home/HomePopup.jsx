@@ -23,7 +23,6 @@ function HomePopup(props) {
   const leagueIdLocal = localStorage.getItem("leagueId");
   const userId = localStorage.getItem("userId");
 
-
   return (
     <section className={classes.center}>
       <Card>
@@ -50,7 +49,7 @@ function HomePopup(props) {
             Demo
           </button>
         )}
-        {!isLoading && leagueIdLocal && userId && (
+        {!isLoading && leagueIdLocal && leagueIdLocal != null && userId && (
           <button className={classes.demo} onClick={() => {props.createModel({leagueId: leagueIdLocal})
           console.log(leagueIdLocal)}}>
             Previous

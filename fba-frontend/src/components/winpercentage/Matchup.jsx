@@ -3,6 +3,7 @@ import DailyLineups from './DailyLineups';
 import Card from '../ui/Card';
 import './Matchup.css'
 import Backdrop from '../ui/Backdrop';
+import Header from '../ui/Header'
 
 function Matchup(props) {
   const [showDailyLineups, setShowDailyLineups] = useState(false);
@@ -44,6 +45,7 @@ function Matchup(props) {
           <Backdrop>
             <div style={{display: "flex", justifyContent:"center", alignItems:"center", marginTop:"5rem"}}>
               <Card>
+                <Header text='Set Lineups'></Header>
                 <DailyLineups
                 matchupPeriod={props.matchupPeriod} 
                 assessInjuries={props.assessInjuries} 

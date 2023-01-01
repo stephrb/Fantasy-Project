@@ -1,0 +1,29 @@
+.form {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .form_row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .form_label {
+    margin-right: 10px;
+  }
+  
+  .form_button {
+    font: inherit;
+    cursor: pointer;
+    background-color: #7bafd4;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #7bafd4;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+    margin-top: .8rem;
+  }
+  

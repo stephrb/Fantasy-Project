@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ModelService from '../../services/ModelService';
 import axios from 'axios';
 import classes from './DailyLineups.module.css'
+// import Streaming from './Streaming'
 function DailyLineups(props) {
     const [dailyLineups, setDailyLineups] = useState()
     const weekdays = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
@@ -85,22 +86,19 @@ function DailyLineups(props) {
                   {weekdays.map(weekday => (
                     <td key={weekday}>
                     {weekday in availability && availability[weekday] ? (
-                    <td >
                       <label>
                       <input style={{display:'none'}}className={classes.cell} type="checkbox" checked={availability[weekday]} onChange={handleChange(playerId, weekday)} />
                       <div className={classes.toggle}></div>
                       </label>
-                    </td>
                     ) : weekday in availability ? (
-                    <td >
                       <label>
                       <input style={{display:'none'}}className={classes.cell} type="checkbox" checked={availability[weekday]} onChange={handleChange(playerId, weekday)} />
                       <div className={classes.toggle}></div>
                       </label>
-                    </td>
                     ) : (
-                    <td>
-                    </td>
+                      <div>
+                        
+                      </div>
                     )}
                     </td>
                   ))}
@@ -128,7 +126,6 @@ function DailyLineups(props) {
         </table>
         <button className={classes.actionsbutton}onClick={handleClose}>Submit</button>
         </div>
-        
       );
 }
 

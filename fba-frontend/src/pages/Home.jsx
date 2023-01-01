@@ -20,6 +20,9 @@ function Home(props) {
       })
       .catch(function (error) {
         localStorage.setItem("leagueId", prev)
+        if (localStorage.getItem("leagueId") === 'null') {
+          localStorage.removeItem("leagueId")
+        }
         setWasError(true);
         setIsLoading(false);
       });

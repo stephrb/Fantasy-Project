@@ -25,7 +25,7 @@ function MatchupWeek(props) {
   return () => {
     controller.abort();
   };
-  }, [week]);
+  }, [week, props.reset]);
 
   function setWinnerHomeHandler(matchup) {
     ModelService.setWinnerHome(matchup).then(props.handleOutcomeChange());

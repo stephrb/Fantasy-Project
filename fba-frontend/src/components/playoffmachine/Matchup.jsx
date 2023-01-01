@@ -8,10 +8,10 @@ function Matchup(props) {
   useEffect(() => {
     setHomeTeamWinner(props.matchup.winnerTeamId === props.matchup.homeTeamId);
     setAwayTeamWinner(props.matchup.winnerTeamId === props.matchup.awayTeamId);
-    setTieWinner(props.isTie);
+    setTieWinner(props.matchup.tie);
   }, [
     props.reset,
-    props.isTie,
+    props.matchup.tie,
     props.matchup.awayTeamId,
     props.matchup.homeTeamId,
     props.matchup.winnerTeamId,
