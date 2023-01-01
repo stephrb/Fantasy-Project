@@ -276,6 +276,9 @@ public class TeamImpl implements Team {
         else if (matchupPeriod > currentMatchupPeriod) start = (matchupPeriod - 1) * 7 + 1;
         else start = end;
         int dayOfWeek = (matchupPeriod == currentMatchupPeriod) ? currentScoringPeriod % 7 : 1;
+        if (dayOfWeek == 0) {
+            dayOfWeek = 7;
+        }
         for (int i = start; i <= end; i++) {
             for (Player p : players) {
                 DayOfWeek day = DayOfWeek.of(dayOfWeek);
