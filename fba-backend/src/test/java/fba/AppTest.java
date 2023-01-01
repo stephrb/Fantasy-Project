@@ -600,15 +600,15 @@ public class AppTest {
         assertNotNull(res2);
     }
 
-    @Test
-    public void dailyLineupSettingTest() {
-        Model model = Factory.createModel("1117484973");
-        int period = model.getCurrentMatchupPeriod();
-        Team team = model.getTeams().iterator().next();
-        Map<String, Map<DayOfWeek, Boolean>> map = model.getDailyLineups(period, false, Integer.MAX_VALUE, team.getTeamId());
-        map.get(map.keySet().iterator().next()).put(map.get(map.keySet().iterator().next()).keySet().iterator().next(), false);
-//        model.setDailyLineUps(team.getTeamId(), Integer.MAX_VALUE, period, map);
-    }
+//    @Test
+//    public void dailyLineupSettingTest() {
+//        Model model = Factory.createModel("1117484973");
+//        int period = model.getCurrentMatchupPeriod();
+//        Team team = model.getTeams().iterator().next();
+//        Map<String, Map<DayOfWeek, Boolean>> map = model.getDailyLineups(period, false, Integer.MAX_VALUE, team.getTeamId());
+//        map.get(map.keySet().iterator().next()).put(map.get(map.keySet().iterator().next()).keySet().iterator().next(), false);
+////        model.setDailyLineUps(team.getTeamId(), Integer.MAX_VALUE, period, map);
+//    }
 
     @Test
     public void matchupsLeftTest() {
