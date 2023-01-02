@@ -33,6 +33,7 @@
   }
   
   .matchup-button {
+    font-weight: bold;
     width: 100%;
     overflow: wrap;
     font-size: 14px;

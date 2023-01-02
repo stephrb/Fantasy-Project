@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ModelService from "../../services/ModelService";
 import classes from "./MatchupPeriods.module.css";
 import axios from 'axios'
 
 function MatchupPeriods(props) {
-  const [allMatchups, setAllMatchups] = useState();
-  const [curMatchupPeriod, setCurMatchupPeriod] = useState();
-
+  const [allMatchups, setAllMatchups, curMatchupPeriod, setCurMatchupPeriod] = [props.allMatchups, props.setAllMatchups, props.matchupPeriod, props.setMatchupPeriod]
   useEffect(() => {
     const controller = new AbortController();
 
@@ -33,7 +31,7 @@ function MatchupPeriods(props) {
   return () => {
     controller.abort();
   };
-  }, []);
+  }, [setAllMatchups, setCurMatchupPeriod]);
 
   function changeMatchupWeekHandler(week) {
     setCurMatchupPeriod(week);

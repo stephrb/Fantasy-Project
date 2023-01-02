@@ -1,32 +1,53 @@
-import React from "react";
+import React, { useState } from 'react';
+import Card from '../ui/Card';
 import classes from './Streaming.module.css'
-function Streaming() {
-  const [mean, setMean] = React.useState("");
-  const [numGames, setNumGames] = React.useState("");
-  const [stdDev, setStdDev] = React.useState("");
+function Streaming(props) {
+    const [average, setAverage] = useState(25);
+    const [std, setStd] = useState(15);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    // Add code to handle form submission here
-  }
+    return (
+        <div style={{marginTop:'1rem'}}>
+            <Card size='10'>
+                <p className={classes.default} style={{backgroundColor:"rgb(44, 42, 41)", fontSize:'medium', border:"rgb(44, 42, 41)"}}>Streaming Spots</p>
+                <div style={{display:"flex", flexDirection:"column"}}>
+                    <label>Average: {average}</label>
+                    <input 
+                        type="range"
+                        min={0}
+                        max={50}
+                        step=".5"
+                        value={average}
+                        onChange={(event) => setAverage(Number(event.target.value))}
+                    />
+                </div>
 
-  return (
-    <form onSubmit={handleSubmit} className={classes.form}>
-      <h2>Streaming</h2>
-      <div className={classes.form_row}>
-        <label className={classes.form_label}>Mean:</label>
-        <input type="text" value={mean} onChange={event => setMean(event.target.value)} />
-      </div>
-      <div className={classes.form_row}>
-        <label className={classes.form_label}>Number of games:</label>
-        <input type="text" value={numGames} onChange={event => setNumGames(event.target.value)} />
-      </div>
-      <div className={classes.form_row}>
-        <label className={classes.form_label}>Standard deviation:</label>
-        <input type="text" value={stdDev} onChange={event => setStdDev(event.target.value)} />
-      </div>
-      <button type="submit" className={classes.form_button}>Submit</button>
-    </form>
-  );
+                <div style={{display:"flex", flexDirection:"column"}}>
+                    <label>Standard Deviation: {std}</label>
+                    <input 
+                        type="range"
+                        min={0}
+                        max={30}
+                        step=".5"
+                        value={std}
+                        onChange={(event) => setStd(Number(event.target.value))}
+                    />
+                </div>
+                <div style={{margin:'.5rem'}}>
+                    {props.streamers < 3 && 
+                    <button style={{marginRight:'.5rem'}} className={classes.actionsbutton} onClick={() => {props.addStreamerHandler(average, std)}}>
+                        Add
+                    </button>}
+                    {props.streamers > 0 && 
+                    <button style={{ border: "#ca5850", backgroundColor: "#ca5850"}} className={classes.actionsbutton} onClick={() => {props.deleteStreamerHandler()}}>
+                        Remove
+                    </button>}
+                </div>
+               
+                
+            </Card>
+        </div>
+
+    );
 }
-export default Streaming
+
+export default Streaming;

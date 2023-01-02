@@ -6,6 +6,7 @@ import MatchupPeriods from '../components/winpercentage/MatchupPeriods';
 import WinPercentageBody from '../components/winpercentage/WinPercentageBody';
 function WinPercentage(props) {
   const [matchupPeriod, setMatchupPeriod] = useState();
+  const [allMatchups, setAllMatchups] = useState([]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -25,7 +26,7 @@ function WinPercentage(props) {
   };
   }, []);
 
-  function changeMatchupWeekHandler(matchupPeriod) {
+  const changeMatchupWeekHandler = (matchupPeriod) =>{
     setMatchupPeriod(matchupPeriod);
   }
   if (typeof matchupPeriod === "undefined") {
@@ -35,8 +36,13 @@ function WinPercentage(props) {
   return (
     <div>
       <Header text="Matchup Win Probabilities"></Header>
-      <MatchupPeriods changeMatchupWeekHandler={changeMatchupWeekHandler}/>
-      <WinPercentageBody matchupPeriod={matchupPeriod}/>
+      <MatchupPeriods 
+        matchupPeriod={matchupPeriod} 
+        setMatchupPeriod={setMatchupPeriod}
+        allMatchups={allMatchups} 
+        setAllMatchups={setAllMatchups} 
+        changeMatchupWeekHandler={changeMatchupWeekHandler}/>
+      <WinPercentageBody allMatchups={allMatchups} matchupPeriod={matchupPeriod}/>
     </div>
   );
 }

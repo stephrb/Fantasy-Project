@@ -6,11 +6,14 @@ import Matchup from './Matchup';
 function MatchupList(props) {
     const [matchups, setMatchups] = useState();
     const [refresh, setRefresh] = useState(true)
+    const [setTeamIdList, reset, setReset] = [props.setTeamIdList, props.reset, props.setReset];
     useEffect(() => {
         const controller = new AbortController();
-        ModelService.getMatchupsWinPercentages(props.matchupPeriod, props.assessInjuries, props.numGames, { signal: controller.signal })
+        ModelService.getMatchupsWinPercentages(props.matchupPeriod, props.assessInjuries, props.numGames, reset, { signal: controller.signal })
           .then((res) => {
             setMatchups(res.data);
+            setTeamIdList(res.data.map((a) => [a.homeTeamId, a.awayTeamId]).flat())
+            setReset(false)
           })
           .catch((error) => {
             if (axios.isCancel(error)) {
@@ -22,7 +25,7 @@ function MatchupList(props) {
         return () => {
           controller.abort();
         };
-      }, [props.matchupPeriod, props.assessInjuries, props.numGames, refresh]);
+      }, [props.matchupPeriod, props.assessInjuries, props.numGames, refresh, setTeamIdList, reset, setReset]);
 
       const handleClose = () => {
         setRefresh(!refresh)
@@ -32,10 +35,12 @@ function MatchupList(props) {
         {matchups &&
           matchups.map((matchup) => (
             <Matchup 
-              matchupPeriod={props.matchupPeriod} 
+              matchupPeriod={props.matchupPeriod}
               assessInjuries={props.assessInjuries} 
               numGames={props.numGames}
               handleClose={handleClose}
+              streamingSpots={props.streamingSpots}
+              updateStreamers={props.updateStreamers}
               key={matchup.matchupId}{...matchup} />
         ))}
     </div>

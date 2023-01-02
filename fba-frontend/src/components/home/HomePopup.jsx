@@ -50,8 +50,7 @@ function HomePopup(props) {
           </button>
         )}
         {!isLoading && leagueIdLocal && leagueIdLocal != null && userId && (
-          <button className={classes.demo} onClick={() => {props.createModel({leagueId: leagueIdLocal})
-          console.log(leagueIdLocal)}}>
+          <button className={classes.demo} onClick={() => {props.createModel({leagueId: leagueIdLocal})}}>
             Previous
           </button>
         )}

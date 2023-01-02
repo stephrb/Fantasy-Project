@@ -1,20 +1,17 @@
-.form {
-    display: flex;
-    flex-direction: row;
+.default {
+    font: inherit;
+    background-color: #A2AAAD;
+    color: white;
+    padding: 0.5rem 1.75rem;
+    border: 1px solid #A2AAAD;
+    border-radius: 4px;
+    font-weight: bold;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+    margin: 2px;
+    font-size: small;
   }
-  
-  .form_row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .form_label {
-    margin-right: 10px;
-  }
-  
-  .form_button {
+
+  .actionsbutton {
     font: inherit;
     cursor: pointer;
     background-color: #7bafd4;
@@ -24,6 +21,11 @@
     border-radius: 4px;
     font-weight: bold;
     text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
-    margin-top: .8rem;
+    position: relative;
   }
-  
+
+.actionsbutton:active {
+ background-color: #5aafd1;
+ border-color: #5aafd1;
+ top: -1px;
+}

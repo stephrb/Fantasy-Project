@@ -52,6 +52,8 @@ function Matchup(props) {
                 numGames={props.numGames}
                 teamId={dailyLineupsTeamId}
                 showDailyLineups={showDailyLineups}
+                streamingSpots={props.streamingSpots}
+                updateStreamers={props.updateStreamers}
                 handleClose={handleClose}
                 />
               </Card>

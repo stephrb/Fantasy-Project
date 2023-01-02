@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Card from '../ui/Card';
 import classes from './SideButtons.module.css'
+import Streaming from './Streaming';
 function SideButtons(props) {
   const [assessInjuries, setAssessInjuries] = useState(true);
   const [numGames, setNumGames] = useState(82);
@@ -9,8 +10,9 @@ function SideButtons(props) {
     props.refreshButtonhandler(assessInjuries, numGames)
   }
   return (
-    <div style={{marginRight:'5rem', marginTop:'2rem'}}>
+    <div style={{marginRight:'5rem', marginTop:'1.4rem'}}>
         <Card size='10'>
+          <div className={classes.default} style={{backgroundColor:"rgb(44, 42, 41)", fontSize:'medium', border:"rgb(44, 42, 41)"}}>Options</div>
           <div style={{display:"flex", alignItems:'center'}}>
             <p className={classes.default}>Exclude Injured Players</p>
               <label style={{alignItems:'center', justifyPositon:'center'}}>
@@ -43,7 +45,11 @@ function SideButtons(props) {
             <button className={classes.actionsbutton} onClick={() => refreshButtonhandler(assessInjuries, numGames)}>
                 Refresh Projections
             </button>
-        </Card> 
+        </Card>
+        <Streaming 
+          addStreamerHandler={props.addStreamerHandler}
+          deleteStreamerHandler={props.deleteStreamerHandler}
+          streamers={props.streamers}/>
     </div>
   );
 }

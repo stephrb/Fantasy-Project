@@ -5,15 +5,15 @@ import classes from './DailyLineups.module.css'
 // import Streaming from './Streaming'
 function DailyLineups(props) {
     const [dailyLineups, setDailyLineups] = useState()
-    const weekdays = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
-
+    const days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+    const [matchupPeriod, teamId] = [props.matchupPeriod, props.teamId]
     useEffect(() => {
         const controller = new AbortController();
         const body = {
-            "matchupPeriod": props.matchupPeriod,
+            "matchupPeriod": matchupPeriod,
             "assessInjuries": props.assessInjuries,
             "numRecentGames": props.numGames,
-            "teamId": props.teamId
+            "teamId": teamId
         }
         ModelService.getDailyLineups(body, { signal: controller.signal }).then((res) =>
         setDailyLineups(res.data)
@@ -24,17 +24,15 @@ function DailyLineups(props) {
             console.log(error);
           }
         });
-    
+
       return () => {
         controller.abort();
       };
-      }, [props.matchupPeriod, props.assessInjuries, props.numGames, props.teamId]);
+      }, [matchupPeriod, props.assessInjuries, props.numGames, teamId]);
 
       const handleChange = (playerId, day) => (event) => {
-        const totalSelected = Object.values(dailyLineups).reduce(
-            (acc, availability) => acc + (availability[day] || 0),
-            0
-          );
+        const totalSelected = findTotalSelected(day)
+
           if (totalSelected >= 10 && event.target.checked) {
             alert("There can only be 10 players selected per day.");
             event.preventDefault();
@@ -49,11 +47,22 @@ function DailyLineups(props) {
 
     function handleClose() {
         const controller = new AbortController();
+
+        const [meanAdj, varAdj] = props.streamingSpots.map((streamer)=> 
+                [Object.values(streamer.availability[teamId][matchupPeriod]).filter(Boolean).length * streamer.average,
+                Object.values(streamer.availability[teamId][matchupPeriod]).filter(Boolean).length * streamer.std * streamer.std])
+                .reduce((acc, [mean, std]) => {
+                  acc[0] += mean;
+                  acc[1] += std;
+                  return acc;
+                }, [0, 0]);
         const body = {
-            "teamId": props.teamId,
+            "teamId": teamId,
             "numGames": props.numGames,
-            "matchupPeriod": props.matchupPeriod,
-            "dailyLineups": dailyLineups
+            "matchupPeriod": matchupPeriod,
+            "dailyLineups": dailyLineups,
+            "meanAdj":meanAdj,
+            "varAdj":varAdj
         }
 
         ModelService.setDailyLineups(body, { signal: controller.signal }).catch((error) => {
@@ -66,13 +75,29 @@ function DailyLineups(props) {
         props.handleClose()
     }
 
+    function findTotalSelected(day) {
+      let totalSelected = 0;
+      if (dailyLineups) {
+        totalSelected = Object.values(dailyLineups).reduce(
+          (acc, availability) => acc + (availability[day] || 0),
+          0
+        );
+      }
+
+      totalSelected += props.streamingSpots.map((spot) => spot.availability[teamId][matchupPeriod][day]).reduce(
+        (acc, availability) => acc + (availability || 0),
+        0
+      );
+      return totalSelected
+    }
+
     return (
         <div>
             <table className={classes.styledtable}>
           <thead>
             <tr>
               <th>Player</th>
-              {weekdays.map(weekday => (
+              {days.map(weekday => (
                 <th key={weekday}>{weekday}</th>
               ))}
               <th>Total</th>
@@ -83,7 +108,7 @@ function DailyLineups(props) {
               Object.entries(dailyLineups).map(([playerId, availability]) => (
                 <tr key={playerId}>
                   <td>{playerId.split(":")[1]}</td>
-                  {weekdays.map(weekday => (
+                  {days.map(weekday => (
                     <td key={weekday}>
                     {weekday in availability && availability[weekday] ? (
                       <label>
@@ -105,21 +130,45 @@ function DailyLineups(props) {
                   <td>{Object.values(availability).filter(Boolean).length}</td>
                 </tr>
               ))}
+              {props.streamingSpots.map((streamer, index) => (
+                <tr key={index}>
+                  <td>Streamer ({streamer.average + ", " + streamer.std})</td>
+                  {days.map(weekday => (
+                    <td key={weekday}>
+                    {weekday in streamer.availability[teamId][matchupPeriod] && streamer.availability[teamId][matchupPeriod][weekday] ? (
+                      <label>
+                      <input style={{display:'none'}}className={classes.cell} type="checkbox" checked={streamer.availability[teamId][matchupPeriod][weekday]} onChange={props.updateStreamers(index, weekday, teamId, findTotalSelected(weekday))} />
+                      <div className={classes.toggle}></div>
+                      </label>
+                    ) : weekday in streamer.availability[teamId][matchupPeriod] ? (
+                      <label>
+                      <input style={{display:'none'}}className={classes.cell} type="checkbox" checked={streamer.availability[teamId][matchupPeriod][weekday]} onChange={props.updateStreamers(index, weekday, teamId, findTotalSelected(weekday))} />
+                      <div className={classes.toggle}></div>
+                      </label>
+                    ) : (
+                      <div>
+                        
+                      </div>
+                    )}
+                    </td>
+                  ))}
+                  <td>{Object.values(streamer.availability[teamId][matchupPeriod]).filter(Boolean).length}</td>
+                </tr>
+              ))}
+
             <tr>
               <td>Total</td>
-              {weekdays.map(weekday => (
+              {days.map(weekday => (
                 <td key={weekday}>
                   {dailyLineups &&
-                    Object.values(dailyLineups).reduce(
-                      (acc, availability) => acc + (availability[weekday] || 0),
-                      0
-                    )}
+                    findTotalSelected(weekday)}
                 </td>
               ))}
               <td>
           {dailyLineups &&
-            Object.values(dailyLineups).reduce(
-              (acc, availability) => acc + Object.values(availability).filter(Boolean).length,0)}
+            days.map(weekday => (
+              findTotalSelected(weekday)
+            )).reduce((acc, cur) => acc + cur, 0)}
               </td>
             </tr>
           </tbody>
