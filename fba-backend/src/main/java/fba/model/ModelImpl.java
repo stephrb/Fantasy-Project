@@ -292,7 +292,7 @@ public class ModelImpl implements Model {
         Set<Matchup> seen = new HashSet<>();
         for (Team t : getTeams()) {
             Matchup matchup = t.getMatchups().get(matchupPeriod);
-            if (seen.add(matchup)) {
+            if (seen.add(matchup) && !matchup.isBye()) {
                 Map<String, String> matchupsJson = new HashMap<>();
                 double homeTeamWinPercentage = getWinPercentage(matchup, numRecentGames, assessInjuries, reset);
                 double awayTeamWinPercentage = 1 - homeTeamWinPercentage;
