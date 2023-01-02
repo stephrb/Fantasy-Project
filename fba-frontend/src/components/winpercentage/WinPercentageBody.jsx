@@ -22,7 +22,7 @@ function WinPercentageBody(props) {
 
   function addStreamerHandler(average, std) {
     const date = new Date();
-    const today = new Date(date.setHours(date.getHours() - 3.5));
+    const today = new Date(date.setHours(date.getHours() - 3));
     let dayOfWeek = today.getDay();
     if (dayOfWeek === 0) dayOfWeek = 7
     dayOfWeek -= 1
