@@ -458,7 +458,7 @@ public class AppTest {
         for (Matchup m : model.getPlayoffMachineMatchups().get(period)) {
             int h = m.getAwayTeamId();
             int a = m.getHomeTeamId();
-            double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true);
+            double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true, false);
             System.out.println(model.getTeam(h).getName() + " " + wp + " " + model.getTeam(a).getName() + " " + (1 - wp));
         }
         assertNotNull(model);
@@ -474,7 +474,7 @@ public class AppTest {
             int a = m.getAwayTeamId();
             if (!hTeamIds.add(a)) continue;
             int h = m.getHomeTeamId();
-            double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true);
+            double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true, false);
             System.out.println(model.getTeam(h).getName() + " " + wp + " " + model.getTeam(a).getName() + " " + (1 - wp));
         }
     }
@@ -489,15 +489,15 @@ public class AppTest {
             int a = m.getAwayTeamId();
             if (!hTeamIds.add(a)) continue;
             int h = m.getHomeTeamId();
-            double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true);
+            double wp = model.getWinPercentage(h, a, Integer.MAX_VALUE, period, true, false);
             System.out.println(model.getTeam(h).getName() + " " + wp + " " + model.getTeam(a).getName() + " " + (1 - wp));
         }
         Team t1 = model.getTeams().iterator().next();
         Matchup m = t1.getMatchups().get(period);
         Map<Player, Map<DayOfWeek, Boolean>> map = t1.getDailyLineups(period, true, Integer.MAX_VALUE, model.getCurrentMatchupPeriod(), model.getCurrentScoringPeriod());
         map.get(map.keySet().iterator().next()).put(DayOfWeek.SUNDAY, false);
-        model.setDailyLineUps(t1.getTeamId(), Integer.MAX_VALUE, m.getMatchupPeriod(), map);
-        double wp = model.getWinPercentage(m, Integer.MAX_VALUE, true);
+        model.setDailyLineUps(t1.getTeamId(), Integer.MAX_VALUE, m.getMatchupPeriod(), map, 0, 0);
+        double wp = model.getWinPercentage(m, Integer.MAX_VALUE, true, false);
         System.out.println(wp);
         assertNotNull(map);
     }
@@ -583,7 +583,7 @@ public class AppTest {
     @Test
     public void getMatchupWinPercentagesTest() {
         Model model = Factory.createModel("1117484973");
-        List<Map<String, String>> l = model.getMatchupsWinPercentages(model.getCurrentMatchupPeriod()+1, true, Integer.MAX_VALUE);
+        List<Map<String, String>> l = model.getMatchupsWinPercentages(model.getCurrentMatchupPeriod()+1, true, Integer.MAX_VALUE, false);
         assertNotNull(l);
     }
 
@@ -591,12 +591,12 @@ public class AppTest {
     public void sampleWinPercentageAPITest() {
         Model model = Factory.createModel("1117484973");
         int period = model.getCurrentMatchupPeriod();
-        List<Map<String, String>> res1 = model.getMatchupsWinPercentages(period, true, Integer.MAX_VALUE);
+        List<Map<String, String>> res1 = model.getMatchupsWinPercentages(period, true, Integer.MAX_VALUE, false);
         Matchup m = model.getTeams().iterator().next().getMatchups().get(period);
         Map<Player, Map<DayOfWeek, Boolean>> map = m.getHomeTeamDailyLineups();
         map.get(map.keySet().iterator().next()).put(DayOfWeek.FRIDAY, false);
-        model.setDailyLineUps(m.getHomeTeamId(), Integer.MAX_VALUE, period, map);
-        List<Map<String, String>> res2 = model.getMatchupsWinPercentages(period, true, Integer.MAX_VALUE);
+        model.setDailyLineUps(m.getHomeTeamId(), Integer.MAX_VALUE, period, map, 0, 0);
+        List<Map<String, String>> res2 = model.getMatchupsWinPercentages(period, true, Integer.MAX_VALUE, false);
         assertNotNull(res2);
     }
 
@@ -619,7 +619,7 @@ public class AppTest {
     @Test
     public void assessInjuriesFalseTest() {
         Model model = Factory.createModel("1117484973");
-        List test = model.getMatchupsWinPercentages(11, true, 82);
-        List test2 = model.getMatchupsWinPercentages(11, false, 82);
+        List test = model.getMatchupsWinPercentages(11, true, 82, false);
+        List test2 = model.getMatchupsWinPercentages(11, false, 82, false);
     }
 }

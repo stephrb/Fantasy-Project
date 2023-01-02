@@ -18,7 +18,7 @@ public interface Model extends League, PlayoffMachine {
 
     Map<String, Map<DayOfWeek, Boolean>> getDailyLineups(int matchupPeriod, boolean assessInjuries, int numRecentGames, int teamId);
 
-    List<Map<String, String>> getMatchupsWinPercentages(int matchupPeriod, boolean assessInjuries, int numRecentGames);
+    List<Map<String, String>> getMatchupsWinPercentages(int matchupPeriod, boolean assessInjuries, int numRecentGames, boolean reset);
 
     void setDailyLineUps(JSONObject dailyLineUps);
 

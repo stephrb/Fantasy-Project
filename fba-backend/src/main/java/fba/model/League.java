@@ -139,11 +139,11 @@ public interface League {
 
     List<JSONObject> getProTeamGames(int matchupPeriod);
 
-    Double getWinPercentage(int homeTeam, int awayTeam, int numGames, int matchupPeriod, boolean assessInjuries);
+    Double getWinPercentage(int homeTeam, int awayTeam, int numGames, int matchupPeriod, boolean assessInjuries, boolean reset);
 
-    Double getWinPercentage(Matchup matchup, int numGames, boolean assessInjuries);
+    Double getWinPercentage(Matchup matchup, int numGames, boolean assessInjuries, boolean reset);
 
-    void setDailyLineUps(int teamId, int numGames, int matchupPeriod, Map<Player, Map<DayOfWeek, Boolean>> dailyLineUps);
+    void setDailyLineUps(int teamId, int numGames, int matchupPeriod, Map<Player, Map<DayOfWeek, Boolean>> dailyLineUps, double meanAdj, double varAdj);
     List<String> getRosteredPlayerIds();
 
     Map<String, Player> getAllPlayers();

@@ -199,6 +199,10 @@ public final class Factory {
                     String.valueOf(jsonStat.get("statSourceId")) + jsonStat.get("statSplitTypeId"))
                 + "_"
                 + jsonStat.get("seasonId");
+        if (Objects.equals(jsonStat.get("seasonId").toString(), "2022") || Objects.equals(MapConstants.statIdMap.get(
+                String.valueOf(jsonStat.get("statSourceId")) + jsonStat.get("statSplitTypeId")), "Projected")) {
+          continue;
+        }
         statsMap.put(statId, createPlayerStat(jsonStat));
       }
     }

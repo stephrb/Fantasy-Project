@@ -188,10 +188,11 @@ public class ModelController {
     public List<Map<String, String>> matchupWinPercentages(@RequestParam("matchupPeriod") int matchupPeriod,
                                                            @RequestParam("assessInjuries") boolean assessInjuries,
                                                            @RequestParam("numGames") int numGames,
+                                                           @RequestParam("reset") boolean reset,
                                                            @RequestHeader("leagueId") String leagueId,
                                                            @RequestHeader("userId") String userId) {
         Model model = getModel(leagueId, userId);
-        return model.getMatchupsWinPercentages(matchupPeriod, assessInjuries, numGames);
+        return model.getMatchupsWinPercentages(matchupPeriod, assessInjuries, numGames, reset);
     }
 
     @GetMapping("matchupsLeftWithPlayoffs")
