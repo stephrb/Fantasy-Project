@@ -5,7 +5,7 @@ import Matchup from './Matchup';
 
 function MatchupList(props) {
     const [matchups, setMatchups] = useState();
-    const [refresh, setRefresh] = useState(true)
+    const [refresh, setRefresh] = [props.refresh, props.setRefresh]
     const [setTeamIdList, reset, setReset] = [props.setTeamIdList, props.reset, props.setReset];
     useEffect(() => {
         const controller = new AbortController();
@@ -28,7 +28,7 @@ function MatchupList(props) {
       }, [props.matchupPeriod, props.assessInjuries, props.numGames, refresh, setTeamIdList, reset, setReset]);
 
       const handleClose = () => {
-        setRefresh(!refresh)
+        // setRefresh(!refresh)
       }
     return (
       <div>
@@ -41,6 +41,8 @@ function MatchupList(props) {
               handleClose={handleClose}
               streamingSpots={props.streamingSpots}
               updateStreamers={props.updateStreamers}
+              refresh={refresh}
+              setRefresh={setRefresh}
               key={matchup.matchupId}{...matchup} />
         ))}
     </div>

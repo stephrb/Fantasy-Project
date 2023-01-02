@@ -47,6 +47,8 @@ function Matchup(props) {
               <Card>
                 <Header text='Set Lineups'></Header>
                 <DailyLineups
+                refresh={props.refresh}
+                setRefresh={props.setRefresh}
                 matchupPeriod={props.matchupPeriod} 
                 assessInjuries={props.assessInjuries} 
                 numGames={props.numGames}

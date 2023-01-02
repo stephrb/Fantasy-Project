@@ -7,6 +7,7 @@ function DailyLineups(props) {
     const [dailyLineups, setDailyLineups] = useState()
     const days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
     const [matchupPeriod, teamId] = [props.matchupPeriod, props.teamId]
+    const [refresh, setRefresh] = [props.refresh, props.setRefresh]
     useEffect(() => {
         const controller = new AbortController();
         const body = {
@@ -65,7 +66,9 @@ function DailyLineups(props) {
             "varAdj":varAdj
         }
 
-        ModelService.setDailyLineups(body, { signal: controller.signal }).catch((error) => {
+        ModelService.setDailyLineups(body, { signal: controller.signal })
+        .then(() => setRefresh(!refresh))
+        .catch((error) => {
             if (axios.isCancel(error)) {
               console.log("Request canceled", error.message);
             } else {

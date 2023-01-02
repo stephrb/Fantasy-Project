@@ -8,6 +8,7 @@ function WinPercentageBody(props) {
   const [streamingSpots, setStreamingSpots] = useState([])
   const [teamIdList, setTeamIdList] = useState([])
   const [reset, setReset] = useState(false)
+  const [refresh, setRefresh] = useState(true)
 
   const matchupPeriod = props.matchupPeriod
   const days = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
@@ -94,6 +95,8 @@ function WinPercentageBody(props) {
           numGames={numGames} 
           reset={reset}
           setReset={setReset}
+          refresh={refresh}
+          setRefresh={setRefresh}
           assessInjuries={assessInjuries} />
       </div>
     );
