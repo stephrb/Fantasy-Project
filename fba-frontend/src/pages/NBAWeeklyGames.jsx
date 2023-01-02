@@ -34,7 +34,7 @@ function NBAWeeklyGames(props) {
   }
   return (
     <div>
-      <Header text="NBA Weekly Games" />
+      <Header text="NBA Schedule Grid" />
       <WeekSelector matchupPeriod={matchupPeriod} changeMatchupWeekHandler={changeMatchupWeekHandler} />
       <NBATable matchupPeriod={matchupPeriod} />
     </div>

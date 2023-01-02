@@ -10,7 +10,7 @@ function Streaming(props) {
             <Card size='10'>
                 <p className={classes.default} style={{backgroundColor:"rgb(44, 42, 41)", fontSize:'medium', border:"rgb(44, 42, 41)"}}>Streaming Spots</p>
                 <div style={{display:"flex", flexDirection:"column"}}>
-                    <label>Average: {average}</label>
+                    <label className={classes.default}>Average: <span style={{color:'#abdaed'}}>{average}</span></label>
                     <input 
                         type="range"
                         min={0}
@@ -22,7 +22,7 @@ function Streaming(props) {
                 </div>
 
                 <div style={{display:"flex", flexDirection:"column"}}>
-                    <label>Standard Deviation: {std}</label>
+                    <label className={classes.default}>Standard Deviation: <span style={{color:'#abdaed'}}>{std}</span></label>
                     <input 
                         type="range"
                         min={0}

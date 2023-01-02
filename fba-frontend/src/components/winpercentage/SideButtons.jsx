@@ -27,7 +27,7 @@ function SideButtons(props) {
           </div>
           
             <div style={{width: '17rem'}}>
-              <div style={{width:'10rem', fontSize:'11px'}} className={classes.default}>Calculate From Last <b style={{color:'#69c7ec'}}>{numGames}</b> {numGames === 1 ? 'game' : 'games'}
+              <div style={{width:'10rem', fontSize:'11px'}} className={classes.default}>Calculate From Last <span style={{color:'#abdaed'}}>{numGames}</span> {numGames === 1 ? 'game' : 'games'}
               </div>
               
                 <input 

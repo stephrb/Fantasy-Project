@@ -45,7 +45,7 @@ function HomeScreen(props) {
         <li>
           <HomePreview
             link="nbagames"
-            title="NBA Weekly Games"
+            title="NBA Schedule Grid"
             text="Displays the number of games each NBA team has each week and which days each team has
                                                                                 each game so that it is easy to identify optimal players to pick up off the waiver wire
                                                                                 each week."

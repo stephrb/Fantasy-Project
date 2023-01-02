@@ -37,7 +37,7 @@ function MainNavigation() {
           </li>
           <li>
             <Link to="/nbagames" className={location.pathname === '/nbagames' ? classes.active : ''}>
-              NBA Weekly Games
+              NBA Schedule
             </Link>
           </li>
           <li>
