@@ -47,6 +47,10 @@
     border-radius: 4px;
     text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
   }
+
+  .matchup-button:hover {
+    background-color: #213657;
+  }
   
   .matchup-vs {
     align-items: center;
