@@ -341,8 +341,9 @@ public class LeagueImpl implements League {
         matchup.setNumGames(numGames);
         matchup.setAssessInjuries(assessInjuries);
 
-        if (matchup.getHomeTeamNormal() == null || matchup.getAwayTeamNormal() == null)
+        if (matchup.getHomeTeamNormal() == null && matchup.getAwayTeamNormal() == null)
             return (matchup.getHomePoints() > matchup.getAwayPoints()) ? 1.0 : 0.0;
+
         return matchup.getHomeTeamWinPercentage(matchup.getAwayPoints() - matchup.getHomePoints());
     }
 

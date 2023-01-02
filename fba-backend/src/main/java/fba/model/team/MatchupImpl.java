@@ -155,7 +155,16 @@ public class MatchupImpl implements Matchup {
 
     @Override
     public double getHomeTeamWinPercentage(double x) {
-        NormalDistribution normalDistribution = new NormalDistribution(homeTeamNormal.getMean() - awayTeamNormal.getMean(), Math.sqrt(homeTeamNormal.getNumericalVariance() + awayTeamNormal.getNumericalVariance()));
+        double htm = 0, atm = 0, htv = 0, atv = 0;
+        if (homeTeamNormal != null) {
+            htm = homeTeamNormal.getMean();
+            htv = homeTeamNormal.getNumericalVariance();
+        }
+        if (awayTeamNormal != null) {
+            atm = awayTeamNormal.getMean();
+            atv = awayTeamNormal.getNumericalVariance();
+        }
+        NormalDistribution normalDistribution = new NormalDistribution(htm - atm, Math.sqrt(htv+atv));
         return 1 - normalDistribution.cumulativeProbability(x);
     }
 
