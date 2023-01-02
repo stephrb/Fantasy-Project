@@ -211,7 +211,7 @@ public class LeagueImpl implements League {
                 + pointsVsMedian;
         curScore /= currentMatchupPeriod;
         for (Player p : team.getPlayers()) {
-            curScore += p.getStatsMap().get("Last 30_" + getYear()).getAvg().get("FPTS");
+            curScore += (p.getStatsMap().get("Last 30_" + getYear()) != null) ? p.getStatsMap().get("Last 30_" + getYear()).getAvg().get("FPTS") : 0;
         }
         return curScore;
     }
