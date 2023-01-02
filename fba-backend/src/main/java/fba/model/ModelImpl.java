@@ -287,7 +287,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public List<Map<String, String>> getMatchupsWinPercentages(int matchupPeriod, boolean assessInjuries, int numRecentGames, boolean reset) {
+    public synchronized List<Map<String, String>> getMatchupsWinPercentages(int matchupPeriod, boolean assessInjuries, int numRecentGames, boolean reset) {
         List<Map<String, String>> matchupWinPercentagesJson = new ArrayList<>();
         Set<Matchup> seen = new HashSet<>();
         for (Team t : getTeams()) {
@@ -318,7 +318,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public void setDailyLineUps(JSONObject jsonObject) {
+    public synchronized void setDailyLineUps(JSONObject jsonObject) {
         /*
         teamId: 1,
         numGames: 10,
