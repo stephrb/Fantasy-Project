@@ -1,14 +1,16 @@
-package fba;
+package fba.model.spring;
 
 import fba.model.Model;
 import fba.model.team.Matchup;
 import fba.model.team.Team;
 import fba.utils.Factory;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.Filter;
+import java.sql.Connection;
 import java.time.DayOfWeek;
 import java.util.*;
 
@@ -17,14 +19,12 @@ import java.util.*;
 @RequestMapping("/api/v1/")
 public class ModelController {
     private final Map<String, Model> models = new HashMap<>();
+    @Autowired
+    private Connection connection;
 
     @Bean
     public Filter requestLoggingFilter() {
-        for (String m : models.keySet()) {
-            System.out.println(m);
-        }
-        System.out.println("______________");
-        return new RequestLoggingFilter();
+        return new RequestLoggingFilter(connection);
     }
 
     @PostMapping("/create")
@@ -208,8 +208,7 @@ public class ModelController {
 
     private Model getModel(String leagueId, String userId) {
         String key = leagueId + "###" + userId;
-        System.out.println(Arrays.toString(models.keySet().toArray()));
         if (leagueId.matches("(DEMO###)?\\d+") && models.containsKey(key)) return models.get(key);
-        throw new IllegalArgumentException("Bad id or ip" + leagueId + " " + userId);
+        throw new IllegalArgumentException("LEAGUE OR USER ID NOT FOUND: (" + leagueId + ", " + userId + ")");
     }
 }

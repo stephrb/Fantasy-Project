@@ -1,18 +1,26 @@
-package fba;
+package fba.model.spring;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
 import java.time.Instant;
 
 public class RequestLoggingFilter implements Filter {
 
+    private final Connection connection;
+
+    public RequestLoggingFilter(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        System.out.printf("[%s] %s %s %s%n", req.getMethod(), req.getRequestURI(), req.getRemoteAddr(), Instant.now().toString());
+        LogService.logRequest((HttpServletRequest) request, (HttpServletResponse) response, connection);
         chain.doFilter(request, response);
+
     }
 
 }
