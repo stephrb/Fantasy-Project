@@ -277,6 +277,12 @@ public class TeamImpl implements Team {
         if (dayOfWeek == 0) {
             dayOfWeek = 7;
         }
+
+        if (matchupPeriod > 18) {
+            start += 7;
+            end += 7;
+        }
+        
         for (int i = start; i <= end; i++) {
             for (Player p : players) {
                 DayOfWeek day = DayOfWeek.of(dayOfWeek);

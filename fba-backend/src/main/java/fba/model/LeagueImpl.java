@@ -25,6 +25,8 @@ public class LeagueImpl implements League {
     private Map<String, Map<Integer, ProTeamGame>> proTeamMatchups;
     private Map<Integer, DraftPick> draftPicks;
 
+//    private List<List<Integer>>
+
     public LeagueImpl(String leagueId, String name) {
         teams = new HashMap<>();
         this.leagueId = leagueId;
@@ -444,6 +446,11 @@ public class LeagueImpl implements League {
         if (matchupPeriod == currentMatchupPeriod) start = currentScoringPeriod;
         else if (matchupPeriod > currentMatchupPeriod) start = (matchupPeriod - 1) * 7 + 1;
         else start = end;
+
+        if (matchupPeriod > 18) {
+            start += 7;
+            end += 7;
+        }
 
         for (int i = start; i <= end; i++) {
             int count = 0;
